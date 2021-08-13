@@ -1,0 +1,20 @@
+# Left-over from Peirce project, to be adapted to this new project, the rest of which works.
+# Ignore for now, unless you're here to bring this procedure up to date so that it can be used.
+# We've already done a first cut. It needs to be tested and possibly repaired or improved.
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script:
+    - docker build -tag kevinsullivan/clean_lean:latest . -m 8g
+    - docker push kevinsullivan/clean_lean
+    - echo 1 > output.txt
+  stage: test
+    - echo "Testing. Stubbed Out."
+
+  artifacts:
+    paths:
+      - output.txt
