@@ -9,8 +9,8 @@
 - Now the automated Docker container build process should kick off. Click link for details.
 - When it's done, open terminal in VSCode. It should now be a terminal into the container.
 - NB: The changes commit now go into a copy of your repo inside the container
-- Run leanproject build in the top-level directory using this terminal, then have fun!
+- Run leanproject build in the top-level directory using this terminal.
 - Confirm that test file in the test directory works as indicated by the comments inside
-- If not, debug or ask for 
+- If not, debug or ask for help. If so, have fun! Are there any other possibilities?
 
 Push frequently to GitHub to backup containerized working repo to their remote computer
