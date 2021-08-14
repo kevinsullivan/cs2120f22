@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # Update Ubuntu and configure platform basics
-RUN apt-get clean && apt-get update -y && apt-get upgrade -y
+RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y locales && locale-gen en_US.UTF-8  
 ENV LANG en_US.UTF-8  
 ENV LANGUAGE en_US:en  
