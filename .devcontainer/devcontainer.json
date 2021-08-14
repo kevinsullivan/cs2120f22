@@ -1,0 +1,50 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.191.0/containers/ubuntu
+{
+	"name": "leanvm",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": { "VARIANT": "focal" }
+	},
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {},
+
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-vscode.cpptools",
+		"ms-vsliveshare.vsliveshare",
+		"ms-vscode-remote.remote-containers",
+		"mitaki28.vscode-clang",
+		"christian-kohler.path-intellisense",
+		"yzhang.markdown-all-in-one",
+		"goessner.mdmath",
+		"davidanson.vscode-markdownlint",
+		"mathematic.vscode-pdf",
+		"ms-azuretools.vscode-docker",
+		"eamodio.gitlens",
+		"coenraads.bracket-pair-colorizer",
+		"stephanvs.dot",
+		"karigari.chat",
+		"jroesch.lean",
+		"llvm-vs-code-extensions.vscode-clangd",
+		"ms-vscode.vscode-typescript-next",
+		"rbbit.typescript-hero",
+		"tomoki1207.pdf",
+		"gitlab.gitlab-workflow",
+		"ms-vsliveshare.vsliveshare",
+		"ms-vsliveshare.vsliveshare-audio",
+		"ms-vsliveshare.vsliveshare-pack",
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "uname -a",
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "vscode"
+}
+
