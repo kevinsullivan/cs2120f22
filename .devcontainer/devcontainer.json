@@ -6,6 +6,8 @@
 		"dockerfile": "Dockerfile",
 		"args": { "VARIANT": "focal" }
 	},
+
+	// arguments needed to enable ptrace debugging, e.g., for C++, in the container
 	"runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
 
 	// Set *default* container specific settings.json values on container create.
@@ -14,11 +16,10 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"ms-vscode.cpptools",
 		"ms-vsliveshare.vsliveshare",
+		"ms-vsliveshare.vsliveshare-audio",
+		"ms-vsliveshare.vsliveshare-pack",
 		"ms-vscode-remote.remote-containers",
-		"mitaki28.vscode-clang",
-		"christian-kohler.path-intellisense",
 		"yzhang.markdown-all-in-one",
 		"goessner.mdmath",
 		"davidanson.vscode-markdownlint",
@@ -27,15 +28,7 @@
 		"eamodio.gitlens",
 		"coenraads.bracket-pair-colorizer",
 		"stephanvs.dot",
-		"karigari.chat",
 		"jroesch.lean",
-		"llvm-vs-code-extensions.vscode-clangd",
-		"ms-vscode.vscode-typescript-next",
-		"rbbit.typescript-hero",
-		"tomoki1207.pdf",
-		"ms-vsliveshare.vsliveshare",
-		"ms-vsliveshare.vsliveshare-audio",
-		"ms-vsliveshare.vsliveshare-pack",
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
