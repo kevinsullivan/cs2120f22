@@ -1,3 +1,6 @@
+# Copyright 2021 Rector and Visitors of the University of Virginia.
+# Author: Kevin Sullivan, UVA CS Department, sullivan@virginia.edu.
+
 # Boot Up
 
 - Update your operating system
