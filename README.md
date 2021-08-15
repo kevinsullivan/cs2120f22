@@ -1,9 +1,17 @@
-Copyright 2021 Rector and Visitors of the University of Virginia.
-Author: Kevin Sullivan, UVA CS Department, sullivan@virginia.edu.
-
 # Boot
 
-- You must use Windows or MacOS
+Copyright 2021 Rector and Visitors of the University of Virginia.
+Author: Kevin Sullivan, UVA CS Department, sullivan@virginia.edu
+
+This document provides our method for cloning a suitable git repo
+into a local Docker volume for remote development in our LeanVM
+containerized development environment. 
+
+Precondition: your physical host computer use Windows or MacOS (*).
+
+Postcondition: you will be editing a new containerized clone
+of your repo though a nicely configured VSCode IDE. 
+
 - Update your operating system
   - case OS
     - Windows: Update to Windows Education 
@@ -21,3 +29,6 @@ Author: Kevin Sullivan, UVA CS Department, sullivan@virginia.edu.
 You now have a Lean development environment with a container
 provided volume holding a clone of your repository. You push
 to and pull from your fork from the container as you see fit.
+
+(*) Why? Some required Docker functions are not yet implemented for
+Docker running on Linux hosts.
