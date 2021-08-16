@@ -9,8 +9,9 @@ containerized development environment.
 
 Precondition: your physical host computer use Windows or MacOS (*).
 
-Postcondition: you will be editing a new containerized clone
-of your repo though a nicely configured VSCode IDE. 
+Postcondition: you are editing a new clone of your repo though a 
+nicely configured VSCode IDE with an Ubuntu-based OS supporting 
+Lean and its dependencies. 
 
 - Update your operating system
   - case OS
