@@ -2,6 +2,7 @@
 
 # Extend Ubunto 20.04
 FROM ubuntu:20.04
+# docker.io/kevinsullivan/leanvm 
 
 # Create image without any user interaction
 ENV DEBIAN_FRONTEND=noninteractive

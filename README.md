@@ -1,4 +1,7 @@
-# Boot
+# Return development environment for clone of given repo
+
+Precondition: That repo has to be set up correctly to be
+opened properly as a remote container in VSCode.
 
 Copyright 2021 Rector and Visitors of the University of Virginia.
 Author: Kevin Sullivan, UVA CS Department, sullivan@virginia.edu
