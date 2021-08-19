@@ -14,11 +14,13 @@ You must be running a computer that runs either the Windows or MacOS operating s
 - Have a GitHub account. Create one for yourself if necessary. It's free.
 - Install Docker Desktop: https://www.docker.com/products/docker-desktop.
 - Install VSCode: https://code.visualstudio.com/download.
-- Fork this repository now.
+- Fork the repository now.
   - You must be logged in to your GitHub account.
   - Visit this very repository page: https://github.com/kevinsullivan/cs2120 (which is probably where you're reading this)
-  - Fork this repo using the *Fork* command in the upper right corner. This will create a copy of this entire repository in *your* GitHub account. Visit your GitHub page to confirm that you now have a cs2120 repository. Select the gren Code button, then HTTPS, then copy the URL that is provided. This will be the GitHub URL of your fork of the cs2120 respository.
+  - Fork this repo using the *Fork* button in the upper right corner. This will create a copy of this entire repository in *your* GitHub account. Visit your GitHub page to confirm that you now have a cs2120 repository. Select the green Code button, then HTTPS, then copy the URL that is provided. This will be the GitHub URL of your fork of the cs2120 respository.
+- Launch Docker Desktop.
 - Launch a new VSCode window. Use CTRL-SHIFT-P to bring up the VSCode command palatte. Type in and select *Clone Repository in Container Volume* and then paste the URL of your new repository as the argument.
+  - If it asks, select *unique repository*.
 - Wait a few minutes for your development environment to boot up, then you're ready to go.
 - Check to see that everything is working by opening the test.lean file and checking that the conditions described therein are satisfied.
 
