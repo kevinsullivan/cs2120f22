@@ -1,6 +1,6 @@
-# My Own Complete Lean Project
+# Lean-Based Project Builder
 
-You're here because you want an Ubuntu and VSCode-based development environment, backed by your own GitHub repository, forked from ours, for professional writing and analyzing of logic and mathematics using the Lean Prover, with none of the daunting re-configuration of your local computer sometimes required to set up fully working environments. The good news is that you can have it all with just a few clicks of the mouse and keys, as long as you have VSCode and DockerDesktop running properly on Windows 10 (footnote below) or OSX machine. 
+You're here because you want (someone) to build an Ubuntu and VSCode-based development environment, backed by your own GitHub repository, for professional writing and analyzing of logic and mathematics using the Lean Prover, with none of the daunting re-configuration of your local computer sometimes required to set up fully working environments. The good news is that you can have it all with just a few clicks of the mouse and keys, as long as you have VSCode and DockerDesktop running properly on Windows 10 (footnote below) or OSX machine. This work is intended to make Lean accessible to as many early students as possible, in part by removing all of the mundane but often complex, error-prone, and off-putting system administering tasks required to get a working environment set up. Simply follow these steps and in a few minutes you should have a GitHub-repo-backed, VSCode-provided IDE opened to edit a fork of this repository cloned into your own local Docker container, configured according to our specifications to provide a first-rate, trouble-free Lean Development Experience. 
 
 ## What To Do
 - Update your operating system:
