@@ -1,9 +1,4 @@
-# Create a Lean IDE using VSCode Remote Containers
-
-Copyright: © 2021 By the Rector and Visitors of the University of Virginia
-Supervising Author: Kevin Sullivan
-
-## Why You're Here 
+# My Own Complete Lean Project
 
 You're here because you want an Ubuntu and VSCode-based development environment, backed by your own GitHub repository, forked from ours, for professional writing and analyzing of logic and mathematics using the Lean Prover, with none of the daunting re-configuration of your local computer sometimes required to set up fully working environments. The good news is that you can have it all with just a few clicks of the mouse and keys, as long as you have VSCode and DockerDesktop running properly on Windows 10 (footnote below) or OSX machine. 
 
@@ -39,10 +34,16 @@ You're here because you want an Ubuntu and VSCode-based development environment,
 ## How It Works
 We deliver a Lean development environment via VSCode and its *Remote-Containers* capabilities. In a nutshell, when you ask VSCode to clone our repository, it will actually fork it and then clone your fork into the container that it launches to provide the programming platform you will then use to develop your solutions. It is very important to commit changes you make to your container-local repository, but then also to push them to your GitHub repo to back them up and because that should be the main respository for your project. You can log into it by simply opening a Terminal in VSCode. The clone of your repo is in the /workspaces folder within the container file system (or storage *volume*, as it's called).
 
-## Risk avoidance
+## Risk Alert and Avoidance
 It is important to understand that commits made to git are stored in the Docker container serving up the develop environment.  if you delete the container or its storage volume (which you could do through Docker Desktop), this will erase the work stored in the container. To make your container-local changes persistent, stage/add and then commit your local changes to the local repo, then push your container-repo-local changes to your repository on GitHub. 
 
-## Help make it even better
+## Help Make It Even Better
 Let us know what you think. Better yet, make it better and send us a PR. You'll be completely set up to do that by the results of this procedure. 
 
-(*) Why? Some required Docker functions are not yet implemented for Docker running on Linux hosts.
+
+## Legal and contact
+Copyright: © 2021 By the Rector and Visitors of the University of Virginia.
+Supervising Author: Kevin Sullivan. UVa CS Dept. sullivan@virginia.edu. 
+Acknowledgements: Thank you to multiple students for read, test, and fixing.
+
+
