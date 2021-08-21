@@ -1,7 +1,6 @@
 # Create a Lean IDE using VSCode Remote Containers
 
-The purpose of this document is to guide you through the process of setting up a VSCode-based development environment for writing logic and mathematics using the Lean Prover. We've worked hard to make this possible while installing minimal software onto your own machine. 
-You must be running a computer that runs either the Windows or MacOS operating system. Here are the steps.
+The purpose of this document is to guide you through the process of setting up a VSCode-based development environment for writing logic and mathematics using the Lean Prover. To use this solution, you must be running a computer that runs either the Windows or MacOS operating system. Here are the steps.
 
 - Update your operating system:
   - If MacOS: Be sure your OS is completely up-to-date (current version of Big Sur, currently 11.5.1 as of this writing).
