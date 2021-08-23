@@ -1,0 +1,109 @@
+strict graph { 
+
+
+cs2102 [label="cs2102"];
+
+// top level requirements
+logic [label="logics"];
+set [label="set theory"]
+rel [label="relations"]
+rel_prop [label="properties"]
+comb [label="combinatorics"]
+num [label="number theory"]
+stat [label="state machines"]
+log [label="logarithms"]
+
+cs2102 -- logic
+cs2102 -- set
+cs2102 -- rel
+cs2102 -- comb
+cs2102 -- num
+cs2102 -- stat
+cs2102 -- log
+
+log_gen [label="logics"]
+log_props [label="propositions"]
+log_preds [labe="predicates"]
+log_lang_prop [label="propositional"]
+log_lang_pred1st [label="1st order predicate"]
+log_lang_predho [label="higher order predicate"]
+log_langs [label="languages"]
+log_truth [label="truth"]
+log_proof [label="proof"]
+
+logic -- log_gen
+logic -- log_langs
+logic -- log_props
+logic -- log_proof
+logic -- log_truth
+
+log_langs -- log_lang_prop
+log_langs -- log_lang_pred1st
+log_langs -- log_lang_predho
+
+log_prop_syn [label="syntax"]
+log_prop_sem [label="semantics"]
+log_prop_props [label="properties"]
+
+log_lang_prop -- log_prop_syn
+log_lang_prop -- log_prop_sem
+log_lang_prop -- log_prop_props
+
+log_pred1st_syn [label="syntax"]
+log_pred1st_sem [label="semantics"]
+log_pred1sst_props [label="properties"]
+
+log_lang_pred1st -- log_pred1st_syn
+log_lang_pred1st_prop -- log_prop1st_sem
+log_lang_pred1st_prop -- log_prop1st_props
+
+log_predho_syn [label="syntax"]
+log_predho_sem [label="semantics"]
+log_predho_props [label="properties"]
+
+log_predho_prop -- log_prop_syn
+log_predho_prop -- log_prop_sem
+log_predho_prop -- log_prop_props
+
+
+
+log_prop -- log_prop_syn
+log_prop -- log_prop_sem 
+log_prop -- log_prop_prop
+
+log_prop_prop -- validity
+log_prop_prop -- satisfiability
+log_prop_prop -- unsatisfiability
+
+
+log_pred_syn [label="syntax"]
+log_pred_sem [label="syntax"]
+log_pred_prop [label="properties"]
+
+
+proof -- direct
+proof -- contradiction
+proof -- cases
+proof -- "by induction"
+
+set -- operations
+set -- notations
+set -- cardinality
+
+relations -- definitions
+relations -- "rel properties"
+relations -- functions
+
+functions -- "total/partial"
+functions -- "function properties"
+
+"function properties" -- injective    
+"function properties" -- surjective  
+"function properties" -- bijective   
+"function properties" -- invertible 
+
+combinatorics -- "summation notation"
+combinatorics -- combinations
+combinatorics -- permutations
+
+} 
