@@ -1,2 +1,2 @@
- # Top-level directory containing Lean source files
+ # Lean source files
 
