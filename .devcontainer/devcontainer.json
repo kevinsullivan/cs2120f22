@@ -36,7 +36,7 @@
 	"forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "leanpkg configure",
+	"postCreateCommand": "leanpkg configure && git remote add upstream https://github.com/kevinsullivan/cs2120f21.git",
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	// "remoteUser": "vscode"
