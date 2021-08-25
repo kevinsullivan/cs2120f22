@@ -1,49 +1,63 @@
-# Lean-Based Project Builder
+# CS2120-003 Fall 2021. Sullivan course development environment.
 
-You're here because you want (someone) to build an Ubuntu and VSCode-based development environment, backed by your own GitHub repository, for professional writing and analyzing of logic and mathematics using the Lean Prover, with none of the daunting re-configuration of your local computer sometimes required to set up fully working environments. The good news is that you can have it all with just a few clicks of the mouse and keys, as long as you have VSCode and DockerDesktop running properly on Windows 10 (footnote below) or OSX machine. This work is intended to make Lean accessible to as many early students as possible, in part by removing all of the mundane but often complex, error-prone, and off-putting system administering tasks required to get a working environment set up. Simply follow these steps and in a few minutes you should have a GitHub-repo-backed, VSCode-provided IDE opened to edit a fork of this repository cloned into your own local Docker container, configured according to our specifications to provide a first-rate, trouble-free Lean Development Experience. 
+## Why you're here
 
-## What To Do
+You're here because you want the coolest mathematical development environment ever, with very little configuring of your own computer required. You must provide VSCode and Docker Desktop running properly on a Windows 10 or MacOS computer, and we then supply you with a Mathematics Development Environment, based on VSCode, the Lean Prover and its library of formalized mathematics, opened to a new, GitHub-backed project, served from a container providing Ubuntu 20.04 LTS, Lean, its dependencies and a few other essentials. The mixed news for Windows users is that we can't guarantee that Docker Deskop runs properly on a Windows 10 *Home* computer, even though it's advertised to. We've found it troubled. We advise to obtain an upgrade key to update to Windows 10 Professional or Education. Now just follow the yellow brick road .,..,.
+
+## .,,.. the Yellow Brick Road
 - Update your operating system:
-  - If MacOS: Be sure your OS is completely up-to-date (current version of Big Sur, currently 11.5.2 as of this writing).
-  - If Windows 10 Home: Update to Windows 10 Education (Windows 10 Home won't do). If you're a UVa student, updating to Windows 10 Education is free.
-    1. Get OS Windows Update license key from ITS: https://virginia.service-now.com/its/.  
-    2. Click Software in the left-hand navigation. Select the *latest* Windows 10 Education version. Get an update key.
-    3. After obtaining the OS key, copy and paste it in to the Windows Activation page (same screen as Windows Update).
-    4. Reboot your machine. You can check the Windows *System Information* app to confirm that your OS is updated.
+  - If MacOS: Be sure your OS is up-to-date (current version of Big Sur, 11.5.2 as of this writing).
+  - If Windows: 
+    - Windows 10 Home won't do, but it's probably what you have. Run the System Information App to find out.
+    - You must either be running or update to Windows 10 Professional, Enterprises, or Education
+      - Outside UVa:  Update keys are readily available online
+      - UVa students: Get or update to Windows 10 Education through ITS, as follows:
+        1. Get OS Windows Update license key from ITS: https://virginia.service-now.com/its/.  
+        2. Click Software in the left-hand navigation. Select the *latest* Windows 10 Education version. Get an update key.
+        3. After obtaining the OS key, copy and paste it in to the Windows Activation page (same screen as Windows Update).
+        4. Reboot your machine. You can check the Windows *System Information* app to confirm that your OS is updated.
 - Have a GitHub account. Create one for yourself if necessary. It's free: https://github.com/
-- Install Docker Desktop: https://www.docker.com/products/docker-desktop.
-- Install VSCode: https://code.visualstudio.com/download.
-- Launch Docker Desktop and watch for it to complete its start-up procedures. While it starts up, continue on to the remaining instructions. 
-- Use GitHub to fork this repository now. 
+- Install Docker Desktop: https://www.docker.com/products/docker-desktop. It's free. If you already have it, update it to the current version.
+- Install VSCode: https://code.visualstudio.com/download. It's free.
+- Launch Docker Desktop and watch for it to complete its start-up procedures. While it starts up, continue to the remaining instructions that follow here. 
+- Use GitHub to fork this repository now. How? Here:
   - Be logged in to your GitHub account.
-  - Visit this very repository on GitHub (which is probably where you're reading this)
-  - Fork this repo using the *Fork* button in the upper right corner. 
-  -   This will create a copy of this entire repository in *your* GitHub account. Visit your GitHub page to confirm that you now have a clone of this repository. 
+  - Visit *this* repository on GitHub (which is probably where you're reading this) while logged in to your GitHub account.
+  - "Fork" this repo using the *Fork* button in the upper right corner. This will create a clone of this repository (a copy that remembers where it came from) under your GitHub account. We recommend that you should change the name of your GitHub repo (hit the pencil icon next to its name on GitHub to start editing it) to reflect the nature of your project. Doing this will avoid conflicts should you try to do this procedure again.
+  -   Visit your GitHub web page to confirm that you now own a clone of this repository. Click to view the repository.
   -   Select the green Code button, then HTTPS, then copy the URL that is provided. This will be the GitHub URL of your newly forked copy of the respository.
-- Open our Lean Development Environment directly from your new GitHub repository
-  - Launch a *new* VSCode window. 
+- Start up your new environment
+  - Start a *new* VSCode window. 
   - Use CTRL/CMD-SHIFT-P to bring up the VSCode command palatte. 
   - Search for and select *Clone Repository in Container Volume*
-  - Paste the URL of your new repository as the argument.
-  - If it asks, select *unique repository*.
-- Wait for your development environment to completely "boot up" before taking any further actions.
+  - Paste in the GitHub URL of your new clone as the argument.
+  - If you're asked to choose something, select *unique repository*.
+- Now wait while your environment is built. You can click in the lower right to see the build process if you want. Wait for the building activity to end and for your environment to "boot up" before taking any further actions. There is a status bar at the bottom of the screen that reflects build processes status and activities.
 - Check to see that everything is working
   - Open the test.lean file (src/test/test_lean_mathlib.lean)
-  -Check that the conditions described therein are satisfied.
+  - Check that the conditions described therein are satisfied.
+- You may now work in and exit from VSCode as you wish. VSCode will let you re-open this project when you're ready to work on it again.
 
-## How It Works
-We deliver a Lean development environment via VSCode and its *Remote-Containers* capabilities. In a nutshell, when you ask VSCode to clone our repository, it will actually fork it and then clone your fork into the container that it launches to provide the programming platform you will then use to develop your solutions. It is very important to commit changes you make to your container-local repository, but then also to push them to your GitHub repo to back them up and because that should be the main respository for your project. You can log into it by simply opening a Terminal in VSCode. The clone of your repo is in the /workspaces folder within the container file system (or storage *volume*, as it's called).
+You now have, up and running, the coolest mathematical development environment ever. You're done here now!
 
-## Risk Alert and Avoidance
-It is important to understand that commits made to git are stored in the Docker container serving up the develop environment.  if you delete the container or its storage volume (which you could do through Docker Desktop), this will erase the work stored in the container. To make your container-local changes persistent, stage/add and then commit your local changes to the local repo, then push your container-repo-local changes to your repository on GitHub. 
+## Of course, if your're curious
+- Yep, that was clickbait, but hey, your new environment delivers many capabilities. They include the following.
+  - VSCode will be open and ready for you to start developing your applications with professional-quality infrastructure
+  - A containerized/virtual computer delivering a richly configured environment including the Lean Prover and its library of formalized mathematics (mathlib)
+    - Ubuntu 20.04 LTS operating system
+    - Lean Prover Community, with mathlib
+    - Widely used VSCode IDE
+    - Root "shell" into Ubuntu container.
+    - VSCode operates on a clone of your repo created in your container
+  - The entire development environment builds itself when you first follow these procedures
+- The clone of your repo is in the directory, /workspaces, in the container. 
 
-## Help Make It Even Better
-Let us know what you think. Better yet, make it better and send us a PR. You'll be completely set up to do that by the results of this procedure. 
+## If you find a problem or an opportunity ...
+If you think you've found a problem, revisit this GitHub page and report an Issue. Better yet, if you then fix the problem on your own clone of this site, commit and push it to your GitHub repo then send us a *Pull Request*. That will will send us your changes to review and possibly merge them into our main repository, whereupon they will then become available for anyone else to *Pull*, as well.  
 
 
 ## Legal and contact
-Copyright: © 2021 By the Rector and Visitors of the University of Virginia.
-Supervising Author: Kevin Sullivan. UVa CS Dept. sullivan@virginia.edu. 
-Acknowledgements: Thank you to multiple students for read, test, and fixing.
-
-
+- Acknowledgement: This work is supported in part by the National Science Foundation under grant (Award Abstract) #1909414.
+- Copyright: © 2021 by Kevin Sullivan, Sebastian Elbaum, et al.
+- Permission: You must preserve our copyright notice when making use of this material. We request that you let us know of any use of this technology beyond the purely personal: e.g., for teaching, reseasrch, government, or industrial purposes. 
+- Primary and Contact Author: Kevin Sullivan. UVa CS Dept. sullivan@virginia.edu. Acknowledgements for contributions that helped me to produce this repository go to Charlie Houghton, Andrew Elsey, et al.  
