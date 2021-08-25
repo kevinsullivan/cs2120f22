@@ -2,13 +2,13 @@
 
 All of your Lean source files should live below the /src project directory, and you must maintain files in /src according to the following rules.
 
-## /src/sullivan
+## /src/instructor
 
-The /src/sullivan directory is where Prof. Sullivan will put files for you.  
+The /src/instructor directory is where Prof. Sullivan will put files for you.  
 
 *Do not* create, edit, or delete files in this directory, otherwise you will encounter git *merge conflicts*, which occur when your local changes to a file or directory conflict with those made to the *upstream* repository by Prof. Sullivan. 
 
-Download new or changed files from Prof. Sullivan using the command, entered in the terminal/shell window.
+Download new or changed files from Prof. Sullivan using the following command, entered in a terminal/shell.
 
 ``` sh
 git pull upstream main
