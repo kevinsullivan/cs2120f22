@@ -36,6 +36,11 @@ You're here because you want the coolest mathematical development environment ev
 - Check to see that everything is working
   - Open the test.lean file (src/test/test_lean_mathlib.lean)
   - Check that the conditions described therein are satisfied.
+- Configure git on your new containerized operating system
+  - Open a new Terminal window in VSCode
+  - Issue the following commands, filling in your details as appropriate
+    - git config --global user.name "Your Name Here"
+    - git config --global user.email "your@email.here"
 - You may now work in and exit from VSCode as you wish. VSCode will let you re-open this project when you're ready to work on it again.
 
 You now have, up and running, the coolest mathematical development environment ever. You're done here now!
