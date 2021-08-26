@@ -68,4 +68,4 @@ If you think you've found a problem, revisit this GitHub page and report an Issu
 
 - Acknowledgement: This work is supported in part by the National Science Foundation under grant (Award Abstract) #1909414 to Kevin Sullivan and Sebastian Elbaum.
 - Copyright: © 2021 by Kevin Sullivan, Sebastian Elbaum, et al.
-- Primary and Contact Author: Kevin Sullivan. UVa CS Dept. sullivan@virginia.edu. Acknowledgements to Charlie Houghton, Andrew Elsey, et al.  
+- Primary and Contact Author: Kevin Sullivan. UVa CS Dept. sullivan@virginia.edu. Acknowledgements to Charlie Houghton, Andrew Elsey, et al., for preliminary work on tooling.  
