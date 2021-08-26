@@ -29,7 +29,7 @@ Welcome to UVa CS2120-003 Fall 2021 taught by Kevin Sullivan. We're going to use
   - Select the green Code button, then HTTPS, then copy the URL that is provided. This will be the GitHub URL of your newly forked copy of the respository.
 - Start up your new environment
   - Start a *new* VSCode window.
-  - Using the "extensions" tab (four squares with one out of place) on the left of your VSCode screen, search for and install the *Remote Containers* VSCode extension.
+  - Using the "extensions" tool (four squares with one out of place on the left of your VSCode screen), search for and install the *Remote Containers* extension. (The green icon at the lower left gets you the available Remote Containers commands direclty.)
   - Use CTRL/CMD-SHIFT-P to bring up the VSCode command palatte.
   - Search for and select *Clone Repository in Container Volume*
   - Paste in the GitHub URL of your new clone as the argument.
