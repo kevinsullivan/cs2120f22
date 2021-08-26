@@ -21,8 +21,8 @@ Welcome to UVa CS2120-003 Fall 2021 taught by Kevin Sullivan. We're going to use
   - Windows: https://git-scm.com/download/win
   - OSX/MacOs
     - Find and run the Terminal program
-    - Enter the following command in the window: git --version
-    - If git is not installed, you'll be asked whether you want it installed. Answer yes. 
+    - Enter the following command in the window: xcode-select --install
+    - When it asks, go ahead with the standard install process. 
 - Have a GitHub account. Create one for yourself if necessary. It's free: <https://github.com/>
 - Install Docker Desktop: <https://www.docker.com/products/docker-desktop>. It's free. If you already have it, update it to the current version.
 - Install VSCode: <https://code.visualstudio.com/download>. It's free.
