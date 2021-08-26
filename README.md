@@ -7,16 +7,16 @@ Welcome to UVa CS2120-003 Fall 2021 taught by Kevin Sullivan. We're going to use
 - Update your operating system:
   - If MacOS: Be sure your OS is up-to-date (current version of Big Sur, 11.5.2 as of this writing).
   - If Windows:
-    - Windows 10 Home won't do, but it's probably what you have. Run the System Information App to find out.
-    - You must either be running or update to Windows 10 Professional, Enterprises, or Education
-      - Outside UVa:  Update keys are readily available online
+    - If you already have Windows Pro, Education, or Enterprise, skip the remaining steps, else continue.
+    - Windows 10 Home won't do: You must update to Windows 10 Professional, Enterprises, or Education
+      - Outside UVa:  Update keys are readily and immediately available online
       - UVa students: Get or update to Windows 10 Education through ITS, as follows:
         1. Get OS Windows Update license key from ITS: <https://azureforeducation.microsoft.com/devtools>.
         3. Sign in using your UVa credentials.
         4. Click Software in the left-hand navigation. 
         5. Select Windows 10 Education version 21H1 then click on the right to get an update key.
         6. After obtaining the OS key copy it, go to Windows Activation Settings, select Change Product Key, paste your upgrade key, commit the change (hit Enter or OK or whatever is required), and you're done. 
-        7. Reboot your machine. You can check the Windows *System Information* app to confirm that your OS is updated.
+        7. Reboot your machine. When it boots up, you can check the *System Information* App to confirm that your OS is updated.
 - Install git on your computer (if you know you already have it, skip this step):
   - Windows: https://git-scm.com/download/win
   - OSX/MacOs
