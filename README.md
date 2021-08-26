@@ -17,6 +17,12 @@ Welcome to UVa CS2120-003 Fall 2021 taught by Kevin Sullivan. We're going to use
         5. Select Windows 10 Education version 21H1 then click on the right to get an update key.
         6. After obtaining the OS key copy it, go to Windows Activation Settings, select Change Product Key, paste your upgrade key, commit the change (hit Enter or OK or whatever is required), and you're done. 
         7. Reboot your machine. You can check the Windows *System Information* app to confirm that your OS is updated.
+- Install git on your computer (if you know you already have it, skip this step):
+  - Windows: https://git-scm.com/download/win
+  - OSX/MacOs
+    - Find and run the Terminal program
+    - Enter the following command in the window: git --version
+    - If git is not installed, you'll be asked whether you want it installed. Answer yes. 
 - Have a GitHub account. Create one for yourself if necessary. It's free: <https://github.com/>
 - Install Docker Desktop: <https://www.docker.com/products/docker-desktop>. It's free. If you already have it, update it to the current version.
 - Install VSCode: <https://code.visualstudio.com/download>. It's free.
