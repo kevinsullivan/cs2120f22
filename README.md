@@ -42,7 +42,7 @@ Welcome to UVa CS2120-003 Fall 2021 taught by Kevin Sullivan. We're going to use
   - If you're asked to choose something, select *unique repository*.
 - Now wait while your environment is built. You can click in the lower right to see the build process if you want. Wait for the building activity to end and for your environment to "boot up" before taking any further actions. There is a status bar at the bottom of the screen that reflects build processes status and activities.
 - Check to see that everything is working
-  - Open the test.lean file (src/test/test_lean_mathlib.lean)
+  - Open the test.lean file (src/test/leantest.lean)
   - Check that the conditions described therein are satisfied.
 - Configure git on your new containerized operating system
   - Open a new Terminal window in VSCode
