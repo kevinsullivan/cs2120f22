@@ -197,13 +197,13 @@ of this type (P : T \to Prop), if you know (x : T)
 has property P (written as P x) and you know that
 x = y, then you can deduce P y: y has property P.
 
-### Example of rewriting
+### Example using substitutability axiom
 
 In the context of the following assumptions ...
 
 ``` lean
 axioms
-  T : Type := nat
+  (T : Type)
   (P : T → Prop)
   (x y : T)
   (e : x = y)
@@ -223,7 +223,7 @@ example : P y := eq_subst T P x y e px
 
 So that's it as far as the axioms of equality are concerned.
 
-### Proof of symmetry of equality
+### Theorem: Equality is symmetric
 
 We can now state and prove a theorem.
 
@@ -264,7 +264,7 @@ Here's another way.
 
 
 
-### Proof of transitivity of equality
+### Theorem: Equality is transitive
 
 If x, y, and z are objects of some type, T, and we
 know (have proofs or axioms) that x = y and y = z,
