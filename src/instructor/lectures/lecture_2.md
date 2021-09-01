@@ -28,10 +28,7 @@ it means for equality to be symmetric is that *if*
 x = y (for *any* x and y of any type), then y = x.
 
 By transitive, we mean that if x is related to y
-and y is related to z, then (for any x, y, z, x is
-related to z in the given relation. For equality to
-be transitive, it must be that if x = y and y = z
-then x = z.
+and y is related to z, then x is related to z.
 
 Example: Consider the friends relation on people
 in Facebook. Is it reflexive? symmetric? transitive?
