@@ -284,3 +284,7 @@ as the reflexivity and substitutability of equals),
 and from them we then deduce (construct proofs of)
 new facts (such as the symmetry and transitivity 
 of equality). This is how all of mathematics works!
+"Big" theorems are derived from axioms, "smaller"
+theorems, and other values by the application of
+inference rules that are themselves accepted as the
+fundamental axioms of a given mathematical logic.
