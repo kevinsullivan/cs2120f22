@@ -2,7 +2,7 @@
 
 Equality is defined for all objects of all types
 by just two inference rules, which we accept as
-axioms. 
+axioms.
 
 - the axiom of the *reflexivity of equality*
 - the axiom of the *substitutability of equals*
@@ -282,5 +282,5 @@ What you have now seen is the essence of a logical
 argument (proof). We start with given axioms (such
 as the reflexivity and substitutability of equals),
 and from them we then deduce (construct proofs of)
-new facts (such as the symmetry and transitivity 
+new facts (such as the symmetry and transitivity
 of equality). This is how all of mathematics works!
