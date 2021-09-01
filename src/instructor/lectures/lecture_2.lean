@@ -42,69 +42,96 @@ def eq_3_3 : Prop := 3 = 3
 def eq_n_3 (n : ℕ) : Prop := n = 3
 
 -- predicates applied to values yield propositions
+-- hover your mouse pointer over #reduce to see result
 #reduce eq_n_3 2
 #reduce eq_n_3 3
 #reduce eq_n_3 4
 
--- 
+-- Axioms are just assumptions, so let's make some
 axioms 
-  (T : Type)      -- e.g., nat
-  (P : T → Prop)  -- e.g., eq_n_3
-  (x y : T)       -- arbitary nats
-  (e : x = y)     -- a proof x = y
-  (px : P x)      -- proof of is3 x
-
-theorem deduction : P y := 
-eq_subst T P x y e px -- e.g., proof is is3 y
-
+  (aType : Type)              -- e.g., nat
+  (aProperty : aType → Prop)  -- e.g., eq_n_3
+  (x y : aType)               -- arbitary nats
+  (e : x = y)                 -- a proof x = y
+  (px : aProperty x)          -- proof of eq_n_3 x
 
 /-
-REFLEXIVITY OF EQUALITY
+Given the preceding assumptions,
+can we prove aPred y?
+-/
+
+theorem aTheorem : aProperty y :=      
+  eq_subst    -- yes! apply the axiom to
+    aType     -- the type
+    aProperty -- the property
+    x y       -- the values
+    e         -- the proof of x = y
+    px        -- the proof that x as aProperty
+
+#check aTheorem -- a proof of P y!
+
+/- 
+You can (often) think of inference rules 
+as functions that can take proofs as arguments
+and that return proofs as results. The secret
+sauce here is that you *cannot* apply such a
+function unless you have the arguments that 
+it requires. So, for example, if you don't 
+have and can't construct a proof of x = y,
+then you simply cannot apply/use the eq_subset
+inference rule.
 -/
 
 /-
-A binary relation is specified by a
-two-place predicate. In other words,
-you can think of it as a function that
-takes two values and yields a proposition
-about them. Equality is such a relation.
-You can write x = y, but you can also
-write eq x y to mean the same thing.
-Writing it this way makes it clear
-that equality takes two arguments
-and returns a proposition.
-
-Examples:
-  eq 3 4 -- the proposition that 3 = 4
-  eq 3 3 -- the proposition that 3 = 3
-
-You can understand the following 
-general explanation by taking eq as
-a possible relation in place of "R"
-in the following.
+By the way, eq_subst is defined in Lean as
+eq.subst.
 -/
 
--- We've already assumed T can be any type
-
--- Next assume we have an arbitrary binary relation, R, on T
-axiom R : T → T → Prop
-
--- here's a formal definition of what it means for R to be reflexive
-def rel_reflexive := ∀ (x : T), (R x x)
-
-def rel_symmetric := ∀ (x y : T), (R x y) → (R y x)
-
-def rel_transitive :=
-  ∀ (x y z : T), (R x y) → (R y z) → (R x z)
+theorem aTheorem' : aProperty y :=      
+  @eq.subst     -- yes! apply the axiom to
+    aType       -- the type
+    aProperty   -- the property
+    x y         -- the values
+    e           -- the proof of x = y
+    px          -- the proof that x as aProperty
 
 /-
-So now, from only our two axioms, let's prove that
-equality is not only reflexive, but also symmetric
-and transitive!
+And in Lean eq.subst uses type
+inference to infer T, P, x, and y,
+from e, so you don't need to give
+explicit values for these argument.
 -/
+
+theorem aTheorem'' : aProperty y :=      
+  eq.subst     -- yes! apply the axiom to
+    e           -- the proof of x = y
+    px          -- the proof that x as aProperty
+
+/-
+Lean includes a proof building
+scripting language, and here are 
+two proofs of the same thing using
+proof scripts.
+-/
+
+theorem aTheorem''' : aProperty y :=
+begin
+  apply eq.subst e, -- rewrite the goal proposition using e
+  exact px,         -- we've already assumed that proposition is true
+end
+
+theorem aTheorem'''' : aProperty y :=
+begin
+  rw <- e,  -- rewrite goal using e read right to left
+  exact px, -- the new goal is true by assumption
+end
+
 
 /-
 Theorem: *equality is symmetric*
+
+What we are to show is that, for any objects,
+x and y, of any type T, if x = y then y = x.
 
 Proof: We'll *assume* the premises of the conjecture:
 that T is a type; x and y are values of that type; and 
@@ -116,9 +143,7 @@ to be proved, using our proof of x = y as an argument,
 to substitute y for x whereever x appears. The result
 is that we must now only prove y = y. And that is done
 by applying the axiom of reflexivity of equality.
--/
 
-/-
 Here's a formal proof. What's most important at this
 point is that you be able to follow how the *context*
 of the proof evolves as we make each of our "moves" 
@@ -130,7 +155,10 @@ we've give you here to see how each move affects the
 context.
 -/
 theorem eq_symm : 
-  ∀ (T : Type) (x y : T), x = y → y = x :=
+  ∀ (T : Type) 
+    (x y : T), 
+    x = y → 
+    y = x :=
 begin
   assume T,
   assume x y,
@@ -140,7 +168,7 @@ begin
 end
 
 /-
-TRANSITIVITY OF EQUALITY
+Theorem: Equality is transitive
 
 If x, y, and z are objects of some type, T, and we 
 know (have proofs or axioms) that x = y and y = z,

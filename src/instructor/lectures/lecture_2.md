@@ -197,7 +197,7 @@ of this type (P : T \to Prop), if you know (x : T)
 has property P (written as P x) and you know that
 x = y, then you can deduce P y: y has property P.
 
-Example:
+### Example of rewriting
 
 In the context of the following assumptions ...
 
@@ -212,8 +212,8 @@ axioms
 
 Can we prove P y?
 
-English: We've assumed P x and x = y, so P y must be
-true by the (axiom of the) substitutability of equals.
+English: We've assumed that P x is true, and x = y,
+so P y must be true by the substitutability of equals.
 
 Formal:
 
@@ -222,10 +222,49 @@ example : P y := eq_subst T P x y e px
 ```
 
 So that's it as far as the axioms of equality are concerned.
--/
 
-/-
-TRANSITIVITY.
+### Proof of symmetry of equality
+
+We can now state and prove a theorem.
+
+Theorem: equality is symmetric.
+
+Proof. Assume T is some type of object
+and x and y are objects of this type. To
+prove that equality is symmetric, we must
+prove that if x = y then y = x for *any*
+values of x and y. So, for the sake of we
+will assume that x and y are arbitrary
+values of type, T, and that x = y. What
+we must now show is that y = x. By the
+axiom of the substitutivity of equals
+this is equivalent to proving y = y
+(which we get by rewriting the x as a
+y, justified by the assumption x = y).
+But y = y is true by the reflexivity
+axiom, and so the proof is complete.
+
+Here's a less verbose proof.
+
+Proof: We must show that for any x
+and y, if x = y (is true) then y = x.
+But if x = y is true, by substitutability
+we can write y = x as y = y, which is
+proved by the reflexivity of equality.
+
+Here's another way.
+
+1. T is a type               assumption
+2. x and y are of type T     assumption
+3. x = y                     assumption
+4. y = x                     goal
+5. y = y                     new goal, by substitutability using
+6. QED                       goal reached, by reflexivity of equality
+
+
+
+
+### Proof of transitivity of equality
 
 If x, y, and z are objects of some type, T, and we
 know (have proofs or axioms) that x = y and y = z,
