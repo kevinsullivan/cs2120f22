@@ -35,11 +35,13 @@ axiom eq_subst :
     (px : P x),     -- and you have a proof that x has property P
   P y               -- then you can deduce (and get a proof) of P y
 
--- EXAMPLES
+/-
+SOME EXAMPLES
+-/
 
--- a proposition and a predicate
-def eq_3_3 : Prop := 3 = 3
-def eq_n_3 (n : ℕ) : Prop := n = 3
+-- a predicate is a proposition with arguments
+def eq_3_3 : Prop := 3 = 3          -- proposition
+def eq_n_3 (n : ℕ) : Prop := n = 3  -- predicate
 
 -- predicates applied to values yield propositions
 -- hover your mouse pointer over #reduce to see result
@@ -60,15 +62,17 @@ Given the preceding assumptions,
 can we prove aPred y?
 -/
 
+-- Yes, just apply the substitutability axiom
 theorem aTheorem : aProperty y :=      
-  eq_subst    -- yes! apply the axiom to
+  eq_subst    -- apply the axiom to the following arguments
     aType     -- the type
     aProperty -- the property
     x y       -- the values
     e         -- the proof of x = y
-    px        -- the proof that x as aProperty
+    px        -- the proof that x has aProperty
 
-#check aTheorem -- a proof of P y!
+-- And the result is a ...
+#check aTheorem -- ... proof of P y!
 
 /- 
 You can (often) think of inference rules 
