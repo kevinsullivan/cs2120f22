@@ -221,36 +221,35 @@ Formal:
 example : P y := eq_subst T P x y e px
 ```
 
-So that's it as far as the axioms of equality are concerned.
+So that's it as far as the axioms of equality
+are concerned. Now we come to the remarkable
+fact that from these two axioms, it can be
+proved that the equality relation has two
+additional crucial properties.
 
 ### Theorem: Equality is symmetric
 
-We can now state and prove a theorem.
-
 Theorem: equality is symmetric.
 
-Proof. Assume T is some type of object
-and x and y are objects of this type. To
-prove that equality is symmetric, we must
-prove that if x = y then y = x for *any*
-values of x and y. So, for the sake of we
-will assume that x and y are arbitrary
-values of type, T, and that x = y. What
-we must now show is that y = x. By the
-axiom of the substitutivity of equals
-this is equivalent to proving y = y
-(which we get by rewriting the x as a
-y, justified by the assumption x = y).
-But y = y is true by the reflexivity
-axiom, and so the proof is complete.
+Proof. Assume T is some type and x and
+y are objects of this type. To prove that
+equality is symmetric, we must prove that,
+for *any* x and y of this type, if x = y
+then it must be the case that y = x.
+
+By the axiom of the substitutivity of
+equals, y = x is equivalent to y = y
+(rewriting the x as y justified by the
+assumption that x = y); but y = y is
+true by the axiom of the reflexivity
+of equality, and so the proof is done.
+QED.
 
 Here's a less verbose proof.
 
-Proof: We must show that for any x
-and y, if x = y (is true) then y = x.
-But if x = y is true, by substitutability
-we can write y = x as y = y, which is
-proved by the reflexivity of equality.
+Proof: By the substitutability of equals,
+we can rewrite y = x as y = y, but this is
+true by the reflexivity of equality. QED.
 
 Here's another way.
 
@@ -258,35 +257,30 @@ Here's another way.
 2. x and y are of type T     assumption
 3. x = y                     assumption
 4. y = x                     goal
-5. y = y                     new goal, by substitutability using
-6. QED                       goal reached, by reflexivity of equality
-
-
-
+5. y = y                     by substitutability using 3
+6. QED                       by reflexivity
 
 ### Theorem: Equality is transitive
 
 If x, y, and z are objects of some type, T, and we
 know (have proofs or axioms) that x = y and y = z,
-then we can deduce (and have a proof) that x = z.
+then we must show (construct a proof) that x = z.
 
-Challenge problem: prove (informally) that equality
-is transitive!
+The argument is very similar to that for symmetry.
 
-In super-plain English, this rule says that
-if some proposition P about x, (P x), is true
-and you also know that x and y are equal, you
-can then deduce (P y): that the proposition,
-modified to be about y, must also be true. In
-short, if you know P x and x = y then you can
-deduce that P y must also be true.
+Proof. We are given as assumptions that T is a
+type; x, y, and z are values of this type; and
+that x = y and y = z. In this context, we are to
+show that x = z. We first apply substitutability
+using our proof of x = y to rewrite the x in the
+goal to y, yielding a new goal: y = z. But that
+is something we've already assumed is true. QED.
 
-You ask, what do you mean, "What you can do
-with a proof?" And the answer is that you
-can use it as evidence that shows that it's
-ok to make a particular logical deduction.
+## Conclusion
 
-Let's assume for a moment that we've been
-given a type, T, such as nat or bool. What
-the axioms then do in effect is to define
-equality as a binary relation on T.
+What you have now seen is the essence of a logical
+argument (proof). We start with given axioms (such
+as the reflexivity and substitutability of equals),
+and from them we then deduce (construct proofs of)
+new facts (such as the symmetry and transitivity 
+of equality). This is how all of mathematics works!
