@@ -107,7 +107,7 @@ Examples:
   - if true, then _X_ "has the property of being equal to 3"
   - of course there is a number, 3, that *satisfies* this predicate
 
-Suppose that for predicates P and Q, the type of 
+Suppose that for predicates P and Q, the type of
 _X_ is string. You can then *apply* either predicate,
 P or Q, to a string to get a resulting proposition.
 
@@ -177,7 +177,7 @@ know that "x = y," then we can conclude that y + 2
 In other words, the second axiom gives us a license
 to *rewrite* propositions by replacing one term with
 another as long as we can prove a proof of equality
-as an argument. 
+as an argument.
 
 Here's the idea presented in the formal language
 of predicate logic.
