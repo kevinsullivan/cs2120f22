@@ -274,7 +274,15 @@ that x = y and y = z. In this context, we are to
 show that x = z. We first apply substitutability
 using our proof of x = y to rewrite the x in the
 goal to y, yielding a new goal: y = z. But that
-is something we've already assumed is true. QED.
+is something we've already assumed is true.
+
+Or, if you prefer, in this last step, we can
+use the assumption that y = z to apply the
+axiom of the substitutability of equals to
+rewrite the y in y = z to z, yielding z = z.
+And that is proved from the reflexivity of
+the equality relation on any type of objects.
+QED.
 
 ## Conclusion
 
