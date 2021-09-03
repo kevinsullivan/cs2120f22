@@ -18,17 +18,29 @@ to construct proofs of two theorems about equality:
 
 ## Properties of relations
 
+To understand what those theorems are saying before
+we get into how we can prove them using our axioms,
+we must cover the *properties of relations* called
+symmetry and transitivity.
+
+### Symmetry
+
 Speaking informally, when we say that a relation,
-such as equality, is *symmetric* we're mean that,
-for all objects, x and y, of any type T, if x is
-related to y, then y is symmetrically related to x.
+R, such as equality, is *symmetric* we're mean that,
+for *any* objects, x and y, if R relates x to y,
+then R also relates y to x.
 
 If the relation in question is equality, then what
 it means for equality to be symmetric is that *if*
-x = y (for *any* x and y of any type), then y = x.
+x = y (for *any* x and y), then it must also be
+that y = x. (Otherwise R would not be symmetric.)
 
-By transitive, we mean that if x is related to y
-and y is related to z, then x is related to z.
+### Transitivity
+
+By transitive, we mean that, for any objects x, y,
+and z, if a relation R relates x to y, and R also
+relates y to z, then R must additionally relate x
+to z. (Otherwise R would not be transitive).
 
 Example: Consider the friends relation on people
 in Facebook. Is it reflexive? symmetric? transitive?
@@ -42,29 +54,28 @@ natural numbers. Is it symmetric? Transitive?
 Example: Consider the less than or equal relation
 on natural numbers. Is it Symmetric? Transitive?
 
-## The reflexivity of equality is an axiom
-
-You've already learned the reflexivity axiom
-for equality: ∀ (T : Type) (t : T), t = t.
-
-A direct translation could be, "Given any
-type, T, and any object, t, of that type,
-t is equal to itself." Put more succinctly,
-"Every thing is equal to itself." But best
-of all, "Equality is a *reflexive* relation."
-
 ## Propositions and predicates
 
-These concepts are fundamental in all logics.
+Next it's important to understand what we mean
+by the terms, and how we use, propositions and
+predicates. These concepts are fundamental in
+all logics.
 
 ### Propositions
 
-A proposition is a claim that can be judged
-to be true or not. In mathemtical logic, a
-proposition can be judged to be true if and
-only if it is either an axiom, or a proof of
-it can be derived by application of inference
-rules to axioms.
+A proposition is a "claim," an *assertion* that
+some state of affairs holds. A proposition can
+be *judged* to be true or false. In mathematical
+logic, a conjecture--a proposition for which one
+does not yet have a proof---asserts that some
+mathematical formula is valid. 
+
+If one can produce a proof of the conjecture then
+one can render the judgement that that proposition
+is true. A proof of it establishes it as a theorem.
+And from that point on, the theorem can be applied
+as if it were just another axiom, in constructing
+proofs of ever more elaborate conjectures.
 
 Example: 3 = 4
 
@@ -77,35 +88,32 @@ Example: 3 = 3
 - Proof:
   - Informal: By the reflexivity of equality (for natural numbers)
   - Formal (in Lean): *eq.refl 3*
-- Note: Each type (e.g., nat) has its own equality relation
+- Note: Each type (e.g., nat) has its own separate equality relation
 
-Example: CVille is a city in Virginia
-
-- Truth value: true
-- Proof (evidence): city, county, state codes
-
-Example: Kevin Sullivan is from Charlottesville
+Example: Kevin Sullivan (your professor) is from Charlottesville
 
 - Truth value: false
 - Proof: none
 
 ### Predicates
 
-A predicate is a parameterized proposition. In other words,
-it is a proposition with some *arguments*, which is to say,
-slots where you can fill in values of specified types.
+A predicate is a parameterized proposition: a proposition with
+*arguments* (just like a function has arguments). When you fill
+in all of the arguments of a predicate, you have a proposition,
+just like when you fill in all the arguments to a function call,
+you get a result.
 
 Examples:
 
 - predicate P: _X_ is a city in Virginia
   - fill in a value for _X_ to get a proposition
   - the resulting proposition could be true or not
-  - if true of some _X_, _X_ "has the property of being a city in VA"
+  - if true of some _X_, we say that _X_ *has the property of* being a city in VA
 - predicate Q: _X_ is from Charlottesville
 - predicate eq3: _X_ = 3
   - fill in a value (here a natural number) for _X_ to get a proposition
   - if true, then _X_ "has the property of being equal to 3"
-  - of course there is a number, 3, that *satisfies* this predicate
+  - the number, 3, *satisfies* this predicate, and is the only one that does
 
 Suppose that for predicates P and Q, the type of
 _X_ is string. You can then *apply* either predicate,
@@ -115,72 +123,80 @@ For example, (Q "Kevin") produces the proposition,
 Kevin Sullivan is from Charlottesville, while (e3 2)
 produces the proposition 2 = 3.  
 
-You can think of a predicate as a function: one that
+Again, you can think of a predicate as a function: one that
 takes values of given types as arguments and that returns
 a *proposition* with the argument values plugged in where
-the predicate had its formal parameters. A predicate really
-is like a function that returns a proposition: it takes one
+the predicate had its parameters. A predicate really is
+like a function that returns a proposition: it takes one
 or more values as arguments, and returns a proposition that
-makes an assertion *about* those values, as a result.
+makes an assertion *about* those values.
 
 ### Predicates as functions
 
-Speaking formally, we represent a predicate exactly as a
-function. In the case of the predicate e3, it's a function
-that takes a natural number, n, and returns the proposition,
-n = 3. Here's what this function looks like in Lean.
+Speaking more formally, we represent a predicate exactly
+as a function, from parameter values to propositions. In
+the case of the predicate e3, it's a function that takes
+a natural number, n, and returns the proposition, n = 3:
+a proposition about n. Here's how we might define this
+predicate/function in Lean.
 
 def e3 (n : nat) : Prop := n = 3
+
+The syntax is pretty simple. First, def introduces a
+new definition. What's being defined to have a value is
+e3. The argument/parameter is a value, a natural number,
+n. And what the function then returns is the proposition,
+n = 3, for any value of n that is given as an argument.
 
 Applying e3 to 2, for example, yields the proposition,
 2 = 3. This proposition is "about 2" in the sense that
 it claims (falsely) that 2 has the property of being equal
-to 3. The proposition has no proofs given that the only proofs
-of equality we can construct are proofs that a value is
-equal to itself. Implicit in this informal argument is the
-assumption that 2 and 3 are different objects (which they
-are, but that requires a discussion of the axioms that
-define the natural numbers, which we'll skip for now).
-So we can conclude that 2 does not have the property of
-being equal to 3, and the proposition, (e3 2), i.e.,
-2 = 3, is false.
+to 3.
 
-## Constructing proofs of equality (introduction rule)
+## Constructing equality proofs (introduction rule)
 
 You've already learned the reflexivity axiom
 for equality: ∀ (T : Type) (t : T), t = t.
 
-A direct translation could be, "Given any
-type, T, and any object, t, of that type,
-t is equal to itself." Put more succinctly,
-"Every thing is equal to itself." But best
-of all, "Equality is a *reflexive* relation."
+This axiom provides a way to *construct* proofs
+of equalities. If you "give it" a T and a t, it
+gives back a proof of the proposition that t = t.
 
-## Using proofs of equality (elimination rule)
+Such a proof-building axiom is said to be an
+*introduction* rule (here, for equality). More
+generally, introduction rules define mechanisms
+that *construct* proofs of given kinds (e.g., of
+equality propositions).
+
+## Using equality proofs (elimination rule)
 
 We now turn to the second of the two axioms that
-define equality: the axiom of the *substitutability
-of equals*. This axioms is not used to create proofs
-of equality but gives us a way to *use* a proof of
-an equality in the construction of a different kind
-of proof: to deduce, for any predicate, P, that if
-(P x) is true, and x = y  is true, then (P y) must
-also be true.
+define equality: the *substitutability of equals*.
 
-Example. If "Kevin is from Cville" and Kevin = Bob,
-then we can deduce that "Bob is from Cville."
+### The intuition
+
+This axiom basically states that if you know that
+some object, x, has property P, and you also know
+that x = y, then you can conclude that y must also
+have property P (because y *is equal to* x)
+
+Example. If "Kevin is from Cville" and Kevin is
+really just an alias for Bob (Kevin = Bob), then 
+we can deduce that "Bob is from Cville."
 
 Example: If we know that (x + 2) = 7, and we also
-know that "x = y," then we can conclude that y + 2
+know that "x = y," then we can deduce that (y + 2)
 = 7.
 
 In other words, the second axiom gives us a license
 to *rewrite* propositions by replacing one term with
-another as long as we can prove a proof of equality
-as an argument.
+another as long as we can provide a proof of equality
+of those two terms as an argument.
 
-Here's the idea presented in the formal language
-of predicate logic.
+### Formal statement of the axiom of substitutability
+
+Here's a version of the axiom presented in language
+of predicate logic conforming with the syntax of Lean.
 
 ``` lean
 axiom eq_subst :    -- arguments are assumptions!
@@ -192,64 +208,86 @@ axiom eq_subst :    -- arguments are assumptions!
   P y               -- then we can have a proof of P y
 ```
 
-Given any type, T, and any *property*, P, of objects
-of this type (P : T \to Prop), if you know (x : T)
-has property P (written as P x) and you know that
-x = y, then you can deduce P y: y has property P.
+Given any type, T, ... and any *property*, P, of objects
+of this type, (P : T \to Prop), ... if you know that an
+object, x, of type T, has property P, i.e., (P x) and you
+know that x = y, then you can deduce P y: that it must be
+the case that y has property P, as well.
 
 ### Example using substitutability axiom
 
-In the context of the following assumptions ...
+Let's do a completely abstract example first. We
+can use the axiom keyword in Lean to introduce a
+set of assumptions.  
 
 ``` lean
 axioms
-  (T : Type)
-  (P : T → Prop)
-  (x y : T)
-  (e : x = y)
-  (px : P x)
+  (T : Type)        -- assume T is a type
+  (P : T → Prop)    -- P is a property of Ts
+  (x y : T)         -- x and y are Ts
+  (e : x = y)       -- e is a proof of x = y
+  (px : P x)        -- px proves x has property P
 ```
 
-Can we prove P y?
-
-English: We've assumed that P x is true, and x = y,
-so P y must be true by the substitutability of equals.
-
-Formal:
+From these assumptions, can we prove P y? Indeed
+we can, because what we've assumed are exactly all
+of the argumented required to apply the axiom of
+substitutability of equals. Here then is a formal
+proof that, from the preceding axioms, we can prove
+(P y).
 
 ``` lean
-example : P y := eq_subst T P x y e px
+example : P y := eq_subst T P x y e px -- Whoa
 ```
 
-So that's it as far as the axioms of equality
-are concerned. Now we come to the remarkable
-fact that from these two axioms, it can be
-proved that the equality relation has two
-additional crucial properties.
+English: From the assumptions that P x is true,
+and x = y, we can deduce that P y must be true
+by applying the axiom of the the substitutability
+of equals. (Try to come close to memorizing that
+while visualizing what it really means.)
+
+## Theorem proving!
+
+In this final section, we use the case of equality
+to illustrate what we mean when we talk about proving
+theorems. Here, from only the axioms of reflexivity
+and sustitutability, we prove that equality has two
+more crucial properties: symmetry and reflexivity.
+
+In each case, we will construct a proof by first
+using substitutability to rename variables in the
+proposition to be proved so that we can then either
+apply reflexivity, or point out that we have already
+assumed what remains to be proved, so we are done.
+We have constructed the desired proof.
 
 ### Theorem: Equality is symmetric
 
-Theorem: equality is symmetric.
+Theorem: the equality relation (on objects of
+any given type) is symmetric.
 
-Proof. Assume T is some type and x and
-y are objects of this type. To prove that
-equality is symmetric, we must prove that,
-for *any* x and y of this type, if x = y
-then it must be the case that y = x.
+To prove that equality is symmetric, we must
+prove that, for *any* objects, x and y (of a
+given type), if x = y then y = x.
 
-By the axiom of the substitutivity of
-equals, y = x is equivalent to y = y
-(rewriting the x as y justified by the
-assumption that x = y); but y = y is
-true by the axiom of the reflexivity
-of equality, and so the proof is done.
+Proof. We start by *assuming* that x and
+y are objects of some type T. We also then
+assume that x = y. On the assumption that
+this is true, we must show is that y = x.
+But by the substitutivity of equals, y = x
+can be rewritten to y = y, *using the fact
+that x = y*. The only thing that remains to
+be proven now is that y = y, but that is an
+easy proof by the reflexivity of equality.
 QED.
 
 Here's a less verbose proof.
 
 Proof: By the substitutability of equals,
-we can rewrite y = x as y = y, but this is
-true by the reflexivity of equality. QED.
+we can rewrite y = x as y = y (without any
+change in meaning), but then this proposition
+is true by the reflexivity of equality, so
+the original y = x must be true as well. QED.
 
 Here's another way.
 
@@ -257,8 +295,8 @@ Here's another way.
 2. x and y are of type T     assumption
 3. x = y                     assumption
 4. y = x                     goal
-5. y = y                     by substitutability using 3
-6. QED                       by reflexivity
+5. y = y                     substitutability using 3
+6. QED                       reflexivity
 
 ### Theorem: Equality is transitive
 

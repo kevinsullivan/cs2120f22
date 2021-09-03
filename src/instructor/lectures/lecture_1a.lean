@@ -20,6 +20,12 @@ they can be polynomials, matrices, functions, symmetries, or any
 manner of other "mathematical thingies". As we're going to see
 here, they can even be propositions and proofs.
 
+ℕ: Natural numbers. The non-negative whole numbers. {0, 1, 2, ...}
+ℤ: Integers: The negative and non-negative whole numbers. 
+ℚ: Rationals: Ratios of an integer and a non-zero natural number.
+ℝ: Reals: Equivalence classes of convergent sequence of rationals.
+Irrational numbers: Real numbers not "isomorphic" to any rationals.
+
 But let's start with something really simple. The number, 1. Ok,
 it's actually not that simple, because 1 can be interpreted as 
 denoting a natural number, integer, real number, rational number,
@@ -30,12 +36,6 @@ is possible to force many other interpretations however, as the
 following examples show.
 
 As you read the code, remember the following.
-
-ℕ: Natural numbers. The non-negative whole numbers. {0, 1, 2, ...}
-ℤ: Integers: The negative and non-negative whole numbers. 
-ℚ: Rationals: Ratios of an integer and a non-zero natural number.
-ℝ: Reals: Equivalence classes of convergent sequence of rationals.
-Irrational numbers: Real numbers not "isomorphic" to any rationals.
 
 Examples:
 
@@ -51,7 +51,7 @@ def n : ℕ := 1    -- 1 specified to be a natural number (non-negative whole nu
 def z : ℤ := 1    -- 1 as an integer (negative or non-negative whole number)
 def r : ℝ := 1.0  -- 1 as a real number (infinite decimal sequence)
 def q : ℚ := 1/1  -- 1 as a rational number (fraction)
-
+ 
 /-
 Each proceeding line of code has the following elements
 - def: a keyword, binds the given identifer to the given value
@@ -116,7 +116,7 @@ follow example shows formally (in Lean).
 -/
 
 example : 1 = 1 := 
-  eq.refl 2   -- Lean inferns T = ℕ from 1
+  eq.refl 1   -- Lean inferns T = ℕ from 1
 
 /-
 Yay! We just constructed a formal proof: a
@@ -218,7 +218,7 @@ can render the judgment that t = t is *true*.
 def gimme_a_proof   -- function name
     (T : Type)      -- first argument
     (t : T)         -- second argument
-    : t = t         -- return type 
+    : t = t         -- return "type" 
     := eq.refl t    -- implementation
 
 /-
@@ -276,6 +276,8 @@ example to follow!)
 -/
 
 -- answer here
+
+example : 2 = 2 := @eq.refl ℕ 2
 
 
 /-

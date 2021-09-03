@@ -172,6 +172,17 @@ begin
 end
 
 /-
+Because this proposition is a universal
+generalization, it can be *applied* to
+particular arguments to get particular
+results! Recall that e is a proof x = y.
+So what do we get when we appy eq_symm
+to e?  
+-/
+
+#reduce eq_symm ℕ x y x=y
+
+/-
 Theorem: Equality is transitive
 
 If x, y, and z are objects of some type, T, and we 
