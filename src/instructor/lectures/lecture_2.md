@@ -37,10 +37,11 @@ that y = x. (Otherwise R would not be symmetric.)
 
 ### Transitivity
 
-By transitive, we mean that, for any objects x, y,
-and z, if a relation R relates x to y, and R also
-relates y to z, then R must additionally relate x
-to z. (Otherwise R would not be transitive).
+When we say that a relation r, is transitive, we
+mean that, for all objects, x, y, and z, if x is
+related to y by r, and y is is related to z by r,
+then x must be related to z by r (otherwise r is
+not transitive).
 
 Example: Consider the friends relation on people
 in Facebook. Is it reflexive? symmetric? transitive?
@@ -68,7 +69,7 @@ some state of affairs holds. A proposition can
 be *judged* to be true or false. In mathematical
 logic, a conjecture--a proposition for which one
 does not yet have a proof---asserts that some
-mathematical formula is valid. 
+mathematical formula is valid.
 
 If one can produce a proof of the conjecture then
 one can render the judgement that that proposition
@@ -181,7 +182,7 @@ that x = y, then you can conclude that y must also
 have property P (because y *is equal to* x)
 
 Example. If "Kevin is from Cville" and Kevin is
-really just an alias for Bob (Kevin = Bob), then 
+really just an alias for Bob (Kevin = Bob), then
 we can deduce that "Bob is from Cville."
 
 Example: If we know that (x + 2) = 7, and we also
@@ -246,7 +247,7 @@ by applying the axiom of the the substitutability
 of equals. (Try to come close to memorizing that
 while visualizing what it really means.)
 
-## Theorem proving!
+## Theorem proving
 
 In this final section, we use the case of equality
 to illustrate what we mean when we talk about proving
