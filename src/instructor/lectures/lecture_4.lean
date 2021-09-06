@@ -76,6 +76,14 @@ PROOFS: From conjectures to theorems
 Proofs: equality is symmetric.
 -/
 
+/-
+def eq_symm : Prop := 
+  ∀ (T : Type) 
+    (x y : T), 
+    x = y → 
+    y = x 
+    -/
+
 example : eq_symm :=
 begin
   unfold eq_symm, -- replace name with definition
@@ -129,8 +137,19 @@ Note: Lean defines these rules as
 Practice
 -/
 
-example : ∀ (T : Type) (x y z : T), x = y → y = z → z = x :=
+example : ∀ (T : Type), ∀ (x y z : T), x = y → y = z → z = x :=
 begin
+
+  /-
+  assume T,
+  assume (x : T),
+  assume (y : T),
+  assume (z : T),
+  -/
+  assume T x y z,
+  assume h1 h2,
+  apply eq.symm _,
+  apply eq.trans h1 h2,
 
 end
 
