@@ -116,5 +116,3 @@ Conjecture: There exist natural numbers,
 x, y, and z, all greater than 1, and n > 2,
 such that x^n + y^n = z^n.  
 -/
-
-
