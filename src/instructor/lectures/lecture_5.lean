@@ -41,7 +41,7 @@ For P → Q (if P is true then Q must also be true)
 kind of function, to any proof of P to derive a proof of Q!
 -/
 
-def foo : ∀ (x : ℕ), x = 0 → x + 1 = 1 := 
+lemma foo : ∀ (x : ℕ), x = 0 → x + 1 = 1 := 
 begin
   assume x h,
   rw h,
@@ -58,4 +58,54 @@ specific value. Indeed, in Lean, → is really just another
 notation for forall!
 -/
 
-def 
+/-
+Introduction rule for and ∧
+
+Give a proof of P and a proof of Q 
+get back a proof of (P ∧ Q). 
+-/
+
+axioms (P Q : Prop)
+
+#check P
+#check (P ∧ Q)
+
+axioms (p :P) (q : Q)
+
+example : P ∧ Q := and.intro p q
+
+/-
+Prove that if arbitary propositions P and Q
+are true (which is to say that we have a proof
+of each of them), that the proposition P ∧ Q
+is also true.
+  
+Proof: The conjecture that P ∧ Q is true
+is proved by application the introduction 
+rule for and.
+-/
+
+example : 0 = 0 ∧ 1 = 1 :=
+begin
+  apply and.intro _ _,
+  apply eq.refl 0,
+  apply eq.refl 1,
+end 
+
+theorem bar : 0 = 0 ∧ 1 = 1 :=
+begin
+  apply and.intro (eq.refl 0) (eq.refl 1),
+end 
+
+#check bar
+
+#check and.elim_left bar
+#check and.elim_right bar
+
+theorem and_commutative : ∀ (P Q : Prop), P ∧ Q → Q ∧ P :=
+begin
+  assume P Q h,
+  apply and.intro _ _,
+  apply and.elim_right h,
+  apply and.elim_left h,
+end
