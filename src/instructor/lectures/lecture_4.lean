@@ -145,7 +145,13 @@ For =
 
 /-
 For ∀ x, P x
-  - introduction rule, assume arbitrary x, show P x
-  - elimination rule, next time!
+  - introduction rule: assume arbitrary x, then show P x
+  - elimination rule: next time!
+-/
+
+/-
+For P → Q
+- introduction rule: assume arbitrary P, then show Q
+- elimination rule: next time.
 -/
 
