@@ -253,7 +253,7 @@ begin
 end
 
 /-
-PROOF BY NEGATION
+PROOF BY NEGATION, EXAMPLE
 -/
 
 /-
