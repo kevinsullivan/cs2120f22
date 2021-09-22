@@ -1,21 +1,111 @@
 /-
 In today's class, we'll continue with our
-exploration of the proposition false, its
-elimination rule, and fundamental concepts
-related to these ideas:
+exploration of the proposition, "false", 
+its elimination rule, and their vital uses
+in logical reasoning: especially in  
 
-- proof of false elimination
-- proof by negation
+- proof of ¬P by negation
+- proof of P by false elimination
+
+Here are the inference rules in display
+notation:
+
+NEGATION INTRODUCTION
+
+The first, proof by negation, says that
+from a proof of P → false you can derive
+a proof of ¬P. Indeed! It's definitional.
+Recall: def not (P : Prop) := P → false.
+
+  (P : Prop) (np : P → false)
+  --------------------------- [by defn'n]
+            (pf : ¬P)
+
+This rule is the foundation for "proof by
+negation." To prove ¬P you first assume P,
+is true, then you show that in this context
+you can derive a contradiction. What you
+have then shown, of course, is P → false.
+
+So, to prove ¬P, assume P and show that in
+this context there is a contradiction. 
+This is proof by negation. It is not to be
+confused with proof by contradition, which
+is a different thing entirely. 
+
+(Proof by contradiction. You can use this
+approach to a proposition, P, by assuming
+¬P and showing that this assumption leads
+to a contradiction. That proves ¬¬P. Then 
+you use the *indepedent* axiom of negation 
+elimination to infer P from ¬¬P.)
+
+FALSE ELIMINATION
+
+The second rule says that if you have a
+proof of false and any other proposition,
+P, the logic is useless and so you might
+as well just admit that P is true. Why is
+the logic useless? Well, if false is true
+then there's no longer a difference! In
+this situation, tHere's sense in reasoning
+any further, and you can just dismiss it.
+A contradiction makes a logic inconsistent.
+
+  (P : Prop) (f : false)
+  ---------------------- (false_elim f)
+        (pf : P)
+
 -/
 
 /-
-Review: example of the principle of false elimination,
-which we prove by CASE ANALYSIS. If you assume or derive 
-a contradiction (and having a proof of false is definitely
-a contradiction), then you need go no further, as there 
-are no cases in which such a situation can possible arise,
-so you have proved the proposition true "in all cases,"
-i.e., by case analysis.
+We covered the relatively simpler notion of
+negation introduction last time, so today we
+will start by focusing on false elimination.
+Understanding why it's not magic and in fact 
+makes perfect sense takes a bit of thought.
+-/
+
+/-
+To make sense of false elimination, think in 
+terms of case analysis. Proof by case analysis 
+says that if the truth of some proposition, Y,
+follows from *any possible form of proof* of X, 
+then you've proved X → Y. 
+
+If X is a disjunction, P ∨ Q (so now you want 
+to prove P ∨ Q → Y) you must consider two cases:
+one where P is assumed true and one where Q is
+assumed true. 
+
+If X is a proposition with just one form of
+proof (e.g., the proposition, true), there's
+just one case to consider. 
+-/
+
+-- two cases
+example : true ∨ false → true :=
+begin
+  assume h,
+  cases h,
+  assumption,     -- context has exact proof
+  contradiction,  -- context has contradiction
+end
+
+-- one case
+example : true → true :=
+begin
+  assume t, 
+  cases t,        -- just one case
+  exact true.intro,
+end
+
+/-
+How many cases must you consider if you putatively 
+have a putative proof of false? ZERO! To consider
+*all* cases you need consider exactly zero cases.
+Proving all cases when the number of cases is zero 
+is trivial, so the conclusion *follows*. 
 -/
 
 example : false → false :=
@@ -45,8 +135,8 @@ end
 This, then, is the general principle for false
 elimination: ANYTHING FOLLOWS FROM FALSE. This
 principle gives you a powerful way to prove any
-proposition is true (conditional on having such
-a proof). 
+proposition is true (conditional on your having 
+a proof that can't exist). 
 
 The theorem states that if you're given any
 proposition, P, and a proof, f, of false, then
