@@ -176,6 +176,12 @@ SOME THEOREMS INVOLVING FALSE AND NEGATION
 
 theorem no_contradiction : ∀ (P : Prop), ¬(P ∧ ¬P) :=
 begin
+  assume P,
+  assume h,
+  have p := h.left,
+  have np := h.right,
+  have f := np p,
+  exact f,
 end
 
 /-
@@ -236,6 +242,7 @@ Rather, if we want to use it, we have to accept it as
 an additional axiom. We thus have two different logics:
 one without and one with the law of the excluded middle!
 -/
+
 axiom excluded_middle : ∀ (P : Prop), (P ∨ ¬P)
 
 /-
