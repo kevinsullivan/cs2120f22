@@ -104,6 +104,16 @@ begin
 end
 
 /-
+So, wow, we just gained a lot of insight!
+
+true  →  true     true
+true  →  false    false
+false →  true     true
+false →  false    true
+-/
+
+
+/-
 Having built some intuition, let's get back to 
 the meaning of ¬P. For any proposition, P, we 
 *define* ¬P to be the proposition, P → false. 
@@ -185,90 +195,109 @@ begin
                   -- stuck here of course
 end
 
-
 /-
-We can now state the the general principle. If
-you have a proposition, X (such as P ∨ Q) that has
-several possible forms of proof, and you show that
-in each and every one of thoses cases, some other
-proposition R must be true then you've shown that
-X → R, because you've shown a way to convert any
-for of proof of X into a proof of R.
+Case analysis is a broadly useful proof
+technique. Here we use it to prove true
+→ true. We assume the premise, true and
+have to show true. The true.intro rule 
+will work, but let's instead try "case
+analysis" on the assumed proof of true.
+What we'll see is that there is only one
+case (whereas with a proof of P ∨ Q, case
+analysis presents two cases to consider.)
 -/
-
-/-
-So now we're lined up for a mind-bending count-down.
-
-As we've just said, there are two possible forms or
-cases of proofs for a disjunction, so when we do case
-analysis, we have to consider two cases. But now let's
-consider proposition, true → true. To prove it we'll
-start by assuming that we have a proof, t, of true. 
-A case analysis on this proof has only one case: the
-only way a proof of true can arise is by true.intro.
--/
-
 example : true → true :=
 begin
-  assume t,   -- now we've assumed a proof of true
-  cases t,    -- there's just one case to consider
-  exact true.intro,   -- and it is easily proved
+  assume t,
+  cases t,
+  exact true.intro,
 end 
 
+/-
+The general principle is this: if we have
+an assumed/arbitrary proof of X and need 
+to show Y, we can try to do this by doing
+case analysis on the proof of X. If we can
+show that Y is true *in all cases* (in a
+context in which we have *some* proof of 
+X) then we have shown that Y must be true
+in this context.
+-/
 
 /-
-So now let's return to a proposition we already
-proved to be true, but now use case analysis in
-the proof.
+The most interesting example of the preceding
+principle occurs when you're given or you can
+derive a proof of false. For then all you have
+to do to show that some proposition, P, follows
+is to show that it's true for all possible ways
+in which that proof of false could have been
+constructed. Remember, there are two ways to
+construct a proof of P ∨ Q, so case analysis 
+results in two cases to consider; and one way 
+to construct a proof of true, so there's only
+one case to consider. Now, with a proof of false
+there are *zero* ways to construct proof, *and
+so there are zero cases to consider, and the
+truth of your conclusion follows automatically!
+-/
+
+/-
+Here we prove false → false again, but this
+time instead of using the assumed proof of 
+false to prove false, we do case analysis on
+the given proof of false. There are no cases
+to consider, so the proof is complete!
 -/
 example : false → false :=
 begin
-  assume f,   -- assume we're given a proof, f, of false
-  cases f,    -- case analysis on f; zero cases; done!
+  assume f,
+  cases f,    -- instead of exact f, do case analysis
 end
 
 /-
-Case analysis is the elimination principal
-for false. If one can derive a proof of false,
-what that really means is "this can't really
-happen," so if you assume it does, then, really
-anything goes. 
+In fact, it doesn't matter what your conclusion
+is: it will always be true in a context in which
+you have a proof of false. And this makes sense,
+because if you have a proof of false, then false
+is true, so whether a given proposition is true 
+or false, it's true, because even if it's false,
+well, false is true, so it's also true!
 -/
-example : false → false :=
-begin
-  assume f,             -- assumed proof of false (argument)
-  exact false.elim f,   -- false.elim in Lean
-end
 
 /-
-If you have a proof of false, then any proposition
-is true!
+Here, then, is the general principle for false
+elimination: how you *use* a proof of false that
+you have been given, that you've assumed, or that
+you've derived from a contradiction (as we will
+see).
+
+The theorem states that if you're given any
+proposition, P, and a proof, f, of false, then
+in that context, P has a proof and is true.
+Another way to think about what's going on here
+is that if you have a proof of false, you are 
+already in a situation that can't possible happen
+"in reality" -- there is no proof of false -- so
+you can just ignore this situation.
 -/
+
 theorem false_elim (P : Prop) (f : false) : P :=
 begin
-  cases f,    -- try exact false.elim f
+  cases f,
 end
 
 /-
-Finally, now, we're in a position to see how to 
-prove some not completely trivial propositions false.
-Let's prove that it's false that 0 = 1. In other words,
-let's prove, ¬0 = 1, I other words let's prove that
-0 = 1 → false. The way forward is to assume that we
-have a proof, say h, of 0 = 1, and then in this
-context we need a proof of false! 
-
-The only way to get there is to show false for
-every possible form of proof of 0 = 1. But the only
-form of proof of an equality is (eq.refl n). There
-are *zero* forms of proof for the proposition 0 = 1.
-A case analysis thus show that no matter which of
-the *zero* forms of proof you have, you get false.
+The elimination principle for false is called 
+false.elim in Lean. If you are given or can
+derive a proof, f, of false, then all you have
+to do to finish your proof is to say, "this is
+situation can't happen, so we need not consider
+it any further." Or, formally, (false.elim f). 
 -/
-example : ¬(0 = 1) :=
+
+example : false → false :=
 begin
-  assume h, -- assume a proof, h, of 0 = 1
-  cases h,  -- case analysis reveals this can't happen
-  -- we thus have a proof that 0 = 1 has no proofs
+  assume f,
+  exact false.elim f, -- Using Lean's version
 end
 
