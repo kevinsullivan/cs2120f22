@@ -60,6 +60,14 @@ begin
   -- stuck
 end
 
+/-
+So, wow, we just gained a lot of insight!
+
+true  →  true     true
+true  →  false    false
+false →  true     true
+false →  false    true
+-/
 
 
 /-
@@ -145,32 +153,109 @@ begin
                   -- stuck here of course
 end
 
+/-
+Case analysis is a broadly useful proof
+technique. Here we use it to prove true
+→ true. We assume the premise, true and
+have to show true. The true.intro rule 
+will work, but let's instead try "case
+analysis" on the assumed proof of true.
+What we'll see is that there is only one
+case (whereas with a proof of P ∨ Q, case
+analysis presents two cases to consider.)
+-/
 example : true → true :=
 begin
   assume t,
   cases t,
+  exact true.intro,
 end 
 
+/-
+The general principle is this: if we have
+an assumed/arbitrary proof of X and need 
+to show Y, we can try to do this by doing
+case analysis on the proof of X. If we can
+show that Y is true *in all cases* (in a
+context in which we have *some* proof of 
+X) then we have shown that Y must be true
+in this context.
+-/
 
-example : ¬(0 = 1) :=
-begin
-  assume h,
-  cases h,
-end
+/-
+The most interesting example of the preceding
+principle occurs when you're given or you can
+derive a proof of false. For then all you have
+to do to show that some proposition, P, follows
+is to show that it's true for all possible ways
+in which that proof of false could have been
+constructed. Remember, there are two ways to
+construct a proof of P ∨ Q, so case analysis 
+results in two cases to consider; and one way 
+to construct a proof of true, so there's only
+one case to consider. Now, with a proof of false
+there are *zero* ways to construct proof, *and
+so there are zero cases to consider, and the
+truth of your conclusion follows automatically!
+-/
 
+/-
+Here we prove false → false again, but this
+time instead of using the assumed proof of 
+false to prove false, we do case analysis on
+the given proof of false. There are no cases
+to consider, so the proof is complete!
+-/
 example : false → false :=
 begin
   assume f,
-  cases f,
+  cases f,    -- instead of exact f, do case analysis
 end
 
-example : false → false :=
-begin
-  assume f,
-  exact false.elim f,
-end
+/-
+In fact, it doesn't matter what your conclusion
+is: it will always be true in a context in which
+you have a proof of false. And this makes sense,
+because if you have a proof of false, then false
+is true, so whether a given proposition is true 
+or false, it's true, because even if it's false,
+well, false is true, so it's also true!
+-/
+
+/-
+Here, then, is the general principle for false
+elimination: how you *use* a proof of false that
+you have been given, that you've assumed, or that
+you've derived from a contradiction (as we will
+see).
+
+The theorem states that if you're given any
+proposition, P, and a proof, f, of false, then
+in that context, P has a proof and is true.
+Another way to think about what's going on here
+is that if you have a proof of false, you are 
+already in a situation that can't possible happen
+"in reality" -- there is no proof of false -- so
+you can just ignore this situation.
+-/
 
 theorem false_elim (P : Prop) (f : false) : P :=
 begin
   cases f,
 end
+
+/-
+The elimination principle for false is called 
+false.elim in Lean. If you are given or can
+derive a proof, f, of false, then all you have
+to do to finish your proof is to say, "this is
+situation can't happen, so we need not consider
+it any further." Or, formally, (false.elim f). 
+-/
+
+example : false → false :=
+begin
+  assume f,
+  exact false.elim f, -- Using Lean's version
+end
+
