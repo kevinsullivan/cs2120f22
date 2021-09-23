@@ -174,6 +174,9 @@ end
 SOME THEOREMS INVOLVING FALSE AND NEGATION
 -/
 
+
+-- NO CONTRADICTION
+
 theorem no_contradiction : ∀ (P : Prop), ¬(P ∧ ¬P) :=
 begin
   assume P,
@@ -183,6 +186,9 @@ begin
   have f := np p,
   exact f,
 end
+
+
+-- EXCLUDED MIDDLE
 
 /-
 The so-called "law" (it's really an axiom) of the
@@ -205,9 +211,12 @@ theorem excluded_middle' : ∀ (P : Prop), (P ∨ ¬P) :=
 begin
   assume P,
   -- we don't have a proof of either P or of ¬P!
+  -- no neither or.inl nor or.inr applies
 end
 
 /-
+Here's a concrete example: Goldbach's Conjecture
+
 Let P be the conjecture, "every even whole number 
 greater than 2 is the sum of two prime numbers."
 This conjecture, dating (in a slightly different
@@ -218,26 +227,39 @@ in (correctly) and you will win $1M and probably
 a Fields Medal (the "Nobel Prize" in mathematics). 
 -/
 
+-- just assume that we have evenness and primeness predicates
 axioms (ev : ℕ → Prop) (prime : ℕ → Prop)
 
+-- here's the statment of Goldbach's conjecture
 def goldbach_conjecture := 
   ∀ (n : ℕ), 
     n > 2 → 
     (∃ h k : ℕ, n = h + k ∧ prime h ∧ prime k)
 
+-- can you prove it true?
 theorem goldbach_conjecture_true : goldbach_conjecture := _
+
+-- can you prove it false?
 theorem goldbach_conjecture_false : ¬goldbach_conjecture := _
 
-example : goldbach_conjecture ∨ ¬goldbach_conjecture := _
-/-
-Our only options are or.intro_left or or.intro_right, but
-we don't have a required argument (proof) to use either of
-them!
--/ 
+-- or haven't you yet proved it either way?
+
 
 /-
-The axioms of the constructive logic of Lean are not
-strong enough to prove the "law of the excluded middle."
+So is it true that Goldbach's conjecture is either true 
+or it's false, with no other possibility? Well, yes, but
+only if you admit the axiom of the excluded middle into
+our logic. 
+-/
+
+example : goldbach_conjecture ∨ ¬goldbach_conjecture := _
+
+/-
+Without this axiom, our only options are or.intro_left 
+or or.intro_right applied to proofs/arguments that we do
+not have. The axioms of the constructive logic of Lean are
+not strong enough to prove the "law of the excluded middle."
+
 Rather, if we want to use it, we have to accept it as
 an additional axiom. We thus have two different logics:
 one without and one with the law of the excluded middle!
@@ -245,22 +267,71 @@ one without and one with the law of the excluded middle!
 
 axiom excluded_middle : ∀ (P : Prop), (P ∨ ¬P)
 
-/-
-Now, for any proposition whatsoever, P, we can always
-prove P ∨ ¬P by applying excluded middle to P (using
-the elimination rule for ∀). What we get in return is
-a proof of P ∨ ¬P for whatever proposition P is. Here
-is an example where the proposition is ItsRaining.
+example : goldbach_conjecture ∨ ¬goldbach_conjecture := 
+  excluded_middle goldbach_conjecture
 
+/-
+That is all it took to add this axiom to our logic. In the
+official Lean libraries, it's called classical.em.
 -/
-axiom ItsRaining : Prop
-theorem example_em : ItsRaining ∨ ¬ItsRaining := 
-begin
-  apply excluded_middle ItsRaining,
-end
+
+#check classical.em     -- Understand what this is saying!
+
+example : goldbach_conjecture ∨ ¬goldbach_conjecture := 
+  classical.em goldbach_conjecture
 
 /-
-PROOF BY NEGATION, EXAMPLE
+HOW TO USE EXCLUDED MIDDLE.
+
+The real power is in how we *use* this new axiom.
+You give it a proposition, P, it gives you a proof
+of a disjunction (P ∨ ¬P). Well, what do you do with
+a proof of a disjunction? Answer: a case analysis. 
+
+Given a proposition, P, the "strategy," then, is to
+a case analysis on "em P." Remember "em P" gives you
+a proof of P ∨ ¬P, and its on this proof, of this 
+disjunction, that you do a case analysis. In one
+case P is assumed true; in the other case, ¬P is
+assumed true; *and there are no other cases.* 
+-/
+
+/-
+
+At this point you should see that a proof in the
+constructive logic of Lean is *informative*. It
+tells you *why* a given proposition is true. But 
+with excluded middle, a proof of P ∨ ¬P is not 
+informative, in that it no longer contains a proof 
+of either side.
+-/
+
+/-
+Here is an example where we apply excluded middle 
+to the proposition, ItsRaining, to obtain a proof
+of ItsRaining ∨ ¬ItsRaining. 
+-/
+
+axiom ItsRaining : Prop -- assume ItsRaining is any proposition
+
+#check excluded_middle ItsRaining     -- apply em to ItsRaining
+
+theorem example_em : ItsRaining ∨ ¬ItsRaining := 
+  excluded_middle ItsRaining  -- apply excluded_middle directly to ItsRaining
+                              -- to return a proof of ItsRaining ∨ ¬ItsRaining
+                              -- by universal instantiation of excluded middle
+
+/-
+In Lean's official libraries, excluded middle is called
+classical.em (the name is em in the classical namespace).
+-/
+
+theorem example_em' : ItsRaining ∨ ¬ItsRaining := 
+  classical.em ItsRaining 
+
+
+/-
+PROOF BY NEGATION, AGAIN
 -/
 
 /-
@@ -272,13 +343,14 @@ and false cannot possibly be true, so P must not be.
 
 Thus, to prove ¬P you prove P → false. Another way
 to read P → false is that, if we assume that P is
-true, we can derive a proof of false, which cannot
-exist, so P must not be true. MEMORIZE THIS REASONING.
+true, we can derive a contradiction, proof of false 
+that cannot exist, so P must not be true. MEMORIZE
+THIS REASONING.
 
-Again, to prove ¬P, *assume P and show that in that
-context, you can derive a contradiction in the form
+Again, to prove ¬P, *assume P* and show that in that
+context you can derive a contradiction in the form
 of a proof of false. This is the strategy call proof
-by contradiction.
+by negation. (THERE WAS A TYPO HERE)
 -/
 
 /-
@@ -294,7 +366,7 @@ have a proof of equality is by the reflexive
 property of =. But the reflexive property
 doesn't imply that there's a proof of 0 = 1. 
 So there can be no proof of 0 = 1, and the
-assumption that 0 = 1 is a contradiction.
+assumption that 0 = 1 is thus a contradiction.
 
 We finish the proof by case analysis on the
 possible proofs of 0 = 1, of which there are
