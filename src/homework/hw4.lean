@@ -1,17 +1,32 @@
 -- 1
 example : 0 ≠ 1 :=
 begin
+  -- ¬ (0 = 1)
+  -- (0 = 1) → false
+  assume h,
+  cases h,
 end
 
 
 -- 2
 example : 0 ≠ 0 → 2 = 3 :=
 begin
+  assume h,
+  have f : false := h (eq.refl 0),
+  exact false.elim (f),
 end
 
 -- 3
 example : ∀ (P : Prop), P → ¬¬P :=
 begin
+  assume P,
+  assume (p : P),
+  -- ¬¬P
+  -- ¬P → false
+  -- (P → false) → false
+  assume h,
+  have f := h p,
+  exact f,
 end 
 
 -- We might need classical (vs constructive) reasoning 
@@ -20,7 +35,7 @@ open classical
 #check em
 
 /-
-em : ∀ (p : Prop), p ∨ ¬p
+axiom em : ∀ (p : Prop), p ∨ ¬p
 
 This is the famous and historically controversial
 "law" (now axiom) of the excluded middle. It's is
@@ -34,6 +49,12 @@ either P or of ¬P to have a proof of P ∨ ¬P.
 -- 4
 theorem neg_elim : ∀ (P : Prop), ¬¬P → P :=
 begin
+  assume P,
+  assume h,
+  have pornp := classical.em P,
+  cases pornp with p pn,
+  assumption,
+  contradiction,
 end
 
 -- 5
