@@ -17,13 +17,21 @@ example : exists (a b c : ℕ), a*a + b*c = c*c :=
 _
 
 
-
-example : ∃ (n : ℕ), (ev n → (∃ (m : ℕ), n = 2 * m)) :=
+example : ∀ (n : ℕ), ∃ (m : ℕ), n = 2 * m :=
 begin
-
+  intros,
+  apply exists.intro _,
 end
 
-example : ∀ (n : ℕ), (ev n → (∃ (m : ℕ), n = 2 * m)) :=
+example : ∀ (m : ℕ), ∃ (n : ℕ), n = 2 * m :=
 begin
+  intros,
+  apply exists.intro (2*m),
+end
 
+example : (∃ (n : nat), ev n) → true :=
+begin
+assume h,
+cases h with v pf,
+intros,
 end
