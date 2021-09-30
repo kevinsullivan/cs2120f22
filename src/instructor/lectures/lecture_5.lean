@@ -165,6 +165,10 @@ end
 #check and.elim_left bar
 #check and.elim_right bar
 
+
+/-
+Now we have a major theorem.
+-/
 theorem and_commutative : ∀ (P Q : Prop), P ∧ Q → Q ∧ P :=
 begin
   assume P Q h,
