@@ -1,40 +1,50 @@
 /-
-THe file extends what you have learned by
-introducing the concept that existential
+This lecture extends what you have learned
+by introducing the concept that existential
 quantification is an "information hiding"
 abstraction mechanism. To build a proof
 of ∃ x, P x, you have to give a specific 
 value for x; but when you eliminate from 
 a proof of ∃ x, P x, all you get is some
-arbitrary but specific value, along with
-a proof that that value has property, P.
-The specific value that was used to build
-the proof is no longer available by use of
-exists elimination. Let's see this idea in
-action.
+arbitrary but specific value (aka general)
+value, along with a proof that that value
+has the stated property, P. The specific
+value that was presumably used to build
+the proof is no longer available. It has
+been abstracted away, and elimination is
+not able to recover it. 
 -/
 
 /-
-We represent a *property* objects of a 
-type, α, as a *predicate* on α values. 
-Here, e.g., is a one-place predicate on
-natural numbers. It is satisfied by any
-natural number n such than n % 2 is zero.
+Let's see this idea in action.
+
+We'll represent a *property* objects of
+a  type, α, as a *predicate* on α values.
+(Using α is cooler than using T as a type
+valued variable.) 
+
+Here we'll juse use our simple evenness
+one-place predicate on natural numbers. 
+It is satisfied by any natural number,
+n, such that n % 2 is zero.
 -/
 
 def ev (n : ℕ) : Prop := n % 2 = 0
-#check ev   -- nat → Prop
+#check ev  -- predicate: nat → Prop
 
 /-
-Here's a silly theorem that says that
-if one assumes (that one is given) a
-natural number, n, and proof, pf, that
-n satisfies ev ("n is even"), then you
-can prove that *there exists* an even
-number. The proof uses n itself as the
-witness, and pf as the proof, arguments.
-This example is meant only to remind
-you about the introduction rule for ∃.
+Here we'll formalize and prove a simple
+theorem that says that if you assume
+(or are given) (1) a natural number, n, 
+and (2), a proof, pf, of (ev n), then 
+you can prove ∃ n, ev n: that *there
+exists* an even natural number. You do
+it of course by applying the introduction
+rule for exists to n as a witness and pf
+as the corresponding required proof.
+The main point of this example is just
+to remind you exactly how exists.intro
+works. 
 -/
 theorem 
 ex_ev_n (n : ℕ) (pf : ev n) : 
@@ -43,68 +53,50 @@ ex_ev_n (n : ℕ) (pf : ev n) :
 
 
 /-
-And now that we've prove this theorem, 
-in the form of a universal generalization
-(!), as it takes *any* natural number, n, 
-as long as a proof of ev n, *for that n*, 
-can also be provided. You can even think
-of this theorem as function that can only
-be called with any even number, m, and 
-that when so called returns a proof that 
-there exists an even number, from which m,
-itself, can no longer be obtained.
--/
+Ok, great, so now what can we do with
+such a theorem? Well, this particular
+is a universal generalization, in the
+sense that it takes any natural number
+and any corresponding proof that that
+*particular* number is even and gives
+you something else in return, a proof
+of ∃ n, ev n.
 
-/-
-Here's a proof that there exists an even
-number; but where the 4 is not recoverable
-by elimination of the overall proof term.
+Here, for example, is a proof that there
+exists an even number with 4 as a witness.
 -/
 
 #check ex_ev_n 4 rfl 
 
+def pf_ex : ∃ (n : ℕ), ev n := 
+  ex_ev_n 4 rfl
+
 /-
 Four happens to be the witness used to build
 a proof of ∃ x, ev x, in this case; but from
-that proof one cannot recover the value, 4. So
-now let's unpack this fact into more detail.
+this proof one can no longer recover that 4. 
+Existential proofs "abstract away" the values
+used to construct them. In particular, one
+doesn't say, "There exists an x that satisfies
+P, and here is one, w, along with a proof that
+it does satisfy P. Rather such a proof just 
+says, "There is some x with property, P and
+can't say any more than that."
 -/
 
 /-
-In this example, we show off the information
-hiding, or abtracting, functionality of exists.
+Now let's look at an example using Lean.
 
-You (constructively) prove ∃ x, P x by giving
-a specific value for x along with a proof of 
-P x. Here's where the abstraction, or hiding
-of details, happens: when you "eliminate" a
-proof of an existential proposition, you get
-back an arbitrary value, w, as a witness, and
-not the specific value that was ostensibly
-provided when the proof was constructed. 
-
-Details go in, but they don't come back out.
-A proof of an existential affirms that such
-an object exists but cannot tell you exactly
-which one. Still, in constructive logic, if
-you have a proof, then you can infer that some
-specific object/value must have been provided
-to exists.intro. The exists.elim rule allows
-you to *assume* an object and a corresponding
-proof, giving names to each one. As you will
-see (again) next, applying exists.elim using
-the "cases" tactic has exactly this behavior. 
+In this example we set ou to prove (∃ x, P x -> true) 
+so that we can assume (get into our context a proof 
+of) ∃ x, P x. Our aim isn't to prove true, but to see 
+exactly what we can do with a such a proof. The answer
+is that we can "eliminate" it to get (1) an arbitrary
+but specific (general) value *with a name, such as w*,
+along with a proof that that w has property P: a proof
+of (P w). 
 -/
 
-/-
-In this example we prove (∃ x, P x -> true) so that
-we can assume ∃ x, P x. Our aim isn't to prove true,
-but to see exactly what we get when we "eliminate" 
-from an assumed proof of ∃ x, P x. And the answer, 
-as we've explained, will be an arbitrary but specific
-value *now with a name, w*, along with a proof of the
-proposition, (P w). 
--/
 example : (∃ (m : ℕ), ev m) → true :=   
 begin
   assume h,           -- get ourselves proof of ∃ 
@@ -114,16 +106,17 @@ begin
                       -- but no witness *details*.
   trivial,
 end
+
 /-
-As you now understand, the cases "tactic" applies 
+As you now already kno, the cases tactic applies 
 the elimination rule for the given form of value.  
 So, here, it applies or.elim (and a few clean-up
 tactics). Put your cursor at the end of the cases
 line and study the resulting context. You now have
-a witness, w, of the right type, but you do not a 
-specific value. You have some arbitrary value of 
-the given type except it's one for which you also
-have a proof that it satisfies the given predicate.
+a witness, w, of the right type, but you do *not*
+have a specific value. You just have an arbitrary
+value, albeit with a proof that it has the given
+property.
 -/
 
 /-
@@ -134,31 +127,29 @@ see what happen if we try to recover the natural
 number, m, "inside" a proof of (∃ (m : ℕ), ev m).
 
 Notice the crucial difference in the type of the
-following implication/function. Where above we 
+following implication/function. Whereas above we 
 wanted a proof of (∃ (m : ℕ), ev m) → true, a 
 purely logical proposition, how we're trying to
-produce a proof of (∃ (m : ℕ), ev m) → nat.
-This would be a function that takes a proof of
-an existential proposition as an argument and 
-that somehow then comes up with a natural number
-to return (rather than true.intro) as a result.
+produce a proof of (∃ (m : ℕ), ev m) → nat. In
+other words, we're trying to define a function
+that takes a proof of an existential proposition
+as an argument and that somehow then derives a
+natural number from it. You might think that the
+original witness is preserved in the proof, but
+it's not. Again, that information is abstracted
+away. 
 
-It'd be possible to implement this function if 
-one could recover the witness used to create a
-proof of ∃ x, P; but it's not. Lean complains
-that you are trying to eliminate from a proof 
-to a value of a type, T, where T is not Prop.
-
-What Lean is really preventing you from doing
-is *computing* with values extracted from the
-proof of a logical proposition. This restriction
-in turn is part of its approach to assuring the
-principle of proof irrelevance. Any proof is 
-equivalent in all respects to any other. If we
-could get a 4 from one ∃ proof and a 5 from 
-another, then this principle would break, as 
-having one or the other proof would lead to two
-different computations. That's not allowed.
+Fortunately, Lean complains that you are "trying
+to eliminate from a proof to a value of a type, 
+T," where T is not Prop. What Lean is really 
+saying is that you may not derive data values
+from proofs. This restriction is part of Lean's 
+approach to assuring the principle of "proof
+irrelevance." Any proof is as good as any other,
+and equivalent in all respects. If we could get 
+4 from one ∃ proof and 5 from another, then this
+principle would break: we'd be able to tell the
+proofs apart, which our logic cannot let us do. 
 -/
 
 example : (∃ (m : ℕ), ev m) → nat :=   
@@ -177,5 +168,9 @@ the rules of predicate logic do not allow one to
 recover a computationally relevant value from a
 proof of ∃ x, P. (I'm dropping the P x notation.)
 In this way Lean enforces the abstracting nature
-of existential quantification.
+of existential quantification. Think about that
+and try to really understand what it means. The
+concept of information hiding abstraction is at
+the heart of mathematics and programming. Here
+you see a particularly simple exampe of it.
 -/
