@@ -15,40 +15,37 @@ as a predicate, applicable to a value
 of the member type, and "reducing to"
 a proposition, possibly "about" that
 value.
-
-In the following example, among other
-things, we see that set ℕ and ℕ → Prop
-are (nearly) interchangeable as types. 
-A set is its defined by its membership
-predicate. The "nearly" is because you
-get to use set notations when you use
-set T rather than T → Prop to specify
-the type of a set value.
 -/
 
-def empte : set ℕ := { n : ℕ | _ }
+/-
+Display
+-/
 
-def complete : set ℕ := { n : ℕ | _ }
+def one_to_four : set ℕ := { 1, 2, 3, 4 }
 
-def evens : set ℕ := { n : ℕ | true }
+def empte : set ℕ := { n : ℕ | false }
 
-def ods : set ℕ := { n : ℕ | true }
+def complete : set ℕ := { n : ℕ | true }
 
-def evens_union_ods : set ℕ := { n : ℕ | _ }
+def evens : set ℕ := { n : ℕ | ev n }
 
-def evens_intersect_ods : set ℕ  := { n : ℕ | _ }
+def ods : set ℕ := { n : ℕ | od n }
 
-def evens_complement : set ℕ := { n : ℕ | _ }
+def evens_union_ods : set ℕ := { n : ℕ | ev n ∨ od n }
 
-def ods_complement : set ℕ := { n : ℕ | _ }
+def evens_intersect_ods : set ℕ  := { n : ℕ | ev n ∧ od n }
 
-def evens_intersect_empty : set ℕ := _
+def evens_complement : set ℕ := { n : ℕ | ¬ ev n }
 
-def evens_intersect_complete : set ℕ := _
+def ods_complement : set ℕ := { n : ℕ | ¬ od n}
 
-def evens_union_empty : set ℕ := _
+def evens_intersect_empty : set ℕ := { n : ℕ | ev n ∧ false}
 
-def evens_union_complete : set ℕ := _
+def evens_intersect_complete : set ℕ := {n : ℕ | ev n ∧ true } 
+
+def evens_union_empty : set ℕ := {n : ℕ | ev n ∨ n ∈ empte}
+
+def evens_union_complete : set ℕ := { n : ℕ | ev n ∨ true}
 
 -- fill in additional interesting combinations
 
@@ -56,6 +53,7 @@ def evens_union_complete : set ℕ := _
 /-
 SET THEORY NOTATIONS
 -/
+
 /- empty set
 
 Sometimes people use ∅ to represent the empty set
@@ -172,44 +170,4 @@ powerset a set of sets.
 
 #check 𝒫 { 1, 2, 3}
 #check 𝒫 evens
-
-
-/-
-Now let's state and prove some theorems.
--/
-
-
-example : ∀ (n : ℕ), evens_union_ods n ↔ complete n := 
-_
-
-
-example : ∀ (n : ℕ), (n ∈ evens_union_ods) ↔ (n ∈ complete) := 
-_
-
-
-/-
-Now we are in a position to see formal 
-definitions of all of the preceding set
-theory concepts.
--/
-
-axioms (P Q : ℕ → Prop)
-
-def pSet  : set nat := { n : ℕ | P n}
-def qSet  : set nat := { n : ℕ | Q n}
-
-#reduce 0 ∈ pSet
-#reduce pSet ∪ qSet
-#reduce pSet ∩ qSet
-#reduce pSet \ qSet
-#reduce pSet ⊆ qSet
-#reduce 𝒫 pSet      -- harder to decipher
-
-
-/-
-Now that we understand these operations and
-their corresponding notations in set theory,
-we can start to state and prove theorems!
--/
-
 
