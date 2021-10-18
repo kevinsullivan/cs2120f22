@@ -18,11 +18,29 @@ value.
 -/
 
 /-
-Display
+SET NOTATIONS
 -/
 
-def one_to_four : set ℕ := { 1, 2, 3, 4 }
 
+/-
+Display notation. We can represent
+a finite set of values by listing them,
+comma-separated, within curly braces.
+-/
+def one_to_four : set ℕ := { 1, 2, 3, 4 }
+def some_strings : set string := {"Hello", "World!"}
+
+/-
+Set comprehension notation
+-/
+
+-- If T is any type and P is any predicate on T
+axioms (T : Type) (P : T → Prop)
+
+-- The this is the set of T values that satisfy P
+#check { t : T | P t}
+
+-- Examples
 def empte : set ℕ := { n : ℕ | false }
 
 def complete : set ℕ := { n : ℕ | true }
@@ -51,7 +69,7 @@ def evens_union_complete : set ℕ := { n : ℕ | ev n ∨ true}
 
 
 /-
-SET THEORY NOTATIONS
+MORE SET THEORY NOTATIONS
 -/
 
 /- empty set
@@ -63,17 +81,17 @@ Sometimes people use ∅ to represent the empty set
 
 /- set membership
 
-A membership predicate applied to a value
+A (membership) predicate applied to a value
 yields a proposition: one that is true for
 values in the set. The ∈ notation is just 
 a shorthand for application of a membership
 predicate to a value, but it gives a sense
-of "inclusion" of a value in a collection
+of the "inclusion" of a value in a collection
 of values.
 -/
-#check evens 0
-#check 0 ∈ evens
-#check 1 ∈ evens
+#check evens 0    -- predicate applied to value
+#check 0 ∈ evens  -- equivalent proposition
+#check 1 ∈ evens  -- another proposition
 
 /- set difference
 
@@ -165,9 +183,9 @@ in s1 is in s2 and some value in s2 is not in s1.
 
 The powerset of a set, s, written 𝒫 s, is 
 the set of all subsets of s. This makes the 
-powerset a set of sets. 
+powerset a "set of sets". 
 -/
 
-#check 𝒫 { 1, 2, 3}
+#check (𝒫 { 1, 2, 3} : set (set ℕ))
 #check 𝒫 evens
 
