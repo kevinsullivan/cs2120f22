@@ -319,58 +319,6 @@ is the set of values, b, such that there
 is (exists) some value, a ∈ s, f a = b.
 -/
 
-/- 
-Exercise: what set does the following 
-expresion define? Note that "f" is given
-here as a lambda expression. As explained
-above the term represents a function that
-takes an argument, n, and returns the
-value, n + 1. Lean infers (from the 1)
-that this is a function from ℕ → ℕ.
--/
-
-#check image (λ n, n + 1) evens
-
-/-
-To wrap up this chapter, we give can now
-see clearly what different expressions in
-set theory really mean.
--/
-
-#reduce set ℕ 
-
-#reduce 1 ∈ evens
-
-#reduce 1 ∉ evens
-
-#reduce evens ⊆ primes
-
-#reduce empty_set 1   
-
-#reduce evens ∪ primes
-
-#reduce evens ∩ primes
-
-#reduce compl evens
-
-#reduce diff evens primes
-
-#reduce 𝒫 primes       -- Lean's 𝒫
-/-
-Let's decode this last expression:
-λ (t : ℕ → Prop), ∀ ⦃a : ℕ⦄, t a → primes a
-
-It's a function that takes a set of
-ℕ values, t, expressed as a predicate, 
-and that returns a proposition that is 
-true iff t is subset of (the) primes.
-That subset relation, in turn holds, iff
-every value in t (expressed as (t a)) is
-also in the primes. The overall predicate
-is thus true of a set iff it's a subset
-of the primes. That defines the powerset
-of the prime numbers.
--/
 
 end hidden
  
