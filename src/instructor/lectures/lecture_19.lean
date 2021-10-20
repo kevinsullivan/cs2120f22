@@ -11,22 +11,6 @@ def evens : set ℕ := { n | n%2 = 0}
 
 example : ({ 0, 2 } : set ℕ) ⊆ evens :=
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 begin
   --show ∀ n, n = 0 ∨ n = 2 → n ∈ evens,
   assume n,
