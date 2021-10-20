@@ -1,3 +1,5 @@
+import data.set
+
 /-
 CS2120 F21 HW5
 
@@ -58,8 +60,3 @@ begin
 end
   
 
-/- 
-PART II: BASIC SET THEORY
-
-stay tuned!
--/
