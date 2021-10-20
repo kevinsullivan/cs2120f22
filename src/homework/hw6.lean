@@ -36,6 +36,7 @@ of this assignment, you need to understand what it means for
 one operator to be left- (or right-) distributive over another. 
 -/
 
+
 /-
 Exercise: Formally state and prove both formally and 
 informally that ∩ is left-distributive over ∩.
