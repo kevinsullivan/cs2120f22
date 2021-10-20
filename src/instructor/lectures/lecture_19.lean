@@ -10,20 +10,35 @@ the following conjectures.
 def evens : set ℕ := { n | n%2 = 0}
 
 example : ({ 0, 2 } : set ℕ) ⊆ evens :=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 begin
-  /-
-  show ∀ n, n = 0 ∨ n = 2 → n ∈ evens,
-  -/
+  --show ∀ n, n = 0 ∨ n = 2 → n ∈ evens,
   assume n,
   assume h,
   cases h,
   -- case: n = 0
   rw h,
-  /-
+ 
   unfold evens,
   show {n : ℕ | n % 2 = 0} 0,
-  show 0 % 0 = 0,
-  -/
+  show 0 % 2 = 0,
+  
   exact rfl,
   -- case: n = 2
   cases h,
@@ -64,8 +79,8 @@ namepace and then just call it ext.
 /-
 Remember that you can think about an
 implication, P → Q, in two ways: first,
-if P then Q; second, to prove P it will
-suffice to prove Q. So to prove L = X, 
+if P then Q; second, to prove Q it will
+suffice to prove P. So to prove L = X, 
 it suffices to prove ∀ x, x ∈ L ↔ x ∈ X,
 because one can then apply ext to that
 proof to derive a proof of L = X. In 
