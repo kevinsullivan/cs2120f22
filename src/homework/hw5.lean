@@ -21,8 +21,8 @@ of these types: α and β, respectively.
 -/
 
 axioms 
-  (α β : Type)
-  (p : α → Prop)
+  (α β : Type)    -- data types
+  (p : α → Prop)  -- predicates
   (q : β → Prop)
 
 /-
