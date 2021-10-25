@@ -193,6 +193,7 @@ end
 example : (3, 10) ∈ { p : ℕ × ℕ | p.2 = p.1 * p.1 } :=
 begin
   show 10 = 3 * 3,
+  exact rfl, -- stuck
 end
 
 -- stuck (in fact it's provably false)
