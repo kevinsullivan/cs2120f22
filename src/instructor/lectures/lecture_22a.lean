@@ -1,3 +1,4 @@
+import tactic.ring
 /-
 State formally and prove the proposition
 that congruence mod n is an equivalence
@@ -80,7 +81,7 @@ begin
   assume k,
   unfold cong_mod,
   apply exists.intro (0:ℤ),
-  sorry, -- accept without proof for now
+  ring, 
 
   -- symmetric
   split,
@@ -88,11 +89,9 @@ begin
   assume x y h,
   cases h with v pf,
   apply exists.intro (-v),
-  have lemma1 : -v * n = -(v * n) := sorry,
-  rw lemma1,
+  ring,
   rw <-pf,
-  have lemma2 : y - x = -(x - y) := sorry,
-  rw <-lemma2,
+  ring,
 
   -- transitive
      -- you prove it
@@ -105,7 +104,7 @@ begin
   rw int.distrib_right _ _ _,     -- LIBRARY LOOKUP!
   rw <-h2pf,
   rw <-h1pf,
-  sorry, 
+  ring,
 end
 
 /-
