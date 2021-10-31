@@ -1,4 +1,5 @@
 import tactic.ring
+
 /-
 State formally and prove the proposition
 that congruence mod n is an equivalence
