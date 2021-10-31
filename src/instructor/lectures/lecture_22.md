@@ -23,4 +23,4 @@ Proof: Yeah, we really have one!
 
 Please take some time to go over and study this material over the weekend, if you can. Try to see that *you* could have figured out how to produce the proof that we went over in class today, at least up to the points where you needed proofs of ring-algebraic equality propositions. Now in one fell swoop, thanks to automated proof production, you now have another whole "language" in which to write and prove propositions: the algebraic language of rings. *And* you get amazing proof automation in rings to go with it!
 
-End note: We imported the ring-related tactics from Leans mathlib and used the "ring" tactic, one of several version (another one can also handle exponentiation as a binary operator, with the usual meaning of iterated multiplication).
+End note: We imported the ring-related tactics from Leans mathlib and used the "ring" tactic, one of several ring-related automated reasoning tactics.
