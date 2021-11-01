@@ -16,19 +16,10 @@ for (r x y).
 variables {α β : Type}  (r : β → β → Prop)
 local infix `≺`:50 := r  
 
-/-
-Let S be a type, id_S = {(a, a) | a ∈ S} and ir_S = (S × S) − id_S.
-Let α be a binary relation defined on S (i.e., α ⊆ S × S). We define
-i(α) = α ∩ ir_S and r(α) = α ∪ id_S. The relation α is said to be
+def empty_relation := λ a₁ a₂ : α, false
+def full_relation := λ a₁ a₂ : α, true
+def id_relation :=  λ a₁ a₂ : α, a₁ = a₂ 
 
--- done
-– irreflexive if α ⊆ ir_S (equivalently, α ∩ id_S = ∅ or i(α) = α);
-– reflexive if id_S ⊆ α (or r(α) = α);
-– strictly (or sharply) antisymmetric if (a, b) ∈ α implies (b, a) ∉ α;
-– antisymmetric if a = b whenever (a, b) ∈ α and (b, a) ∈ α;
-– symmetric if (a, b) ∈ α implies (b, a) ∈ α;
-– transitive if (a, c) ∈ α whenever (a, b) ∈ α and (b, c) ∈ α;
--/
 
 
 
