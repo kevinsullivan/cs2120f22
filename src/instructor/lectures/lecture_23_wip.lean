@@ -9,45 +9,52 @@ namespace relations
 section relation
 
 /-
-Relation, r, as two-place predicate on (pairs of)
-objects of a type, β, with infix notation, x ≺ y,
-for (r x y). 
+Define relation, r, as two-place predicate on 
+a type, β, with notation, x ≺ y, for (r x y). 
 -/
 variables {α β : Type}  (r : β → β → Prop)
 local infix `≺`:50 := r  
 
+-- special relations on an arbitrary type, α 
 def empty_relation := λ a₁ a₂ : α, false
 def full_relation := λ a₁ a₂ : α, true
 def id_relation :=  λ a₁ a₂ : α, a₁ = a₂ 
 
+-- Analog of the subset relation but now on binary relations
+-- Note: subrelation is a binary relation on binary relations
+def subrelation (q r : β → β → Prop) := ∀ ⦃x y⦄, q x y → r x y
 
 
+/-
+Commonly employed properties of relations
+-/
 
 def total := ∀ x y, x ≺ y ∨ y ≺ x
+/-
+Note: we will use "total" later to refer to a different
+property of relations that also satisfy the constraints
+needed to be "functions."  
+-/
 
---
-def irreflexive := ∀ x, ¬ x ≺ x
-
---
+def anti_reflexive := ∀ x, ¬ x ≺ x
+def irreflexive := anti_reflexive r -- sometimes used
 def anti_symmetric := ∀ ⦃x y⦄, x ≺ y → y ≺ x → x = y
+def asymmetric := ∀ ⦃x y⦄, x ≺ y → ¬ y ≺ x
 
--- "strictly anti-symmetric" above?
-def asymmetric := ∀ ⦃x y⦄, x ≺ y → ¬ y ≺ x  
+-- Exercises:
+/-
+- Name a common anti_symmetric relation in arithmetic
+- Name a common asymmetric relation in arithmetic
+-/
 
---
-def empty_relation := λ a₁ a₂ : α, false
+example : reflexive r → ¬ asymmetric r := _   -- true?
+example : ¬ reflexive r ↔ irreflexive r := _  -- true?
 
-def subrelation (q r : β → β → Prop) := ∀ ⦃x y⦄, q x y → r x y
 
 inductive tc {α : Type} (r : α → α → Prop) : α → α → Prop
 | base  : ∀ a b, r a b → tc a b
 | trans : ∀ a b c, tc a b → tc b c → tc a c
 
-
-/-
--/
-
-def identity_relation {α : Type} : α → α → Prop := λ a₁ a₂ : α, a₁ = a₂
 
 /- 
 Reflecting
@@ -64,13 +71,15 @@ r, on objects of a type, β. We will call r
 -/
 
 
-def quasiordering := reflexive r ∧ transitive r
-def strict_ordering := anti_symmetric r ∧ transitive r
-def near_ordering := irreflexive r ∧ transitive r
-def ordering :=      reflexive r ∧ anti_symmetric r ∧ transitive r -- new
-def partial_order := reflexive r ∧ anti_symmetric r ∧ transitive r
-def tolerance := reflexive r ∧ symmetric r
+def ordering := reflexive r ∧ transitive r ∧ anti_symmetric r -- new
+def strict_ordering := asymmetric r ∧ transitive r
+def partial_order := reflexive r ∧ anti_symmetric r ∧ transitive r ∧ ¬ total r
+def total_order := reflexive r ∧ anti_symmetric r ∧ transitive r ∧ total r
 
+/-
+Definitions vary subtly. Be sure you know what is meant by these terms in any
+given setting or application.
+-/
 
 end relation
 end relations
