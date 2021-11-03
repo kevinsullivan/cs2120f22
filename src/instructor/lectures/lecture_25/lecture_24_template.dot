@@ -11,4 +11,13 @@ digraph G {
     n2 -> n3
     n3 -> n4
     n4 -> n5
+
+    # reflexive
+    n0 -> n0
+
+    # transitive
+    n0 -> n2
+    n0 -> n3
+
+
 }

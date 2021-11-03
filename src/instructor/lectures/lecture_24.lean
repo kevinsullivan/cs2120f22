@@ -1,5 +1,8 @@
 import .lecture_23 
 
+variables {α β : Type}  (r : β → β → Prop)
+local infix `≺`:50 := r  
+
 /-
 UNIVERSAL QUANTIFICATION OVER AN EMPTY SET IS TRUE
 
@@ -24,7 +27,7 @@ lemma  allBallsInEmptyBucketAreRed :
   ∀ (b : Ball), b ∈ empty_bucket → red b := 
 begin
   assume b h,
-  _             -- finish off this proof
+  cases h,             -- finish off this proof
 end
 
 /- 
@@ -58,11 +61,11 @@ argument version of ∧, taking anywhere from zero to
 an infinite number of arguments).
 
 Question: Is this symmetric? {(0,1), (1,0), (2,2)}
-How about this: {(0,1), (1,0), (2,2)}?
+How about this: {(0,1), (1,0), (2,3)}?
 
 Now suppose that we have a relation, r, over a set
 of values, {0, 1, 2, 3, 4, 5}. Is this relation
-reflexive? {}
+reflexive? {} What about this: {(0, 1), (2, 3)}
 
 Question: If a relation is transitive and symmetric
 is it necessarily reflexive? If so, give an informal
@@ -88,7 +91,9 @@ picture.
 -/
 
 def reflexive_closure := λ (a b : β), (r a b) ∨ (a = b)
-def symmetric_closure := λ (a b : β), (r a b) ∨ (r b a)
+
+-- bug 
+def symmetric_closure := λ (a b : β), (r a b) ∧ (r b a)
 
 /-
 Let's look examples. What's in the reflexive closure
@@ -146,10 +151,14 @@ and c are related in (tc r) then a and c must also
 be related in r. For any length-2 "path" from a to c
 (via b), then there's a direct connection: (a,c) ∈ r. 
 -/
+
+namespace hidden 
+
 inductive tc {α : Type} (r : α → α → Prop) : α → α → Prop
 | base  : ∀ a b, r a b → tc a b
 | trans : ∀ a b c, tc a b → tc b c → tc a c
 
+end hidden
 /-
 Here's a possibly surprising fact: the transitive 
 closure concept *cannot be expressed, defined, nor the
