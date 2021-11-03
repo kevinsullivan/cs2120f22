@@ -26,7 +26,7 @@ def id_relation :=  λ a₁ a₂ : α, a₁ = a₂
 def subrelation (q r : β → β → Prop) := ∀ ⦃x y⦄, q x y → r x y
 
 /-
-Commonly employed properties of relations
+Additional properties of relations
 -/
 
 def total := ∀ x y, x ≺ y ∨ y ≺ x
@@ -41,12 +41,61 @@ def irreflexive := anti_reflexive r -- sometimes used
 def anti_symmetric := ∀ ⦃x y⦄, x ≺ y → y ≺ x → x = y
 def asymmetric := ∀ ⦃x y⦄, x ≺ y → ¬ y ≺ x
 
+/-
+CLOSURE operations on relations.
+
+Given a relation, r, the reflexive, symmetric, or
+transitive closure of r is the smallest relation that
+(1) contains r, and (2) contains any additional pairs
+needed to make the resulting relation reflexive, or
+symmetric, or transitive, respectively. The reflexive,
+symmetric, transitive closure of r is the smallest
+relation (which means *no* unnecessary added pairs)
+that contains r and has all three properties. Note
+that the resulting relation will be an equivalence
+relation. The meaning of this is basically that if
+anything is connecting to somethiing else, they will
+end up in the same "equivalence class." We'll see a
+picture.
+-/
+
+def reflexive_closure := λ (a b : β), (r a b) ∨ (a = b)
+def symmetric_closure := λ (a b : β), (r a b) ∨ (r b a)
+
+/-
+Let's look examples. What's in the reflexive closure
+of { (0,1), (1,2), (2, 3), (3, 4), (4, 5) }? It is 
+often easier to think about these things with the aid
+of a picture, so let's draw this relation and see in
+graphical terms what it means to compute its reflexive
+closure.
+-/
+
 /- 
-The transitive closure of a relation, r, is another 
-relation, r', where r' is the smallest relation that
-both contains r and is transitive. In other words, it
-is r "completed" with the addition, only as necessary,
-of edges needed to make the result transitive. 
+The definitions of the reflexive and symmetric closures
+of a relation are pretty easy to state. It's a little 
+harder to say what set of pairs is in the transitive
+closure of a given relation, r. Clearly it's a relation, 
+r', where r' is the smallest relation that contains r 
+and that is transitive. In other words, (tc r) is r
+with any additional pairs needed to make the result
+transitive.
+
+What set of pairs is this? Well, (1) it contains every
+pair in r, and (2) if (a,b) is in (tc r) and if (b, c)
+is in (tc r), then (a, c) must also be in r. The way we
+will say this formally uses what we call an inductive
+definition. Inductive definitions allow for "bigger"
+things to be built whenever there are smaller things
+of the right kind.
+
+Consider this relation, r = { (0,1), (1,2), (2, 3) }.
+It's transitive closure clearly contains all three of
+these pairs. What else must it include at a minimum to
+be transitive?
+
+Consider r = { (0,1), (1,2), (2, 3), (3, 4), (4, 5) }.
+What is its transitive closure?
 
 In plain English, if there's a "path" of pairs between 
 two values, a and c, e.g., by way of b where (a,b) and 
