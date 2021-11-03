@@ -1,0 +1,6 @@
+digraph G {
+    splines="FALSE";
+    node1 [label="Foo",shape="square"]
+    node2 [label="Bar",shape="square"]
+    node1 -> node2
+}
