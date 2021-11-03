@@ -1,6 +1,12 @@
 digraph G {
-    splines="FALSE";
-    node1 [label="Foo",shape="square"]
-    node2 [label="Bar",shape="square"]
-    node1 -> node2
+    n0 [label="0"]
+    n1 [label="1"]
+    n2 [label="2"]
+    n3 [label="3"]
+    n4 [label="4"]
+
+    n0 -> n1
+    n1 -> n2
+    n2 -> n3
+    n3 -> n4
 }
