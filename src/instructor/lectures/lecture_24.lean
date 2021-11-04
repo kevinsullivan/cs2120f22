@@ -33,32 +33,37 @@ end
 /- 
 Whoa, ok. That's a little bit counterintuitive, but
 it's correct. A universal quantification over an empty
-set is always trivially true. Here's another way to 
-think about it. Suppose we had a set with two balls
-in it: { b1, b2 }. To show that every ball is red,
-we'd show that b1 is red, AND (∧) that all balls in 
-the remaining set, { b2 }, are red. To prove the 
-latter, we'd show that b2 is red, and that all balls
-in the remaining set, {}, are red. So we have that
-all balls are red if (red b1) ∧ (red b2) ∧ "all balls
-in {} are red". If b1 and b2 really are red, then
-that last predicate better be true if the whole chain
-of ∧ operations are to be true. When you think about
-∀ as a version of ∧ that can take any number of
-arguments, not just 2, it becomes clear that when
-applied to zero arguments, the answer better be true,
-otherwise this operation would *always* return false.  
+set is always trivially true. 
+
+
+Here's another way to think about it. Suppose we had 
+a set with two balls in it: { b1, b2 }. To show that 
+every ball is red, we could use case analysis: break
+the task into two cases: show that b1 is red, AND 
+show that all balls in the remaining set, { b2 }, are
+red. 
+
+To prove the latter, we'd show that b2 is red, and 
+that all balls in the remaining set, {}, are red. 
+So we have that all balls are red if (red b1) ∧ 
+(red b2) ∧ "all balls in {} are red". 
+
+If b1 and b2 really are red, then the last proposition
+better be true if the whole chain of ∧ operations is to 
+be true. When you think about ∀ as a version of ∧ that
+can take any number of arguments, not just 2, it becomes
+clear that when applied to zero arguments, the answer 
+really has to be true, otherwise this operation would
+*always* produce propositions that are ultimately false.  
 -/
 
 /-
 So now let's revisit once again our funny example of
 transitivity: { (0,1), (2,3) }. There are no cases 
 here where we have both (x,y) and (y,z) as pairs in
-this relation, so there are no cases to consider, so
-the transitivity property holds by the definition of
-∀ (and for ∧, if you want to think of ∀ as a multi-
-argument version of ∧, taking anywhere from zero to
-an infinite number of arguments).
+this relation, so there are no cases to consider. 
+When there are no cases to consider, the conclusion
+holds in all cases, of which there are 0, so it holds.
 
 Question: Is this symmetric? {(0,1), (1,0), (2,2)}
 How about this: {(0,1), (1,0), (2,3)}?
@@ -79,21 +84,50 @@ Given a relation, r, the reflexive, symmetric, or
 transitive closure of r is the smallest relation that
 (1) contains r, and (2) contains any additional pairs
 needed to make the resulting relation reflexive, or
-symmetric, or transitive, respectively. The reflexive,
-symmetric, transitive closure of r is the smallest
-relation (which means *no* unnecessary added pairs)
-that contains r and has all three properties. Note
-that the resulting relation will be an equivalence
-relation. The meaning of this is basically that if
-anything is connecting to somethiing else, they will
-end up in the same "equivalence class." We'll see a
-picture.
+symmetric, or transitive, respectively. 
+
+The reflexive, symmetric, transitive closure of 
+r is the smallest relation that contains r and 
+has all three properties. Note that the resulting
+relation will be an equivalence relation. 
 -/
 
+-- REFLEXIVE CLOSURE
+
+/-
+A pair (a, b) is in the reflexive closure of r if
+(a, b) is in r or if (a = b).
+-/
 def reflexive_closure := λ (a b : β), (r a b) ∨ (a = b)
 
--- bug 
+/-
+Exercise: what pairs are in the reflexivee closure of
+the following relation, r, over the set {0, 1, 2}?
+
+r = {}
+-/
+
+-- SYMMETRIC CLOSURE
+
+/-
+A pair (a, b) is in the symmetric closure of r if 
+(a, b) is in r or if (b, a) is i r.
+-/
 def symmetric_closure := λ (a b : β), (r a b) ∧ (r b a)
+
+/-
+Consider a set, s = {0, 1, 2, 3} and a binary relation
+on s, r = {(0,1),(3,2)}. What pairs are in the symmetric
+closure, (sc r), of r. Clearly (0,1) and (3,2) are in
+(sc r), because they are in r. But are (1,0) and (2,3) in
+sc r, as we expect? Let's apply symmetric_closure to a=1
+b=0. This pair is defined to be in the *closure* if the
+resulting proposition is true. The proposition is (a,b)
+is in r or (b, a) is in r. Clearly (a=1,b=0) is not in r,
+but (b=0,a=1) is in r, so (a=1,b=0) is (defined to be)
+in (sc r). In a nutshell, the symmetric closure includes
+an edge/pair if either it is in r, or its reverse is r.
+-/
 
 /-
 Let's look examples. What's in the reflexive closure
@@ -103,6 +137,8 @@ of a picture, so let's draw this relation and see in
 graphical terms what it means to compute its reflexive
 closure.
 -/
+
+-- TRANSITIVE CLOSURE
 
 /- 
 The definitions of the reflexive and symmetric closures
@@ -159,6 +195,7 @@ inductive tc {α : Type} (r : α → α → Prop) : α → α → Prop
 | trans : ∀ a b c, tc a b → tc b c → tc a c
 
 end hidden
+
 /-
 Here's a possibly surprising fact: the transitive 
 closure concept *cannot be expressed, defined, nor the
@@ -177,49 +214,3 @@ there's real reason to doubt that it's the best choice.
 The higher-order predicate logic of Lean and similar
 modern proof assistants is strictly more expressive.
 -/
-
-
-/-
-ORDERING RELATIONS
--/
-
-namespace relations
-
-section relation
-
-/-
-Define relation, r, as two-place predicate on 
-a type, β, with notation, x ≺ y, for (r x y). 
--/
-variables {α β : Type}  (r : β → β → Prop)
-local infix `≺`:50 := r  
-
-/-
--/
-def strict_ordering :=  asymmetric r ∧ transitive r
-def ordering :=         reflexive r ∧ anti_symmetric r ∧ transitive r
-def partial_order :=    reflexive r ∧ anti_symmetric r ∧ transitive r ∧ ¬ total r
-def total_order :=      reflexive r ∧ anti_symmetric r ∧ transitive r ∧ total r
-
-/-
-Exercise: We started our discussion of properties of binary relations on 
-values of a type, β, with the case of what it means for such a relation to
-be total: that every pair of objects is related at least in one direction
-or the other. Think of this as saying that any two objects are comparable.
-In the less-or-equal relation on natural numbers, you can compare any pair
-of natural numbers. The subset inclusion relation, on the other hand, is
-not total. It is said to be partial. 
-
-Consider the subset relation on the powerset of {0, 1}, that is, on the
-sets {0, 1}, {0}, {1}, {}. The subset relation is not total. Its elements
-are ({},{}), ({}, {0}), ({}, {1}), ({}, {0,1}), ({0}, {0}), ({0}, {0,1}),
-({1}, {0,1}) ({0,1}, {0,1})}
--/
-
-/-
-Definitions vary subtly. Be sure you know what is meant by these terms in any
-given setting or application.
--/
-
-end relation
-end relations
