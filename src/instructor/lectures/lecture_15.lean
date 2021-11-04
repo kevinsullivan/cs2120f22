@@ -156,7 +156,6 @@ example : (∃ (m : ℕ), ev m) → nat :=
 begin
   assume h,           -- get ourselves proof of ∃ 
   cases h with w pf,  -- here's where you get caught
-  trivial,
 end
 
 /-
