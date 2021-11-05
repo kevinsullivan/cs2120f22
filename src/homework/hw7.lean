@@ -4,11 +4,13 @@ namespace relation
 
 /-
 Define relation, r, as two-place predicate on 
-a type, β, with notation, x ≺ y, for (r x y). 
+a type, β, with notation, x ≺ y, for (r x y).
+And define assymetric as a predicate on binary
+relations. Lean's library doesn't define this,
+surprisingly.
 -/
 variables {α β : Type}  (r : β → β → Prop)
 local infix `≺`:50 := r  
--- Strangely Lean's library does define asymmetric, so here it is.
 def asymmetric := ∀ ⦃x y⦄, x ≺ y → ¬ y ≺ x
 
 
@@ -16,13 +18,6 @@ def asymmetric := ∀ ⦃x y⦄, x ≺ y → ¬ y ≺ x
 -- Prove both formally and in English.
 example : (∃ (b : β), true) → asymmetric r → ¬reflexive r :=
 begin
-  unfold asymmetric reflexive,
-  assume ex assym,
-  assume refl,
-  cases ex with b pf,
-  have rbb : r b b := refl b,
-  have contra := assym rbb,
-  contradiction,
 end
 
 
@@ -39,13 +34,6 @@ https://sites.oxy.edu/traiger/logic/exercises/chapter13/properties_of_relations_
 -/
 example : (∃ (b : β), true) → transitive r → reflexive r → ¬ asymmetric r :=
 begin
-  unfold transitive reflexive asymmetric,
-  assume b trans refl,
-  assume assym,
-  cases b,
-  have rbb := refl b_w,
-  have nrbb := assym rbb,
-  contradiction,
 end
 
 
