@@ -29,11 +29,13 @@ def subrelation (q r : β → β → Prop) := ∀ ⦃x y⦄, q x y → r x y
 Additional properties of relations
 -/
 
-def total := ∀ x y, x ≺ y ∨ y ≺ x
+def strongly_connected := ∀ x y, x ≺ y ∨ y ≺ x
+def total := @strongly_connected β 
 /-
 Note: we will use "total" later to refer to a different
 property of relations that also satisfy the constraints
-needed to be "functions."  
+needed to be "functions."  To avoid ambiguity we will
+prefer the term, "strongly_connected," over "total."
 -/
 
 def anti_reflexive := ∀ x, ¬ x ≺ x

@@ -18,9 +18,9 @@ local infix `≺`:50 := r
 /-
 -/
 def strict_ordering :=  asymmetric r ∧ transitive r
-def ordering :=         reflexive r ∧ anti_symmetric r ∧ transitive r
-def partial_order :=    reflexive r ∧ anti_symmetric r ∧ transitive r ∧ ¬ total r
-def total_order :=      reflexive r ∧ anti_symmetric r ∧ transitive r ∧ total r
+def ordering :=         reflexive r ∧ transitive r ∧ anti_symmetric r
+def partial_order :=    reflexive r ∧ transitive r ∧ anti_symmetric r ∧ ¬ strongly_connected r
+def total_order :=      reflexive r ∧ transitive r ∧ anti_symmetric r ∧ strongly_connected r
 
 /-
 Exercise: We started our discussion of properties of binary relations on 

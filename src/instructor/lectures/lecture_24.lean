@@ -113,7 +113,7 @@ r = {}
 A pair (a, b) is in the symmetric closure of r if 
 (a, b) is in r or if (b, a) is i r.
 -/
-def symmetric_closure := λ (a b : β), (r a b) ∧ (r b a)
+def symmetric_closure := λ (a b : β), (r a b) ∨ (r b a)
 
 /-
 Consider a set, s = {0, 1, 2, 3} and a binary relation
