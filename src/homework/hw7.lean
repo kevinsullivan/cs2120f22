@@ -72,6 +72,7 @@ begin
   assume x,
   split,
   assume xs1,
+  -- you do the rest
 end
 
 /-
