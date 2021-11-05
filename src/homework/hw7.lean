@@ -14,8 +14,15 @@ def asymmetric := ∀ ⦃x y⦄, x ≺ y → ¬ y ≺ x
 
 
 -- Prove both formally and in English.
-example : (∃ (x y : β), r x y) → asymmetric r → ¬reflexive r :=
+example : (∃ (b : β), true) → asymmetric r → ¬reflexive r :=
 begin
+  unfold asymmetric reflexive,
+  assume ex assym,
+  assume refl,
+  cases ex with b pf,
+  have rbb : r b b := refl b,
+  have contra := assym rbb,
+  contradiction,
 end
 
 
@@ -30,8 +37,15 @@ reflexive that it cannot be anti-symmetric. Is it actually true?
 If not, what condition needs to be added to make it true? See
 https://sites.oxy.edu/traiger/logic/exercises/chapter13/properties_of_relations_exercise.html
 -/
-example : transitive r → reflexive r → ¬ asymmetric r :=
+example : (∃ (b : β), true) → transitive r → reflexive r → ¬ asymmetric r :=
 begin
+  unfold transitive reflexive asymmetric,
+  assume b trans refl,
+  assume assym,
+  cases b,
+  have rbb := refl b_w,
+  have nrbb := assym rbb,
+  contradiction,
 end
 
 
@@ -51,6 +65,13 @@ example : ∀ (s : set β)
             s2 ⊆ s1 → 
             s1 = s2 :=
 begin
+  assume s s1 s2,
+  assume s1ins s2ins,
+  assume s1s2 s2s1,
+  apply set.ext,
+  assume x,
+  split,
+  assume xs1,
 end
 
 /-
@@ -106,9 +127,9 @@ it's not.
 anti_symmetric predicate to state the proposition
 formally.
 -/
-example : relations.anti_symmetric divides := 
+example : anti_symmetric divides := 
 begin
-  unfold relations.anti_symmetric divides,
+  unfold anti_symmetric divides,
   assume x y kx ky,
   cases kx with kxv kxpf,
   cases ky with kyv kypf,
@@ -126,7 +147,7 @@ begin
   this point again when we're equipped to 
   polish off the formal proof.
   -/
-  sorry,  
+  admit,  
 end
 
 
