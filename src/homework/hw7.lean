@@ -1,3 +1,5 @@
+import data.set
+
 namespace relation
 
 -- PRELIMINARY SETUP
@@ -83,6 +85,7 @@ if there is a natural number, k, such that n = k*m. Here's a formal
 definition of this relation.
 -/
 def divides (m n : ℕ) := ∃ k, n = k * m
+
 
 /- 
 #4: Formally and informally state and prove each of the following
