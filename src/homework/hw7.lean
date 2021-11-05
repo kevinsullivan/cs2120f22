@@ -2,28 +2,38 @@ import data.set
 
 namespace relation
 
+-- PRELIMINARY SETUP
+
 /-
-Preliminary set up. We specify a relation, r, 
-as a two-place predicate on a type, β, with
-notation, x ≺ y, for (r x y).
+Preliminary set up. For the rest of this file,
+we specify an arbitrary binary relation, r, on
+an arbitrary type, β, as a two-place predicate, 
+with infix notation x ≺ y for (r x y). One can
+pronounce these expressions in English as "x is
+related to y".
 -/
 variables {α β : Type}  (r : β → β → Prop)
-local infix `≺`:50 := r  
+local infix `≺` : 50 := r  
 
 
 /-
-We define assymetric as a predicate on binary
-relations. Lean's library doesn't define this,
-surprisingly, so we include it here. Otherwise
-in this file, you are using Lean's definition
-of the properties of relations that we've been
-learning about.
+The default Lean libraries are missing definitions
+for the assympetric property of relations and for
+the notion of a powerset. We define these terms for
+us in the rest of this file.
 -/
 def asymmetric := ∀ ⦃x y⦄, x ≺ y → ¬ y ≺ x
+def powerset (s : set β) := { s' | s' ⊆ s}
 
 
+-- PROBLEMS
 
--- #1: Give both a formal and an English-language proof.
+/- 
+#1: Give both a formal and an English-language proof. Then
+answer the question, is the proposition true if you remove
+the first condition, that β is inhabited? Briefly explain
+your answer (in English).
+-/
 example : (∃ (b : β), true) → asymmetric r → ¬reflexive r :=
 begin
 end
@@ -31,21 +41,21 @@ end
 
 
 /-
-Logic, like programming, is subtle. It's very easy for humans
+#2. Logic, like programming, is subtle. It's very easy for humans
 to miss subtle corner cases. As an example, today I ran across
 a problem in a textbook by Paul Traiger, a professor emeritus
 of philosophy and cognitive science at Occidental College. He
 asks students to prove that if a relation is both transitive and 
-reflexive that it cannot be anti-symmetric. Is it actually true?
-If not, what condition needs to be added to make it true? See
+reflexive that it cannot be anti-symmetric. See the question at
+the very bottom of the page here:
 https://sites.oxy.edu/traiger/logic/exercises/chapter13/properties_of_relations_exercise.html
 
-Try prove this version of the conjecture. If you get stuck, the
-you need to figure out an additional condition that needs to be 
-added as a premise to make the proposition true. In that case,
-add the condition and then show that the conject is true.
-
-#2
+Is the conjecture actually logically valid? If not, what condition 
+needs to be added to make it so? Try prove this/his version of the
+conjecture, as articulated slightly differently below. If you get
+stuck, then you need to figure out an additional condition that needs 
+to be added as a premise to make the proposition true. In that case,
+add the premise and then show that the updated conjecture is true.
 -/
 example : transitive r → reflexive r → ¬ asymmetric r :=
 begin
@@ -53,17 +63,12 @@ end
 
 
 
-/-
-You may use the following formal definition of the powerset 
-of a set, s. Lean's libraries don't provide this definition.
--/
-def powerset (s : set β) := { s' | s' ⊆ s}
 
 
 /-
 #3: Prove that the subset relation on the powerset of any
 set, s, is antisymmetric. Formally state and prove, and
-then give an informal proof, of this proposition. Y
+then give an informal proof, of this proposition.
 -/
 example : ∀ (s : set β) 
             (s1 s2 ∈ powerset s), 
@@ -79,11 +84,10 @@ Given two natural numbers, n and m, we will say that m divides n
 if there is a natural number, k, such that n = k*m. Here's a formal
 definition of this relation.
 -/
-
 def divides (m n : ℕ) := ∃ k, n = k * m
 
 /- 
-#3: Formally and informally state and prove each of the following
+#4: Formally and informally state and prove each of the following
 propositions. Remember that the ring tactic is useful for producing
 proofs of simple algebraic equalities involving + and *. You can use
 the phrase, "by basic algebra" when translating the use of this tactic
