@@ -1,5 +1,3 @@
-import data.set
-
 namespace relation
 
 -- PRELIMINARY SETUP
@@ -68,7 +66,7 @@ end
 /-
 #3: Prove that the subset relation on the powerset of any
 set, s, is antisymmetric. Formally state and prove, and
-then give an informal proof, of this proposition.
+then give an informal proof of, this proposition.
 -/
 example : ∀ (s : set β) 
             (s1 s2 ∈ powerset s), 
