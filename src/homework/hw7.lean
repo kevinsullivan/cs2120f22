@@ -92,26 +92,22 @@ English.
 -/
 
 -- 3a: For any n, 1 divides n.
-
 example : ∀ n, divides 1 n :=
 begin
 end
 
 -- 3b. For any n, n divides n
-
 example : ∀ n, divides n n :=
 begin
 end
 
--- #3c. divides is reflexive (use our reflexive predicate)
-
+-- #3c. prove that divides is reflexive 
 example : reflexive divides :=
 begin
 end 
 
--- #3d. divides is transitive
-
-example : ∀ h n k, divides h n → divides n k → divides h k :=
+-- #3d. prove that divides is transitive
+example : transitive divides :=
 begin
 end 
 
@@ -129,47 +125,16 @@ anti_symmetric predicate to state the proposition
 formally.
 -/
 example : anti_symmetric divides := 
-begin
-  unfold anti_symmetric divides,
-  assume x y kx ky,
-  cases kx with kxv kxpf,
-  cases ky with kyv kypf,
-  rw kxpf at kypf,
-  /-
-  From kypf we can deduce by basic algebra
-  that kyv = kxv = 1, and the rewriting kxv
-  as 1 in kxpf, we get that y = x. The proof
-  of the conclusion then follows by symmetry
-  of equality. We don't yet quite have the
-  tools to reason formally to the conlusion
-  that kxv and kyv are both one, so we'll 
-  just admit it as an axiom for now, using
-  sorry to remind us to come back and visit
-  this point again when we're equipped to 
-  polish off the formal proof.
-  -/
-  admit,  
+begin  
 end
 
 
 example : asymmetric r → irreflexive r :=
 begin
-  unfold asymmetric irreflexive,
-  assume h x k,
-  have nk := h k,
-  contradiction,
 end
 
 example : irreflexive r → transitive r → asymmetric r :=
 begin
-  unfold irreflexive transitive,
-  assume h k,
-  assume x y,
-  assume rxy,
-  assume nryx,
-  have f := k rxy nryx,
-  have nrxx := h x,
-  contradiction,
 end
 
 example : transitive r → ¬ symmetric r → ¬ irreflexive r :=
