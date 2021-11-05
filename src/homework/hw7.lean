@@ -18,7 +18,7 @@ local infix `≺` : 50 := r
 The default Lean libraries are missing definitions
 for the assympetric property of relations and for
 the notion of a powerset. We define these terms for
-us in the rest of this file.
+use in the rest of this file.
 -/
 def asymmetric := ∀ ⦃x y⦄, x ≺ y → ¬ y ≺ x
 def powerset (s : set β) := { s' | s' ⊆ s}
