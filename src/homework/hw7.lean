@@ -125,9 +125,7 @@ it's not.
 -- Answer here
 
 /- 
-#F. Prove that divides is antisymmetric. Use our
-anti_symmetric predicate on binary relations to state
-the proposition formally.
+#F. Prove that divides is antisymmetric. 
 -/
 example : anti_symmetric divides := 
 begin  

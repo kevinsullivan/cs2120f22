@@ -42,5 +42,14 @@ Definitions vary subtly. Be sure you know what is meant by these terms in any
 given setting or application.
 -/
 
+
+/-
+OPERATIONS ON RELATIONS - WIP
+-/
+
+-- inverse
+-- image
+-- composition
+
 end relation
 end relations
