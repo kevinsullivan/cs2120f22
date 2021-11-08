@@ -142,49 +142,6 @@ there's real reason to doubt that it's the best choice.
 The higher-order predicate logic of Lean and similar
 modern proof assistants is strictly more expressive.
 -/
-
-/-
-
--/
-
 end relation
 end relations
-
-/-
-Problem #1: Formally prove and give an English
-language proof of the proposition that the identity
-relation, on objects of an arbitrary type, β, is a
-subrelation of any equivalence relation on β. 
--/
-
-example : ∀ (β : Type) (r : β → β → Prop),
-  equivalence r → subrelation relations.id_relation r := 
-begin
-  unfold equivalence subrelation reflexive relations.id_relation,
-  assume β r h x y k,
-  cases h with refl rest,
-  rw <-k,
-  exact refl x,
-end
-
-/-
-Suppose r is a equivalence relation. To show that the
-identity relation is a subrelation of r, we have to show
-that for any pair, (x, y), in the identity relation, that
-same pair is in r. Of course the identity relation has 
-all and only the pairs of the form, (x, x), so all we 
-need to show is that any such pair is also in r. But r
-is reflexive, so by definition, for any x, (x, x) ∈ r. 
-So (x,y) ∈ id_relation → (x, x) ∈ r. And that is what
-it means for the identity relation to be a subrelation
-of r. As r was arbitrary, the identity relation is a
-subrelation of *any* equivalence relation on r. QED.
--/
-
-/-
-Prove that the ⊆ relation on sets of objects of any
-type β is anti_symmetric (formally and informally).
--/
-
-example : ∀ (β : Type), ⊆  
 
