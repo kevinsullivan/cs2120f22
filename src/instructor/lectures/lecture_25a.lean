@@ -94,22 +94,29 @@ begin
   
   /-
   By applying the reflexivity of r to w we 
-  obtain r w w. 
+  prove r w w. 
   -/
   have rww := x w,
   
   /-
-  But now applying asymmetryto this fact 
+  But now applying asymmetry to this fact 
   we deduce ¬r w w. 
   -/
   have c := a rww,
   
   /-
-  Therein lies a contradiction
-  that shows that assumping that r is reflexive
-  was wrong.
+  Therein lies a contradiction.
   -/
   contradiction,
+
+  /-
+  That shows that the assumption that 
+  r is reflexive must have been false.
+
+  We've thus proved that an asymmetric
+  relation over a non-empty set cannot
+  be reflexive.  
+-/
 end
 
 #check @well_order
