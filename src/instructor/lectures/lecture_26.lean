@@ -159,6 +159,14 @@ def image_val (a : α) : set β :=
 def image_set (s : set α) : set β :=
 { b : β | ∃ a : α, a ∈ s ∧ r a b}
 
+
+/- EXERCISE
+
+Define the concepts of the pre-image of a
+value of type β or of a set of such values.
+-/
+
+
 /-
 Here's another operation that takes a relation
 and returns a relation: namely the same as the
