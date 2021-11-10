@@ -51,6 +51,8 @@ def well_order := total_order r ∧ (∀ (s : set β),       -- for every
                                             b ≺ b')     
 
 /-
+EXAMPLE:
+
 The requirement of asymmetry in a strict ordering
 implies that no object can be related to itself. 
 An example is < on the natural numbers. The only
@@ -58,21 +60,55 @@ exception is when a relation is defined on an empty
 set. If you remove the condition that β be inhabited
 in the next theorem, it is no longer true, insofar as
 it is not true for all relations, r, over *all* types,
-β. It's the existence of at least one value, b : β,
+β. 
+
+It's the existence of at least one value, b : β,
 that enables one to derive a contradiction from the
 combination of asymmetry (b cannot be related to b)
 and reflexivity (b must be related to b). This is the
 kind of "corner case" that can lead to severe bugs 
-in code that implements such concepts.
+in code that implements such concepts. We actually
+saw the false theorem posed as a problem to prove
+in a professor's textbook.
 -/
-example : (∃ x: β, true) → asymmetric r → ¬ reflexive r :=
+example : (∃ b: β, true) → asymmetric r → ¬ reflexive r :=
 begin
-  assume e h k,
-  unfold asymmetric at h,
-  unfold reflexive at k,
+  assume e, -- suppose β is inhabited
+  assume a, -- and r is asymmetric
+  assume x, -- use proof by negation 
+
+  /- 
+  Expanding the definitions of asymmetric
+  and reflexive, what we are to show is
+  that there is a contradiction in these
+  assumptions (so r mustn't be reflexive): 
+  -/
+  unfold asymmetric at a,
+  unfold reflexive at x,
+
+  /-
+  Let us now use w, for witness, to refer 
+  to a β value that we've assumed to exist.
+  -/
   cases e with w pf,
-  have rww := k w,
-  have c := h rww,
+  
+  /-
+  By applying the reflexivity of r to w we 
+  obtain r w w. 
+  -/
+  have rww := x w,
+  
+  /-
+  But now applying asymmetryto this fact 
+  we deduce ¬r w w. 
+  -/
+  have c := a rww,
+  
+  /-
+  Therein lies a contradiction
+  that shows that assumping that r is reflexive
+  was wrong.
+  -/
   contradiction,
 end
 
