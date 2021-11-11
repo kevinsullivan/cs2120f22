@@ -69,8 +69,15 @@ def domain (r : α → β → Prop) := { a : α | ∃ b, r a b }
 def co_domain (r : α → β → Prop) := { b : β | true }
 def range (r : α → β → Prop) := { b : β | ∃ (a : α), r a b  }
 
+
 -- EXAMPLE
-def R : ℕ → string → Prop := λ n m, n = m.length
+/-
+Let R by the relation between natural numbers
+and strings of those lengths. E.g., (5, "hello")
+would by in the relation because 5 is the length
+of the string, "hello."
+-/
+def R : ℕ → string → Prop := λ n s, n = s.length
 #check domain_of_definition R
 #reduce domain_of_definition R
 #check co_domain R
@@ -84,8 +91,8 @@ def R : ℕ → string → Prop := λ n m, n = m.length
 /-
 It will often be useful to consider the
 subrelation obtained by restricting the
-domain of a relation to elements of a given
-set. 
+domain of a relation to elements of a 
+set, s. 
 
 If a relation relates three cats, c1, c2, 
 and c3, to their ages, say a1, a2 and a3,
@@ -101,13 +108,16 @@ set, s.
 
 /-
 Note that these operations take relations and
-sets as arguments and "return" new relations!
+sets as arguments and "return" new relations
+(again represented as two_place predicates).
+
 Of course, these are logical specifications, 
 not programs, so they don't really compute 
-anything at all, but they do formally specify
-extremely useful programs that would compute
-these operations, at least for finite sets of
-things.
+anything at all, but they do provide formal
+"specifications" of useful programs that can
+be implemented. Indeed, the set of relational
+concepts in this file is really at the heart
+of the relational specification of programs.
 -/
 def dom_res (r : α → β → Prop) (s : set α) : α → β → Prop := 
   λ a b, r a b ∧ a ∈ s  -- (a,b) pairs in r for which a ∈ s   
@@ -189,25 +199,45 @@ is obtained by applying the relation s to the
 result of applying the relation r to a. We can
 thus call the resulting relation "s after r."
 -/
-def composition (s : β → γ → Prop) :=
+def composition (s : β → γ → Prop) (r : α → β → Prop):=
   λ a c, (∃ b, s b c ∧ r a b)
 
+#check @composition
+
 /-
-EXAMPLE
+EXTENDED EXAMPLE
 -/
 
+/- 
+Let square be the binary relation that 
+associates natural numbers with their 
+squares.
+-/
 def square := (λ a b : ℕ, b = a * a)
+
+/- 
+Let incr be the binary relation that 
+associates natural numbers with their 
+successors (one more).
+-/
 def incr := (λ b c : ℕ, c = b + 1)
+
+/-
+Let square_after_incr be the composition
+of square and incr, namely the composed
+function "square after increment" (where
+incr is short for increment).
+-/
 def square_after_incr := composition square incr
 
 /-
-square_after_incr is like a function where a
-value enters from the right, first moves left
-through incr, and the result of tha then moves
-through square, to emerge on the left side as
-the final result. So, again the function can
-be called square after increment (where incr
-is short for increment).
+Think of square_after_incr as specifying a 
+function where an argument, a, enters from the
+right of incr, moves left through incr, being
+increased by 1 in the process, then moves left
+again through through square, being squared in
+that process. So this relation associates any
+natural number with the square of its successor.
 -/
 
 #check square             -- binary relation on ℕ 
@@ -218,22 +248,81 @@ is short for increment).
                           -- another relation on ℕ 
 
 /-
-State and prove the conjecture that (3,10) 
-is "in" the square_after_incr relation.
+Of course there's no computation actually going
+on here. Rather, the composed relation is again
+just specified logically.
 -/
-example : square_after_incr 3 10 :=
+
+#reduce square_after_incr
+-- λ (a c : ℕ), ∃ (b : ℕ), c = b.mul b ∧ b = a.succ
+
+/-
+State and prove the conjecture that (3,16) 
+is "in" the square_after_incr relation. Then
+show that (3,15) is not in this relation.
+-/
+example : square_after_incr 3 16 :=
 begin
 unfold square_after_incr square incr composition,
-apply exists.intro 9,
+apply exists.intro 4,
 split,
 repeat { exact rfl },
 end
 
 /-
-Proof.
+Proof (English).
+
 Unfolding all of the definitions we see we are
-to prove ∃ (b : ℕ), 10 = b + 1 ∧ b = 3 * 3. Let
-b = 9, split the conjunction, and prove each side
-by simplifying and the reflexivity of equality. 
+to prove ∃ (b : ℕ), 16 = b * b ∧ b = 3 + 1. Let
+b = 4, split the conjunction, and prove each side
+by simplifying and by the reflexivity of equality. 
 QED.
+-/
+
+example : ¬ square_after_incr 3 15 :=
+begin
+  assume h,
+  unfold square_after_incr square incr composition at h,
+  cases h with w pf,
+  cases pf with sq inc,
+  rw inc at sq,
+  cases sq,   -- contradiction
+end
+
+/-
+We'll use proof by negation, assuming that 
+(3,15) is in square_after_incr and showing
+that this leads to a contriction, i.e., by
+applying negation introduction. 
+
+Expanding all the definitions, we are to show
+that ∃ (b : ℕ), 15 = b * b ∧ b = 3 + 1 leads
+to a contradiction. By ∃ elimination, we have
+a witness w and that 15 = w * w and w = 3 + 1.
+Rewriting w in the first equality using the
+second, we have 15 = (3 + 1) * (3 + 1). This
+assumption is inconsent, as proven by case
+analysis on the possible forms of a proof of
+such an equality, of which there are none to
+consider.
+-/
+
+/-
+Alternative:
+We'll use proof by negation. Assume (3,15) 
+∈ square_after_incr. Expanding definitions, 
+we need to show that assuming that 
+∃ (b : ℕ), 15 = b * b ∧ b = 3 + 1 leads to
+a contradiction. Clearly b must be 4 and 
+that leads to the absurd conclusion that
+15 = 16. The original assumption that (3,15) 
+∈ square_after_incr must have been wrong 
+thus (3,15) ∉ square_after_incr.
+QED.
+-/
+
+/-
+Proof by negation: What we're asked to show
+is that ∃ (b : ℕ), 15 = b * b ∧ b = 3 + 1.
+Clearly there is no such b. QED.
 -/
