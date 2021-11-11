@@ -64,12 +64,7 @@ that follow is specified by the type α, and
 that the co-domain set is specificed by the
 β type.
 -/
-def domain_of_definition (r : α → β → Prop) : set α := 
-  { a : α | true } 
-
-#check @domain_of_definition
-
-
+def domain_of_definition (r : α → β → Prop) : set α := { a : α | true } 
 def domain (r : α → β → Prop) := { a : α | ∃ b, r a b }
 def co_domain (r : α → β → Prop) := { b : β | true }
 def range (r : α → β → Prop) := { b : β | ∃ (a : α), r a b  }
@@ -90,27 +85,35 @@ def R : ℕ → string → Prop := λ n m, n = m.length
 It will often be useful to consider the
 subrelation obtained by restricting the
 domain of a relation to elements of a given
-set. If a relation relates three cats, c1, 
-c2, and c3, to their ages, let's say a1, a2
-and a3, respectively, then restricting the
-domain of r to the set, s = {c1, c3}, would
-give the relation associating c1 and c3 with
-their corresponding ages, but there would 
-be no (c2, a2) pair in the restricted form
-of the relation because c2 ∉ s. An analogous
-definition gives us *range* restriction as
-an operation on relations.
+set. 
+
+If a relation relates three cats, c1, c2, 
+and c3, to their ages, say a1, a2 and a3,
+respectively, then restricting the domain
+of r to the set, s = {c1, c3}, would give
+the relation associating c1 and c3 with
+corresponding ages, but there would be no
+(c2, a2) pair in the restricted relation
+because c2 ∉ s. An analogous definition 
+gives us the range restriction of r to a
+set, s. 
 -/
 
 /-
-Note that these operations takes relations (and
-sets) as arguments and return new relations!
+Note that these operations take relations and
+sets as arguments and "return" new relations!
+Of course, these are logical specifications, 
+not programs, so they don't really compute 
+anything at all, but they do formally specify
+extremely useful programs that would compute
+these operations, at least for finite sets of
+things.
 -/
 def dom_res (r : α → β → Prop) (s : set α) : α → β → Prop := 
-  λ a b, a ∈ s ∧ r a b
+  λ a b, r a b ∧ a ∈ s  -- (a,b) pairs in r for which a ∈ s   
 
 def ran_res (r : α → β → Prop) (s : set β) : α → β → Prop := 
-_
+_                       -- homework
 
 
 /-
@@ -152,27 +155,25 @@ Note that the folloowing operations take a relation
 and a value and return a set of values.
 -/
 
+-- image of an "argument" value under r
 def image_val (a : α) : set β :=
 { b : β | a ≺ b } 
 
--- image of a set, s, under r
+-- image of a set, s, of arguments, under r
 def image_set (s : set α) : set β :=
-{ b : β | ∃ a : α, a ∈ s ∧ r a b}
+{ b : β | ∃ a : α, a ∈ s ∧ a ≺ b }
 
 
-/- EXERCISE
-
-Define the concepts of the pre-image of a
+/- HOMEWORK
+Define the concepts of the *pre-image* of a
 value of type β or of a set of such values.
 -/
-
 
 /-
 Here's another operation that takes a relation
 and returns a relation: namely the same as the
 original but with all the pair arrows reversed.
 -/
-
 -- inverse of r
 def inverse : β → α → Prop :=
 λ (b : β) (a : α), r a b
@@ -181,9 +182,58 @@ def inverse : β → α → Prop :=
 /-
 Finally we have this beautiful operation that
 takes two relations as arguments and glues them
-together into a new end to end relation.
+together into a new end-to-end relation: the
+*composition* of s with r. The result of applying
+this relation to an (a : α) is the (c : γ) that
+is obtained by applying the relation s to the 
+result of applying the relation r to a. We can
+thus call the resulting relation "s after r."
 -/
--- composition of s with r
 def composition (s : β → γ → Prop) :=
   λ a c, (∃ b, s b c ∧ r a b)
 
+/-
+EXAMPLE
+-/
+
+def square := (λ a b : ℕ, b = a * a)
+def incr := (λ b c : ℕ, c = b + 1)
+def square_after_incr := composition square incr
+
+/-
+square_after_incr is like a function where a
+value enters from the right, first moves left
+through incr, and the result of tha then moves
+through square, to emerge on the left side as
+the final result. So, again the function can
+be called square after increment (where incr
+is short for increment).
+-/
+
+#check square             -- binary relation on ℕ 
+#check incr               -- binary relation on ℕ
+#check square_after_incr  -- binary relation on ℕ
+#reduce square_after_incr -- λ (a c : ℕ), ∃ (b : ℕ), 
+                          --  c = b.succ ∧ b = a.mul a
+                          -- another relation on ℕ 
+
+/- 
+State and prove the conjecture that (3,10) 
+is "in" the square_after_incr relation.
+-/
+example : square_after_incr 3 10 :=
+begin
+unfold square_after_incr square incr composition,
+apply exists.intro 9,
+split,
+repeat { exact rfl },
+end
+
+/-
+Proof.
+Unfolding all of the definitions we see we are
+to prove ∃ (b : ℕ), 10 = b + 1 ∧ b = 3 * 3. Let
+b = 9, split the conjunction, and prove each side
+by simplifying and the reflexivity of equality. 
+QED.
+-/
