@@ -217,7 +217,7 @@ is short for increment).
                           --  c = b.succ ∧ b = a.mul a
                           -- another relation on ℕ 
 
-/- 
+/-
 State and prove the conjecture that (3,10) 
 is "in" the square_after_incr relation.
 -/
