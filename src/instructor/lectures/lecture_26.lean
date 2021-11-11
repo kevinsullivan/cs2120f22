@@ -244,7 +244,7 @@ natural number with the square of its successor.
 #check incr               -- binary relation on ℕ
 #check square_after_incr  -- binary relation on ℕ
 #reduce square_after_incr -- λ (a c : ℕ), ∃ (b : ℕ), 
-                          --  c = b.succ ∧ b = a.mul a
+                          --  c = b.mul b ∧ b = a.succ
                           -- another relation on ℕ 
 
 /-
