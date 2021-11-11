@@ -66,10 +66,6 @@ that the co-domain set is specificed by the
 -/
 def domain_of_definition (r : α → β → Prop) : set α := 
   { a : α | true } 
-
-#check @domain_of_definition
-
-
 def domain (r : α → β → Prop) := { a : α | ∃ b, r a b }
 def co_domain (r : α → β → Prop) := { b : β | true }
 def range (r : α → β → Prop) := { b : β | ∃ (a : α), r a b  }
