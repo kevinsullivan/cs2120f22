@@ -56,3 +56,33 @@ Formally define what it means for a relation
 to be a well-order.
 -/
 
+example : 
+  function r → 
+  surjective r → 
+  image_set r (dom r) = { b : β | true} :=
+
+begin
+  unfold function surjective image_set dom,
+  assume f s,
+  apply set.ext,
+  assume x, 
+  split,
+  
+  -- forward
+    assume h,
+    exact true.intro,
+
+  -- backward
+    assume h,
+    cases s with svr sur,
+    have exa := sur x,
+    cases exa with a pfa,
+    -- rewrite goal to a simple, definitionally equal version
+    show ∃ (a : α), a ∈ {a : α | ∃ (x : β), r a x} ∧ r a x,
+    apply exists.intro a,
+    split,
+    show ∃ (x : β), r a x,
+    apply exists.intro x,
+    assumption,
+    assumption,
+end
