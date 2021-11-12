@@ -58,33 +58,16 @@ really has to be true, otherwise this operation would
 -/
 
 /-
-So now let's revisit once again our funny example of
-transitivity: { (0,1), (2,3) }. There are no cases 
-here where we have both (x,y) and (y,z) as pairs in
-this relation, so there are no cases to consider. 
-When there are no cases to consider, the conclusion
-holds in all cases, of which there are 0, so it holds.
-
-Question: Is this symmetric? {(0,1), (1,0), (2,2)}
-How about this: {(0,1), (1,0), (2,3)}?
-
-Now suppose that we have a relation, r, over a set
-of values, {0, 1, 2, 3, 4, 5}. Is this relation
-reflexive? {} What about this: {(0, 1), (2, 3)}
-
-Question: If a relation is transitive and symmetric
-is it necessarily reflexive? If so, give an informal
-argument/proof. If not, give a counter-example. 
--/
-
-/-
 CLOSURE OPERATIONS ON RELATIONS
 
 Given a relation, r, the reflexive, symmetric, or
-transitive closure of r is the smallest relation that
+transitive closure of r is "the smallest relation that
 (1) contains r, and (2) contains any additional pairs
 needed to make the resulting relation reflexive, or
-symmetric, or transitive, respectively. 
+symmetric, or transitive, respectively." By smallest
+we mean a relation that contains r and that has the
+fewest additional pairs needed to obtain the given
+property, with no other unnecessary pairs added in. 
 
 The reflexive, symmetric, transitive closure of 
 r is the smallest relation that contains r and 
@@ -98,7 +81,8 @@ relation will be an equivalence relation.
 A pair (a, b) is in the reflexive closure of r if
 (a, b) is in r or if (a = b).
 -/
-def reflexive_closure := λ (a b : β), (r a b) ∨ (a = b)
+def reflexive_closure := 
+  λ (a b : β), (r a b) ∨ (a = b)
 
 /-
 Exercise: what pairs are in the reflexivee closure of
@@ -113,7 +97,8 @@ r = {}
 A pair (a, b) is in the symmetric closure of r if 
 (a, b) is in r or if (b, a) is i r.
 -/
-def symmetric_closure := λ (a b : β), (r a b) ∨ (r b a)
+def symmetric_closure := 
+  λ (a b : β), (r a b) ∨ (r b a)
 
 /-
 Consider a set, s = {0, 1, 2, 3} and a binary relation
@@ -212,5 +197,8 @@ computer science. That suggests something about teaching
 first-order logic as a first logic for computer science:
 there's real reason to doubt that it's the best choice.
 The higher-order predicate logic of Lean and similar
-modern proof assistants is strictly more expressive.
+modern proof assistants is strictly more expressive,
+and that makes it easier (even possible) to express ideas
+in high-order predicate logic than first-order predicate
+logic.
 -/
