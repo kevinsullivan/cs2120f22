@@ -92,7 +92,7 @@ that is defined on every element of its domain. So, for
 a total function, r, domain_of_definition r = domain r.
 -/
 
-def total_fun := function r ∧ ∀ (a : α), defined r a
+def total_function := function r ∧ ∀ (a : α), defined r a
 def strictly_partial_fun := function r ∧ ¬total_fun r
 def partial_function := function r -- includes total funs
 
@@ -112,11 +112,11 @@ A function that covers its codomain (where every value in
 the codomain is an "output" for some value in its domain) 
 is said to map its domain *onto* its entire codomain. 
 Mathematicians will say that such a function is "onto," 
-or "surjective."
+or "surjective." 
 -/
 
 def surjective := 
-  function r ∧  
+  total_function r ∧  
   ∀ (b : β), ∃ a : α, r a b
 
 /-
@@ -124,9 +124,8 @@ Should this be true?
 -/
 
 example : 
-  function r → 
   surjective r → 
-  image_set r (dom_of_def r) = { b : β | true } :=
+  image_set r (dom r) = { b : β | true } :=
 begin
 -- homework
 end
@@ -174,7 +173,7 @@ such a function has the property of being *injective*.
 -/
 
 def injective := 
-  function r ∧ 
+  total_function r ∧ 
   ∀ {x y : α} {z : β}, r x z → r y z → x = y
 
 /-
@@ -183,31 +182,47 @@ Finally, a function is called one-to-one and onto, or
 this case, it has to map every element of its domain
 -/
 
-def bijective := function r ∧ surjective r ∧ injective r
+def bijective := surjective r ∧ injective r
 
 /-
 An essential property of any bijective relation is that 
-it puts the elements of the domain of definition and of
-the codomain in one-to-one correspondence. Note that this
-use of the term, one-to-one, is completely distinct from
-its use in the definition of an injective function. An
-injective function is one-to-one in the sense that it's
-not many to one. A one-to-one correspondence between two
-sets, on the other hand, is a pairing of elements that
-associates each element of one set with a unique single
-element of the other set, and vice versa.
+it puts the elements of the domain and codomain into a
+one-to-one correspondence. 
+
+That we've assumed that a function is total is important
+here. Here's a counterexample: consider the relation from
+dom = {1,2,3} to codom = {A, B} with r = {(1,A), (2,B)}.
+This function is injective and surjective but it clearly
+does not establish a 1-1 correspondence. 
+
+We can define what it means for a strictly partial function
+to be surjective or injective (we don't do it formally here).
+We say that a partial function is surjective or injective if
+its domain restriction to its domain of definition (making it
+total) meets the definitions given above. 
+
+Note that our use of the term, one-to-one, here is
+completely distinct from its use in the definition of 
+an injective function. An injective function is said
+to be "one-to-one" in the sense that it's not many to
+one: you can't have f(x) = k and f(y)=k where x ≠ y. 
+A one-to-one correspondence *between two sets*, on the 
+other hand, is a pairing of elements that associates
+each element of one set with a unique single element
+of the other set, and vice versa.
 -/
 
 /-
-The inverse of a function is not always a function.
+Question: Is the inverse of a function always a function.
 Think about the function, y = x^2. What is its inverse?
-Is it's inverse a function?
+Is it's inverse a function? There's your answer.
 
-Another critical property of a bijective function, on 
-the other hand, is that its inverse is also a (bijective)
-function. A function who inverse is a function is said 
-to be invertible (as a function, as every relation has
-and inverse that is again a relation). 
+A critical property of a bijective function, on the other
+hand, is that its inverse is also a bijective function. It
+is easy to see: just reverse the "arrows" in a one-to-one
+correspondence between two sets. A function who inverse 
+is a function is said to be invertible (as a function, as 
+every relation has and inverse that is again a relation). 
 -/
 
 /-
@@ -220,9 +235,7 @@ begin
   unfold surjective injective single_valued function,
   assume bij,
 
-  cases bij with sv rest,
-  cases rest with surf injf,
-
+  cases bij with surf injf,
   cases surf with sv sur,
   cases injf with sv inj,
 

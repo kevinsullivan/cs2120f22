@@ -14,61 +14,43 @@ variables {α β γ : Type} (r : α → β → Prop)
 local infix `≺`:50 := r
 
 /-
-In these examples we will treat that the types, 
-α and b, as mathematical sets of objects of these
-types. 
-
-We will call the set of all α values the "domain
-of definition" of the relation r, and we will call
-the set of all β values the co-domain of r. Now
-the (a, b) pairs of r represent the pairs of values
-for which r a b is true. 
+We will call the set of all α values the "domain"
+of the relation r, and we will call the set of all 
+β values the "codomain" of r. Now the (a, b) pairs 
+of r represent the pairs of values for which r a b 
+is true. You can visualized such an (a, b) pair as
+an arrow from a in the domain to b in the codomain.
 
 Not every value in α needs to be present in the 
 set of "a" values that appear as first elements
 in the pairs of r. The subset of a values that 
 do appear in the first position of some pair in
-r is what we will call the domain of the relation. 
+r is what we will call the domain of definition
+of the relation. 
 
 The set of b values that appear in the second
 positions in all such pairs of r is the set we
 will call the *range* of the r. 
 
-Without definitely need to know and understand
-the definitions. Be able to write the formal
-definitions, which we present next, from your
-memory and even more from your understanding 
-of what they mean. If you really understand,
-then you should be able to derive the formal
-definition without having memorized it. Here
-are the first four essential terms:
-
-- domain of definition
-- domain
-- co-domain
-- range
-
-It's obviousl that  will always have that 
-- domain ⊆ domain of definition
-- range ⊆ codomain
-
-With these concepts in hand, we can really start
-to  precisely and clearly define powerful ideas
-in set theory, and to express and prove theorems
-in this setting.
+Be able to write the formal definitions, which 
+we present next, from your memory and even 
+more from understanding of what they mean. If 
+you understand, then you should be able to write
+the formal definitions without having memorized
+them.
 -/
 
 /-
 We begin with sets involved in any relation, 
-r : α → β. For simplicity here, we will assume
-that the domain of definition set in examples
-that follow is specified by the type α, and
-that the co-domain set is specificed by the
-β type.
+r : α → β → Prop. For simplicity we'll assume
+that the domain set in examples that follow is 
+specified by the type α, and that the co-domain
+set is specificed by the β type.
 -/
 def dom (r : α → β → Prop) : set α := { a : α | true } 
-def dom_of_def (r : α → β → Prop) : set α := { a : α | ∃ b, r a b }
 def codom (r : α → β → Prop) : set β := { b : β | true }
+
+def dom_of_def (r : α → β → Prop) : set α := { a : α | ∃ b, r a b }
 def range (r : α → β → Prop) : set β := { b : β | ∃ (a : α), r a b  }
 
 
@@ -90,7 +72,8 @@ def R : ℕ → string → Prop := λ n s, n = s.length
 #reduce range R     -- a set, right?
 
 
-/-
+/- RESTRICTION OF A RELATION  
+
 It will often be useful to consider the
 subrelation obtained by restricting the
 domain of a relation to elements of a 
@@ -121,10 +104,16 @@ be implemented. Indeed, the set of relational
 concepts in this file is really at the heart
 of the relational specification of programs.
 -/
-def dom_res (r : α → β → Prop) (s : set α) : α → β → Prop := 
-  λ a b, a ∈ s ∧ r a b    -- (a,b) pairs in r for which a ∈ s   
+def dom_res 
+  (r : α → β → Prop) 
+  (s : set α) : 
+  α → β → Prop := 
+λ a b, a ∈ s ∧ r a b   
 
-def ran_res (r : α → β → Prop) (s : set β) : α → β → Prop := 
+def ran_res 
+  (r : α → β → Prop) 
+  (s : set β) : 
+  α → β → Prop := 
 _                       -- homework
 
 
