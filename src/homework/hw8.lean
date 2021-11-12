@@ -86,3 +86,19 @@ begin
     assumption,
     assumption,
 end
+
+example : bijective r → function (inverse r) :=
+begin
+  unfold bijective function inverse,
+  unfold surjective injective single_valued function,
+  assume bij,
+
+  cases bij with surf injf,
+  cases surf with sv sur,
+  cases injf with sv inj,
+
+  -- show that result is single_valued
+  assume x y z,
+  assume ryx rzx,
+  exact inj ryx rzx,
+end
