@@ -1,4 +1,4 @@
-import .lecture_23 
+import .lecture_23a
 
 variables {α β : Type}  (r : β → β → Prop)
 local infix `≺`:50 := r  

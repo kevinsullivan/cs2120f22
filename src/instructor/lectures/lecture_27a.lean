@@ -1,20 +1,20 @@
 import .lecture_25
 
 /-
+Practice co-developing natural language
+and formal proofs.
+-/
+/-
 BASIC SETUP
 -/
 namespace relations
 section relation
 
-/-
-Define relation, r, as two-place predicate on 
-a type, β, with notation, x ≺ y, for (r x y). 
--/
 variables {α β γ : Type}  (r : β → β → Prop)
 local infix `≺`:50 := r  
 
 /-
-The point of this file is to give you an extended
+The purpose of this file is to give you an extended
 example of interleaving a fluent natural language
 proof with steps in a tactic script that produces
 a "mechanically verified proof object". You want 
@@ -53,17 +53,25 @@ begin
               -- ... and show a contradiction 
 
   /- 
-  We start by expanding the definitions 
-  of asymmetric and reflexive: 
+  To show a contradiction, we start by expanding 
+  the definitions of asymmetric and reflexive. 
   -/
   unfold asymmetric at a,
   unfold reflexive at x,
+  /-
+  We now have the following assumptions:
+    β: Type
+    r: β → β → Prop
+    e: ∃ (b : β), true
+    a: ∀ ⦃x y : β⦄, r x y → ¬r y x
+    x: ∀ (x : β), r x x
+  -/
 
   /-
-  Our assumption that β is inhabited gives
-  us some witness (w : β)
+  From our assumption that β is inhabited we
+  can assume that there is a witness, (w : β).
   -/
-  cases e with w _,
+  cases e with w pf,
   
   /-
  Applying reflexivity of r to w proves r w w,
@@ -78,10 +86,8 @@ begin
   
   /-
   This contradiction shows that the assumption
-  that r is reflexive cannot have been correct
-  in the prevailing context, as it has gotten us
-  into a situation that never actually occur. It
-  by non-contradiction it isn't possible to have
+  that r is reflexive cannot have been correct.  
+  By non-contradiction it isn't possible to have
   both r w w and ¬ r w w.
   -/
   contradiction,
@@ -89,37 +95,36 @@ begin
   /-
   We've thus proved that an asymmetric
   relation over a non-empty set cannot
-  be reflexive, which is what we set out
-  to prove, for any relation r on objects
-  of any type, β.  
+  be reflexive.  
   -/
 
 -- QED
 end
 
 /-
--- suppose β is inhabited
--- and r is asymmetric
--- now show r is not reflexive
--- proof by negation: assume it is
--- and we will now show a contradiction
+Proof: Suppose β is inhabited and r is asymmetric.
+We now show r is not reflexive. The proof is by
+negation: we'll assume that r is reflexive and
+show that this assumption leads a contradiction
+from which we can conclude r is not reflexive.
 
-First we expand the definitions of 
-asymmetric and reflexive. What we
-are now to show is that the following
-set of assumptions is inconsistent:
-β: Type
-r: β → β → Prop
-e: ∃ (b : β), true
-a: ∀ ⦃x y : β⦄, r x y → ¬r y x
-x: ∀ (x : β), r x x
+To see that there is a contradiction, expand the
+definitions of asymmetric and reflexive. What we
+now must show is that the following assumptions
+are inconsistent (self-contradictory):
 
-There is a contradition.
-From e, infer a witness w : β.
-Applying reflexivity (x), to w, 
-we deduce r w w. Next, applying 
-asymmetry (a), to r w w gives
-¬ r w w, a contradiction. 
+  β: Type
+  r: β → β → Prop
+  e: ∃ (b : β), true
+  a: ∀ ⦃x y : β⦄, r x y → ¬r y x
+  x: ∀ (x : β), r x x
+
+To show this by exists elimination we first infer
+that there is a an object, w : β (the one that we
+have a proof exists). Applying reflexivity (x), 
+to w, we deduce w ≺ w (r w w). Next, by applying 
+asymmetry (a), to w ≺ w we derive w ⊀ w. There is
+the contradiction we needed. 
 QED.
 -/
 
