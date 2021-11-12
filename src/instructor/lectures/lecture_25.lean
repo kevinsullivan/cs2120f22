@@ -10,7 +10,7 @@ section relation
 Define relation, r, as two-place predicate on 
 a type, β, with notation, x ≺ y, for (r x y). 
 -/
-variables {α β γ : Type}  (r : β → β → Prop)
+variables {β : Type}  (r : β → β → Prop)
 local infix `≺`:50 := r  
 
 /-

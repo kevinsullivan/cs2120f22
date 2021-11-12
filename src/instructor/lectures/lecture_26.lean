@@ -1,3 +1,5 @@
+import data.set
+
 /-
 Operations on relations
 -/
@@ -64,10 +66,10 @@ that follow is specified by the type α, and
 that the co-domain set is specificed by the
 β type.
 -/
-def domain_of_definition (r : α → β → Prop) : set α := { a : α | true } 
-def domain (r : α → β → Prop) := { a : α | ∃ b, r a b }
-def co_domain (r : α → β → Prop) := { b : β | true }
-def range (r : α → β → Prop) := { b : β | ∃ (a : α), r a b  }
+def dom (r : α → β → Prop) : set α := { a : α | true } 
+def dom_of_def (r : α → β → Prop) : set α := { a : α | ∃ b, r a b }
+def codom (r : α → β → Prop) : set β := { b : β | true }
+def range (r : α → β → Prop) : set β := { b : β | ∃ (a : α), r a b  }
 
 
 -- EXAMPLE
@@ -78,12 +80,12 @@ would by in the relation because 5 is the length
 of the string, "hello."
 -/
 def R : ℕ → string → Prop := λ n s, n = s.length
-#check domain_of_definition R
-#reduce domain_of_definition R
-#check co_domain R
-#reduce co_domain R -- what set?
-#check domain R
-#reduce domain R    -- a set, right?
+#check dom R
+#reduce dom R
+#check codom R
+#reduce codom R -- what set?
+#check dom_of_def R
+#reduce dom_of_def R    -- a set, right?
 #check range R
 #reduce range R     -- a set, right?
 
@@ -120,7 +122,7 @@ concepts in this file is really at the heart
 of the relational specification of programs.
 -/
 def dom_res (r : α → β → Prop) (s : set α) : α → β → Prop := 
-  λ a b, r a b ∧ a ∈ s  -- (a,b) pairs in r for which a ∈ s   
+  λ a b, a ∈ s ∧ r a b    -- (a,b) pairs in r for which a ∈ s   
 
 def ran_res (r : α → β → Prop) (s : set β) : α → β → Prop := 
 _                       -- homework
