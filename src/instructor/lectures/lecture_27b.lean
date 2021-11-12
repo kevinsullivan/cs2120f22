@@ -226,23 +226,12 @@ every relation has and inverse that is again a relation).
 -/
 
 /-
-Should this be true?
+EXERCISE: Prove that the inverse of a 
+bijective function is a function.
 -/
 
 example : bijective r → function (inverse r) :=
 begin
-  unfold bijective function inverse,
-  unfold surjective injective single_valued function,
-  assume bij,
-
-  cases bij with surf injf,
-  cases surf with sv sur,
-  cases injf with sv inj,
-
-  -- show that result is single_valued
-  assume x y z,
-  assume ryx rzx,
-  exact inj ryx rzx,
 end  
 
 
