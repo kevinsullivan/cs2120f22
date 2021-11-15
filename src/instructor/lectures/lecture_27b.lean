@@ -260,6 +260,7 @@ which point the preceding definition applies).
 
 def injectivep := function r ∧ injective (dom_res r (dom_of_def r))
 def surjectivep := function r ∧ surjective (dom_res r (dom_of_def r))
+def bijectivep := function r ∧ bijective (dom_res r (dom_of_def r))
 
 /-
 I will not test you on your ability to reason about injective
