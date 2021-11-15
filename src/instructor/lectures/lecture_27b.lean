@@ -93,7 +93,7 @@ a total function, r, domain_of_definition r = domain r.
 -/
 
 def total_function := function r ∧ ∀ (a : α), defined r a
-def strictly_partial_fun := function r ∧ ¬total_fun r
+def strictly_partial_fun := function r ∧ ¬total_function r
 def partial_function := function r -- includes total funs
 
 /-
@@ -162,6 +162,9 @@ y = x^2 on ℝ
 y = x^2 on ℝ⁺ (the positive reals)
 -/
 
+def injective := 
+  total_function r ∧ 
+  ∀ {x y : α} {z : β}, r x z → r y z → x = y
 /-
 We will often want to know that a function does not
 map multiple x values to the same y value. Example:
@@ -172,9 +175,20 @@ call such a function "one-to-one." We also say that
 such a function has the property of being *injective*.
 -/
 
-def injective := 
-  total_function r ∧ 
-  ∀ {x y : α} {z : β}, r x z → r y z → x = y
+/-
+We will often want to know that a function does not
+map multiple x values to the same y value. Example:
+in a company, we will very like want a function that 
+maps each employee to an employee ID number *unique*
+to that employee. Rather than being "many to one" we
+call such a function "one-to-one." We also say that
+such a function has the property of being *injective*.
+There is yet another way to understand the concept.
+-/
+
+
+/- BIJECTIVE FUNCTIONS
+-/
 
 /-
 Finally, a function is called one-to-one and onto, or
@@ -232,8 +246,28 @@ bijective function is a function.
 
 example : bijective r → function (inverse r) :=
 begin
-end  
+end 
 
+
+/-
+Okay, we actually are now able to to define just
+what is means for a *partial* function to be
+injective, surjective, bijective, which is that 
+it is so when its domain is restricted to its 
+domain of definition, rendering it total (at 
+which point the preceding definition applies). 
+-/
+
+def injectivep := function r ∧ injective (dom_res r (dom_of_def r))
+def surjectivep := function r ∧ surjective (dom_res r (dom_of_def r))
+
+/-
+I will not test you on your ability to reason about injective
+and surjective partial functions, except maybe as extra credit
+questions; but it's nice in any case to understand these clear
+and beautiful definitions. And to know that you'd also have no
+problem providing these as properties of any partial function.
+-/
 
 end functions
 end relations
