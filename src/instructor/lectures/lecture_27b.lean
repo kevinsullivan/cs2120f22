@@ -182,7 +182,7 @@ example :
   surjective r → 
   image_set r (dom r) = { b : β | true } :=
 begin
--- homework
+-- homework (on your own ungraded but please do it!)
 end
 
 /-
