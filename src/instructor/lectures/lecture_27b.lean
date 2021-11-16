@@ -330,7 +330,10 @@ every relation has and inverse that is again a relation).
 
 /-
 EXERCISE #1: Prove that the inverse of a 
-bijective function is a function.
+bijective function is a function. Ok, yes, 
+we will work this one out for you! But you
+should really read and understand it. Then
+the rest shouldn't be too bad.
 -/
 
 example : bijective r → function (inverse r) :=
