@@ -6,10 +6,19 @@ a few types of data, mostly natural numbers,
 though we've also seen that we have a Boolean
 type (with values ff and tt) and a string type,
 with values such as "" and "Hello, Logic!"
+
+Today we're going to break some new ground with
+the introduction of inductively defined types
+and their corresponding induction axioms. These
+new axioms, one per data type, will give us a
+new way to construct proofs of properties *for
+all* values of a given type, or to construct 
+output results for functions that can take 
+*any* value of a given type as an argument.
 -/
 
 /-
-Today we're going to break some new ground.
+
 We will see not only that we can *define new
 data types* of our own, but also that (1) we
 can define the introduction rules for each
