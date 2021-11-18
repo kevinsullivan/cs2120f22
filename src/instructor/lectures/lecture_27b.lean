@@ -2,6 +2,7 @@ import .lecture_26
 import data.set
 
 namespace relations
+
 section functions
 
 variables {α β γ : Type} (r : α → β → Prop)
@@ -418,14 +419,14 @@ def bijectivep := function r ∧ bijective (dom_res r (dom_of_def r))
 
 
 
--- #2: Prove that the inverse of a bijective function is bijective.
+-- EXERCISE #2: Prove that the inverse of a bijective function is bijective.
 example : bijective r → bijective (inverse r) :=
 begin
 end
 
 
 /-
-#3: Prove that the inverse of the inverse of a bijective
+EXERCISE #3: Prove that the inverse of the inverse of a bijective
 function is that function.
 -/
 example : bijective r → (r = inverse (inverse r)) :=
@@ -433,7 +434,7 @@ begin
 end
 
 /-
-#4: Formally state and prove that every injective function 
+EXERCISE  #4: Formally state and prove that every injective function 
 has a *function* as an inverse.
 -/
 example : injective r → function (inverse r) :=
@@ -441,7 +442,7 @@ example : injective r → function (inverse r) :=
 
 
 /-
-#5. Is bijectivity transitive? In other words, if the
+EXERCISE #5. Is bijectivity transitive? In other words, if the
 relations, s and r, are both bijective, then is the
 composition, s after r, also always bijective? Now
 we'll see.
