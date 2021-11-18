@@ -206,7 +206,7 @@ def unit_to_nat : unit → nat :=
 begin
   assume u,
   apply unit.rec_on u,    -- one case to consider
-  exact 0                 -- in this case return 0
+  exact 0,                -- in this case return 0
 end
 
 #eval unit_to_nat unit.star
@@ -224,6 +224,8 @@ inductive bool : Type
 
 
 -- Now for the induction principle / elimination rule
+
+#check @bool.rec
 
 /-
 A function, Boolean not (!), defined by recursion
@@ -418,7 +420,11 @@ end
 /-
 Lean provides a nice notation for writing proofs
 or functions by induction/recursion. Let's rewrite
-our sum_up function using it.
+our sum_up function using it. First you get the 
+function name (sum_up_to) and type (nat → nat).
+The the set of argument values is partitioned by
+the matching rules, one per line, with a pattern,
+then := then the answer for arguments that match.
 -/
 
 def sum_up_to : nat → nat 
@@ -428,49 +434,93 @@ def sum_up_to : nat → nat
 /-
 The first rule gives you an answer for the base
 case, the second *assumes* you have an answer for
-n' and constructs an answer for n' + 1. Now that
-you have an answer for the base case and an answer
-for the inductive case, you have a definition that
-computes a result for *any* natural number, n. 
+n' and constructs an answer for n' + 1. Another way
+to think about it is that it gives you a way to 
+turn an answer or result for any n' into an answer
+or result for n'+1. 
+
+Now with an answer for the base case and a 
+rule for induction, you have the components
+to define a function converts *any* argument 
+value into the desired result value. You get
+a proof of a universal generalization. You
+get a function that you can apply to *data*
+values to get *data* results.  
 
 As an example, consider the input, n = 5. This
 value can be expressed as (nat.succ 4) and that
 is how to understand the second case. It matches
-the argument based on how it was constructed and
-pulls out the argument, n'=4, to which nat.succ
-was applied to get the 5 given as an argument. 
+the argument based on how it was constructed, in
+this case by the succ constructor, not by zero, 
+and pulls out the argument, n'=4, to which succ
+was applied (to get 5 as the argument value). 
 In this case, the right answer is the sum of 
-all the numbers up to n'=4 plus (n'+1)=5. The
-answer for 4 is 10, plus 5 is 15, and that is
-the result of the recursive computation.
+(1) the answer to the question what is the 
+sum of all numbers from zero up to n'=4, and
+(2) (n'+1)=5. The "answer for 4" is 10, plus 
+5 as the argument value is 15.
+
+LESSON: A recursive function is defined in terms of
+(1) assumed solutions to smaller sub-problems, and (2)
+a combining of these solutions with an argument value
+to produce answer for that argument value. 
+-/
+
+#reduce sum_up_to 5
+
+
+
+
+/-
+LECTURE 29
+-/
+
+/-
+To review, last time we ended by using
+induction to define a function that sums
+up the numbers from 0 to any natural number
+given as an argument. 
 -/
 
 #reduce sum_up_to 5
 
 /-
-                              sum_up_to 5
-                        (sum_up_to 4) + 5
-                  ((sum_up_to 3) + 4) + 5
-            (((sum_up_to 2) + 3) + 4) + 5
-      ((((sum_up_to_1) + 2) + 3) + 4) + 5
-(((((sum_up_to 0) + 1) + 2) + 3) + 4) + 5
+To apply induction, we had to define what
+we might think of a two machines: the first
+provides a fixed answer for a base case,
+here where the argument is zero; and the 
+second, a machine that, when given any 
+natural nunber, n', and an answer/proof
+for n', produces an answer/proof for n =
+n' + 1. These two machine suffice to give
+on the power to construct an answer/proof
+for any argument value, n. 
 -/
 
+-- Let's define a binary function by induction
 /-
-Let's see how we might define addition of
-natural numbers recursively.
+Addition of natural numbers takes two numbers
+as arguments and produces a third as a result.
 -/
 
 def my_add : ℕ → ℕ → ℕ :=
 begin
   assume n m,
   apply nat.rec_on n,
-  -- case where argument = 0
+
+  -- in case we're given the argument, zero, return m
   exact m,
-  -- case where argument = n' + 1 for some n'
+
+  -- else from n' and answer for n' derive answer for n'+1
   assume n',                    -- n'
   assume answer_for_n',         -- answer for n'
-  exact nat.succ answer_for_n', -- answer for n'+1
+  /-
+  Show that from n' and an answer for n' you can
+  produce an answer for n' + 1. As long as you also
+  have an answer for a base case, such as zero, you
+  can derive answers for that or any greater argument.
+  -/
+  exact nat.succ answer_for_n', -- the right answer for n'+1
 end
 
 #eval my_add 0 5
@@ -479,6 +529,24 @@ end
 #eval my_add 3 5
 #eval my_add 4 5
 #eval my_add 5 5
+
+/-
+Programming is different than proving because when
+proving, the details of a proof are irreleant: all
+proofs are equally good (and indeed they're defined
+to be equal), whereas when computing the details of
+the derivation matter greatly. Here for example we
+had to pick the right value for the base case and
+the right method for deriving an answer for n'+1
+from the values of n' and the answer for n'.
+-/
+
+/-
+Here's exactly the same function defined using
+Lean's more convenient "by cases" notation for
+defining functions by giving answers for each 
+of some number of possible cases for the inputs.
+-/
 
 def my_add' : ℕ → ℕ → ℕ 
 | (nat.zero) m    := m
@@ -532,31 +600,51 @@ begin
   assume m,
   -- apply rfl,       -- no rule for adding 0 on right!
   --simp [my_add'],   -- no rule for adding 0 on right!
+  -- STUCK!
+  -- ... or are we?!
 end
 
 example : ∀ (m : ℕ), my_add' m 0 = m :=
 begin
     assume m,
+    /-
+    Proof by induction. 
+    -/
     apply nat.rec_on m,
 
     -- base case, m = 0
     exact rfl,
-    assume n',
-    assume ih,
-    -- now we can simplify using the second rule
+
+    -- inductive case
+    assume n',        -- n'
+    assume ih,        -- answer/result for n'
+
+    -- simplify goal using rules defined in my_add'
     simp [my_add'],
-    -- and rewrite goal using induction hypothesis
-    exact ih,
+
+    -- our assumption now finishes the proof
+    assumption,
 end
 
 
-example : ∀ (m : ℕ), my_add' m 0 = m :=
+/-
+A little bit of Lean. Lean provides an "induction" tactic. 
+When applied to a proof or value, the tactic provides proper
+name for the cases, applies the appropriate induction axiom 
+for the given type of value being "analyzed" (thank you, 
+Jerimy Avigad for that word), and adds n' and the answer 
+for n' as assumptions in the inductive case, leaving you to
+define how you get from there to a proof/value for n=n'+1.
+-/
+
+example : ∀ (n : ℕ), my_add' n 0 = n :=
 begin
-    assume m,
-    induction m with n' ih,
+    assume n,
+    induction n with n' ih,
 
     -- base case, m = 0
     exact rfl,
+
     -- now we can simplify using the second rule
     simp [my_add'],
     -- my_add' n'.succ 0 = n'.succ
