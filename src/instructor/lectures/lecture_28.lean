@@ -448,15 +448,22 @@ inductive nat : Type
   | zero              -- base: no arguments       
   | succ (n' : nat)   -- inductive case
 /-
-Notice that the second constructor gives
-us a way to construct the next larger natural
-number, succ n', from a given smaller natural
-number, n'. Now we have a genuinely inductive
-definition.
+The induction principle will follow from the
+structure of the data definition. For each of
+the ways of building a value of this type, we
+will require rule/machine/answer/proof for all
+values that can be produced in that manner. So
+let's first be sure we see how this data type
+definition defines an infinite set of terms
+that we can consider to represent natural
+numbers. (There's a one-to-one corresondence).
 -/
 
 
 /-
+Now let's talk about proovin universal generalizations
+over natural numbers -- by induction!
+
 Suppose P : nat → Prop specifies a property of 
 natural numbers. Then induction takes P as well
 as proofs of two smaller "lemmas" and produces
