@@ -107,9 +107,9 @@ that return data values as results.
 
 /-
 empty.rec : 
-  Π (motive : empty → Sort u_1)     (1)
-    (n : empty),                    (2)
-  motive n                          (3)
+  Π (motive : empty → Sort u_1)     (1) property
+    (n : empty),                    (2) arbitrary value
+  motive n                          (3) proof value has property
 
 -- same in this case
 empty.rec_on : 
@@ -147,6 +147,16 @@ begin
   apply empty.rec_on,    -- no cases to consider!
 end
 
+/-
+Lean provide induction tactic to apply the right
+induction axiom and clean up automatically. 
+-/
+def empty_to_nat : empty → nat :=
+begin
+  assume e,
+  induction e,    -- no cases to consider!
+end
+
 
 /- 
 *********
@@ -169,9 +179,9 @@ inductive unit : Type
 
 /-
 unit.rec : 
-  Π {motive : unit → Sort u_1},   (1)
-  motive unit.star →              (2)
-  Π (n : unit), motive n          (3)
+  Π {motive : unit → Sort u_1},   (1) property
+  motive unit.star →              (2) proof for star
+  Π (n : unit), motive n          (3) proof for all
 
 For any property of unit values (u_1 = 0) 
 or any function from unit to another type
@@ -197,6 +207,19 @@ begin
 end
 
 /-
+The induction tactic in Lean applies the right
+induction principle given the type of the target
+and gives you additional helpful information, such
+as good names for the cases it considers.
+-/
+example : ∀ (u : unit), u = u :=
+begin
+  assume u,
+  induction u,    -- one case to consider
+  apply rfl,              -- proof for that one case
+end
+
+/-
 A function definition, for a function that for
 any values of type unit returns 0, defined "by
 recursion."
@@ -209,6 +232,16 @@ begin
   exact 0,                -- in this case return 0
 end
 
+-- using the induction tactic
+
+example : unit → nat :=
+begin
+  assume u,
+  induction u,    -- one case to consider
+  exact 0,                -- in this case return 0
+end
+
+-- We can apply these functions and they compute!
 #eval unit_to_nat unit.star
 
 
@@ -228,6 +261,20 @@ inductive bool : Type
 #check @bool.rec
 
 /-
+bool.rec : 
+  Π {
+    motive : bool → Sort u_1},      -- property
+    motive bool.ff →                -- proof for tt
+    motive bool.tt →                -- proof for ff
+    Π (n : bool), motive n          -- proof for all bool
+
+To prove that *all* values of type bool
+have some property or a corresponding value,
+it suffices to prove proofs/values for tt and
+for ff.
+-/
+
+/-
 A function, Boolean not (!), defined by recursion
 -/
 
@@ -236,9 +283,15 @@ begin
   assume b,
   apply bool.rec_on b,
   /-
-  It's a bit of a drag, but you have to keep
-  track of which case corresponds to which of
-  the constructors, in order.
+  Reduce problem of giving an answer for all
+  Boolean arguments to the two subproblems of
+  providing an answer for tt and an answer for ff. 
+
+  It's a bit of a drag, but in Lean when you 
+  rec or rec_on directly, you have to keep track
+  of which case corresponds to which constructor, 
+  in the order they're listed in the data type
+  definition.
   -/
   -- case #1: b = bool.ff
   exact bool.tt,
@@ -246,18 +299,41 @@ begin
   exact bool.ff,
 end
 
+-- it's better to use the induction tactic
+def bnot : bool → bool :=
+begin
+  assume b,
+  induction b,  -- the cases are now well marked
+  -- case #1: return value when b = bool.ff
+  exact bool.tt,
+  -- case #2: return value when b = bool.tt
+  exact bool.ff,
+end
+
 #reduce bnot bool.tt
 #reduce bnot bool.ff
 
 /-
-How about Boolean or, a binary operation?
+We can define *binary* functions this way too. 
+Here's our own version of Boolean or.
 -/
 
 def bor : bool → bool → bool :=
 begin
-  assume b,
-  apply bool.rec,
-  exact b,
+  assume b1 b2,
+  apply bool.rec_on b1,
+  -- case where first argument is false (ff)
+  exact b2,
+  -- case where first argument is true (tt)
+  exact bool.tt,
+end
+
+-- using induction tactic
+def bor : bool → bool → bool :=
+begin
+  assume b1 b2,
+  induction b1,
+  exact b2,
   exact bool.tt,
 end
 
@@ -268,7 +344,12 @@ end
 
 
 /-
-A proof using induction
+Now let's prove a proposition about
+Boolean values, namely that for any
+b, b ∨ ff = b. In mathematical terms,
+we want to prove that ff is a "right
+identity element" for the Boolean or
+operation.
 -/
 theorem ff_is_id_for_or : 
     ∀ (b : bool), bor b bool.ff = b :=
@@ -281,28 +362,44 @@ begin
   apply rfl,
 end
 
+-- Using induction tactic
+theorem ff_is_id_for_or : 
+    ∀ (b : bool), bor b bool.ff = b :=
+begin
+  assume b,
+  induction b,
+  repeat { apply rfl },
+end
+
 /-
-In all of the examples we've seen so far,
-proof by recursion looks an awful lot like
-proof by case analysis. Indeed, we could 
-have used cases in all of these examples.
-But we'll see in our next examples that in
-general there's a fundamental difference:
-a proof by induction generally gives you
-one or more "induction hypotheses" to work
-with, and that can be crucial.
+PROOF BY INDUCTION vs PROOF BY CASES
 -/
 
+/-
+In all of the examples we've seen so far,
+proof by induction looks an awful lot like
+proof by case analysis. Indeed, we could 
+have used cases in all of these examples.
+Here's a construction for the preceding
+example using a proof by cases "strategy."
+-/
+
+-- Proof by cases: ff is a right identity for "or"
 example : 
     ∀ (b : bool), bor b bool.ff = b :=
 begin
   assume b,
   cases b,
-  -- case b = bool.ff
   apply rfl,
-  -- case b = bool.tt
   apply rfl,
 end
+
+/-
+But now we'll see where these strategies differ.
+The difference shows up when larger values of a
+given type can beconstructed from smaller values
+of the same type.
+-/
 
 
 /- 
@@ -311,18 +408,175 @@ NAT
 ***
 -/
 
+
+/-
+We're now going to meet the inductve data
+type definition for the type in Lean called
+nat (ℕ). It's the type the terms/values of
+which representing natural numbers, from 0
+on up ad infinitum. 
+ 
+For data types that are genuinely inductive
+in this sense, and not just enumerations of
+constant terms (as in the cases above, e.g.,
+bool, where we have just two constant terms,
+tt and ff), there is a big difference between 
+proof by cases and by applying an induction
+axiom. With induction, you have additional
+assumptions ("induction hypotheses") to work 
+with, as we'll now explain. 
+-/
+
+/-
+We'll look in particular at the induction
+principle for natural numbers. As with any
+type, a proof constructed by applying its
+induction axiom is a "proof by induction." 
+When the type is nat, such a proof is often
+called a proof by "mathematical" induction.
+
+So let us first look at the definition of the
+nat type, then we'll see how its induction
+principle can be used to produce both:
+- logical proofs of logical propositions 
+- computational return values of functions 
+*for any* natural number, n.
+-/
+
 inductive nat : Type
 -- two cases
   | zero              -- base: no arguments       
   | succ (n' : nat)   -- inductive case
 /-
-Notice that the second constructor givesn 
+Notice that the second constructor gives
 us a way to construct the next larger natural
 number, succ n', from a given smaller natural
 number, n'. Now we have a genuinely inductive
 definition.
 -/
 
+
+/-
+Suppose P : nat → Prop specifies a property of 
+natural numbers. Then induction takes P as well
+as proofs of two smaller "lemmas" and produces
+a proof of ∀ n, P n: that every natural number
+has property P. 
+
+Suppose P : nat → β specifies a function, from  
+natural numbers to some *data type* (like nat
+or string, but not Prop). Then induction takes 
+P and two "smaller" functions, which we will
+talk about more momentarily, and uses them to
+return function that returns the right result
+when the function is applied to *any* natural
+number n. The Lean type of the final result is 
+Π (n : nat), nat. The Π (capital pi) means 
+"for any." ∀ is another notation for Π, so the
+result is of type, ∀ (n : nat), nat, and that
+is the real meaning of the type, nat → nat. 
+
+You know have the vocabulary to understand and
+answer the following question about "functions"
+in Lean" What special properties of functions do
+they all have? 
+-/
+
+
+/-
+So what are the two smaller "machines" that you
+have to provide to the induction principle to get
+a general theorem or function?
+
+Let's revisit our story about two machines
+that can build a building of any height.
+The first can lay down a ground floor, and
+that's all it's good for. The second one
+has to be given a floor, let's say floor 
+n', to start with, and it then builds the
+next floor up, number n'+1.
+
+Neither machine is of much use itself. The
+first only lays down the ground floor (#0).
+The second has to have a floor to start on
+or it can't run to do its job.
+
+Together, though, these machines can build 
+a building of any height. Suppose you want
+a building with floors numbered 0 ... n. 
+Start by running the first machine once to
+build floor 0; then run the second machine
+n times, each time giving the floor output
+by the last run as an input to the next.
+That gives you the building height you want.
+
+A proof by induction of a proposition that
+claims that some property holds for every
+natural number requires that you provide 
+two analogous machines, but instead of 
+imaginary buildings they generate proofs,
+that for any n, n has the stated property.
+
+As we've said, this principle can also be 
+used to construction total functions from
+natural numbers to results of any other data
+type.
+
+The first machine generate a proof for the case
+where n = 0. The second machine then takes number,
+n' and a proof that n' has that property (a floor 
+to start on) and constructs and returns a proof 
+that n'+1 has the property!
+
+NOTE WELL: The second machine takes two arguments,
+any natural number, n', and a proof/answer for n',
+and it uses these two arguments (also often called
+induction hypotheses) to construct a proof for the
+next larger n', n'+1, aka n'.succ or (succ n').
+
+The machines in our case correspond to the
+constructors defined by the data type. The 
+nat data type has two natural-number-building
+constructor machines. The first (zero : nat), 
+defines "the ground floor" in the stack of
+natural numbers: it's just constant zero. 
+
+In a proof by induction of the proposition
+that every natural number has some property,
+P, the first machine emits a proof of (P 0),
+that 0 has the property specified by P.
+
+The second nat constructor, by contrast, is
+a function, (succ : nat → nat). When appled
+to a given nat, n' (a floor to start on), it
+emits (succ n'), representing n'+1, the 
+"next floor up." 
+  
+In proof by induction of (∀ n, P n), every
+natural number has property P, the second
+machine takes any number n' and a proof of
+(P n') and must convert these into a proof
+of (P (succ n')), that is, of P (n' + 1). 
+
+If you have both such machines, then you can
+build a proof for any given natural number, 
+n, whatsoever, and from this fact deduce that
+every natural number has that property. QED.
+
+In general, therefore, to give a proof by
+mathematical induction requires that you
+provide two machines: one that gives you a
+proof for 0, and one that takes any n' and
+a proof/answer, P n', for n', and returns 
+a proof/answer for P (n' + 1). 
+
+The induction principle for the nat type
+thus says that in order to prove ∀ n, P n,
+it suffices to have two "machines": a proof
+of P 0, and a *function* that when given 
+an arbitrary n' and proof/result (P n') 
+then returns a proof/result(P (n'+1)).
+-/
 
 /-
 And now we will see where induction differs
@@ -467,204 +721,3 @@ to produce answer for that argument value.
 -/
 
 #reduce sum_up_to 5
-
-
-
-
-/-
-LECTURE 29
--/
-
-/-
-To review, last time we ended by using
-induction to define a function that sums
-up the numbers from 0 to any natural number
-given as an argument. 
--/
-
-#reduce sum_up_to 5
-
-/-
-To apply induction, we had to define what
-we might think of a two machines: the first
-provides a fixed answer for a base case,
-here where the argument is zero; and the 
-second, a machine that, when given any 
-natural nunber, n', and an answer/proof
-for n', produces an answer/proof for n =
-n' + 1. These two machine suffice to give
-on the power to construct an answer/proof
-for any argument value, n. 
--/
-
--- Let's define a binary function by induction
-/-
-Addition of natural numbers takes two numbers
-as arguments and produces a third as a result.
--/
-
-def my_add : ℕ → ℕ → ℕ :=
-begin
-  assume n m,
-  apply nat.rec_on n,
-
-  -- in case we're given the argument, zero, return m
-  exact m,
-
-  -- else from n' and answer for n' derive answer for n'+1
-  assume n',                    -- n'
-  assume answer_for_n',         -- answer for n'
-  /-
-  Show that from n' and an answer for n' you can
-  produce an answer for n' + 1. As long as you also
-  have an answer for a base case, such as zero, you
-  can derive answers for that or any greater argument.
-  -/
-  exact nat.succ answer_for_n', -- the right answer for n'+1
-end
-
-#eval my_add 0 5
-#eval my_add 1 5
-#eval my_add 2 5
-#eval my_add 3 5
-#eval my_add 4 5
-#eval my_add 5 5
-
-/-
-Programming is different than proving because when
-proving, the details of a proof are irreleant: all
-proofs are equally good (and indeed they're defined
-to be equal), whereas when computing the details of
-the derivation matter greatly. Here for example we
-had to pick the right value for the base case and
-the right method for deriving an answer for n'+1
-from the values of n' and the answer for n'.
--/
-
-/-
-Here's exactly the same function defined using
-Lean's more convenient "by cases" notation for
-defining functions by giving answers for each 
-of some number of possible cases for the inputs.
--/
-
-def my_add' : ℕ → ℕ → ℕ 
-| (nat.zero) m    := m
-| (nat.succ n') m := nat.succ (my_add' n' m)
-
-#eval my_add' 0 5
-#eval my_add' 1 5
-#eval my_add' 2 5
-#eval my_add' 3 5
-#eval my_add' 4 5
-#eval my_add' 5 5
-
-/-
-EXERCISE: Write the factorial function using this
-convenient notation.
--/
-
-/-
-Proofs
--/
-
-/-
-In the definition of my_add' we can see 
-readily that we have an "answer" for each
-of two cases for n, the argument to the
-function.
-
-(1) n = nat.zero (first constructor)
-(2) n = nat.succ n' for some n' (second constructor)
-
-The difference between case analysis and
-induction is that in the inductive case we
-can assume that we have an answer (value or
-proof) for n', and all we need to give is a
-way to construct a proof/result for n' + 1.
-
-The "answers" in turn now serve as additional
-axioms that we can use in reasoning. For example,
-we can see from the first rule that for any m,
-0 + m = m, and it's easy to prove formally.
--/
-
-example : ∀ (m : ℕ), my_add' 0 m = m :=
-begin
-  assume m,
-  simp [my_add'], -- simplify using rules in definition
-end
-
-example : ∀ (m : ℕ), my_add' m 0 = m :=
-begin
-  assume m,
-  -- apply rfl,       -- no rule for adding 0 on right!
-  --simp [my_add'],   -- no rule for adding 0 on right!
-  -- STUCK!
-  -- ... or are we?!
-end
-
-example : ∀ (m : ℕ), my_add' m 0 = m :=
-begin
-    assume m,
-    /-
-    Proof by induction. 
-    -/
-    apply nat.rec_on m,
-
-    -- base case, m = 0
-    exact rfl,
-
-    -- inductive case
-    assume n',        -- n'
-    assume ih,        -- answer/result for n'
-
-    -- simplify goal using rules defined in my_add'
-    simp [my_add'],
-
-    -- our assumption now finishes the proof
-    assumption,
-end
-
-
-/-
-A little bit of Lean. Lean provides an "induction" tactic. 
-When applied to a proof or value, the tactic provides proper
-name for the cases, applies the appropriate induction axiom 
-for the given type of value being "analyzed" (thank you, 
-Jerimy Avigad for that word), and adds n' and the answer 
-for n' as assumptions in the inductive case, leaving you to
-define how you get from there to a proof/value for n=n'+1.
--/
-
-example : ∀ (n : ℕ), my_add' n 0 = n :=
-begin
-    assume n,
-    induction n with n' ih,
-
-    -- base case, m = 0
-    exact rfl,
-
-    -- now we can simplify using the second rule
-    simp [my_add'],
-    -- my_add' n'.succ 0 = n'.succ
-    -- succ (my_add' n' 0) = succ n'
-    -- constructors are injective!
-    -- my_add' n' 0 = n'
-
-    -- rewrite goal using induction hypothesis
-    exact ih,
-end
-
-
-/- LISTS
--/
-
-namespace hidden 
-inductive list (α : Type) : Type 
-| nil : list
-| cons (h : α) (t : list) : list
-
-
-end hidden
-
