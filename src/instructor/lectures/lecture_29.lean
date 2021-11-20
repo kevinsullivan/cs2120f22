@@ -2,14 +2,17 @@ import .lecture_28
 -- defines sum_up_to 
 
 /-
-To review, last time we ended by using
-induction to define a function that sums
-up the numbers from 0 to any natural number
-given as an argument. 
+To review, last time we ended applying induction
+to define two fundamental total functions, from 
+ℕ to ℕ. The first returns the sum of all of the
+natural numbers from zero to any natural number,
+n. The second returns the product of all of the
+numbers from 1 up to any natural number, n, also
+known as the factorial of n.
 -/
 
 #reduce sum_up_to 5
-
+#reduce fac 5
 
 /-
 I'm going to tell two stories, and then
@@ -80,58 +83,61 @@ universe u_1
 def induction_axiom_for_nat := 
 Π                               -- for any
   {motive : ℕ → Sort u_1}       -- property or function of n
-  (n : ℕ),                      -- argument n
+  (n : ℕ),                      -- and for *any* argument value n
   
-  motive 0 →                    -- proof or value for 0
+  motive 0 →      -- if we have an answer for 0, and ...
 
-  -- a function that turns a value n and a result for n into a result for n+1
+  -- we have a "machine" turns any n' and the result for n' into a result 
+  -- for n'+1
   (Π (n : ℕ), motive n → motive n.succ) → 
 
-  -- gives you a result (proof or value) for arbitrary argument value, n
+  -- Lean binds the unbound variable n instead of n' here; if it helps you
+  -- can comment out this line and uncomment the next; they mean the same.
+  --(Π (n' : ℕ), motive n' → motive n'.succ) → 
+
+  -- then we can get an answer for any natural number n 
   motive n
 
 
 /-
-To apply induction, we had to define what
-we might think of a two machines: the first
-provides a fixed answer for a base case,
-here where the argument is zero; and the 
-second, a machine that, when given any 
-natural nunber, n', and an answer/proof
-for n', produces an answer/proof for n =
-n' + 1. These two machine suffice to give
-on the power to construct an answer/proof
-for any argument value, n. 
+Before turning to the use of induction to construct proofs 
+of the form, (∀ n, P n), we'll look at one more example of
+its use to construct arithemtic functions, In this case we
+will define natural number addition, a binary operation, of
+type ℕ → ℕ → ℕ, "by induction" on one of the two arguments.
 -/
 
--- Let's define a binary function by induction
+-- Let's use our familiar proof-building tactic language 
 /-
 Addition of natural numbers takes two numbers
 as arguments and produces a third as a result.
 -/
-
 def my_add : ℕ → ℕ → ℕ :=
 begin
+  -- assume values for arguments, n and m
   assume n m,
 
-  -- define function by induction on first argument (of type nat)
-  apply nat.rec_on n,
+  -- define function by induction on n
+  induction n with n' answer_for_n',
 
   -- define machine #1 : for n = 0 return m
+  -- why? we're saying 0 + m = m for any m
   exact m,
 
-  -- define machine #2: given any n' and a result for n',  output n'+1 result                     -- n'
-  assume n',                    -- given any n'
-  assume answer_for_n',         -- and an answer for n'
-  -- produce an answer for n' + 1
+  /- machine #2: given any n' and a result 
+  for n' return the result for n'+1. A result
+  for n' answers the question what is n' + m.
+  What is the answer for n'+1, well that is
+  just the successor of the answer for n'. 
+  -/
   exact nat.succ answer_for_n', -- the result for n'+1
 
-  /-
-  That's it to the induction operation you provide the two machines,
-  one a constant for a base case and one a function for building a 
-  result for the next bigger argument value given the current argument
-  value and an answer, computed so far, for that value.
-  -/
+/-
+Having successfully provided the arguments required
+by induction on the natural numbers, you now have a
+total function, from any natural number to its value
+as transformed by that function.
+-/
 end
 
 #eval my_add 0 5
@@ -140,28 +146,33 @@ end
 #eval my_add 3 5
 #eval my_add 4 5
 #eval my_add 5 5
+#eval my_add 1000 1234
+
+
+/-
+PROOF IRRELEVANCE VS PROGRAMMING
+-/
 
 /-
 Programming is different than proving because when
 proving, the details of a proof are irreleant: all
 proofs are equally good (and indeed they're defined
-to be equal), whereas when computing the details of
-the derivation matter greatly. Here for example we
-had to pick the right value for the base case and
-the right method for deriving an answer for n'+1
-from the values of n' and the answer for n'.
+to be equal in the logic of Lean). By contrast, when
+computing, the specific "proof" matters greatly. As
+an example, our functions, sum_to and factorial both
+"prove the type, nat → nat," but here in the realm
+of computing, we care which one we use! 
 -/
 
 /-
 Here's exactly the same function defined using
-Lean's more convenient "by cases" notation for
-defining functions by giving answers for each 
-of some number of possible cases for the inputs.
+Lean's more convenient "by cases" notation.
 -/
 
 def my_add' : ℕ → ℕ → ℕ 
 | (nat.zero) m    := m
 | (nat.succ n') m := nat.succ (my_add' n' m)
+--                           ^answer for n'^
 
 #eval my_add' 0 5
 #eval my_add' 1 5
@@ -176,94 +187,133 @@ convenient notation.
 -/
 
 /-
-The difference between case analysis and
-induction is that in the inductive case we
-can assume that we have an answer (value or
-proof) for n', and all we need to give is a
-way to construct a proof/result for n' + 1.
-
-The "answers" in turn now serve as additional
-axioms that we can use in reasoning. For example,
-we can see from the first rule that for any m,
-0 + m = m, and it's easy to prove formally.
+EXERCISE: Now that you have a function for adding
+two natural numbers, using induction to define a
+function that derives the product of any pair of
+natural numbers.
 -/
 
-example : ∀ (m : ℕ), my_add' 0 m = m :=
+/-
+PROVING THEOREMS BY INDUCTION
+-/
+
+/-
+The difference between simple case analysis and
+induction is that induction let's us assume we 
+are given an arbitrary number, n', and an answer
+(value or proof) for n'. Have these objects is 
+often the key to completing a proof,by giving a
+formula that uses them to computing a result 
+n'+1. 
+
+Now we'll show where case analysis suffices to
+prove that 0 is a left identity for addition as
+we've defined it (because we've given the rule
+for this case to the induction operation), but
+where it will not work to prove that 0 is a 
+right identity, For that, we'll need, and we'll
+demonstrate, proof by induction.
+-/
+
+/-
+An easy proof that 0 is a left identity.
+-/
+
+example : ∀ (m : ℕ), my_add 0 m = m :=
 begin
   assume m,
-  simp [my_add'], -- simplify using rules in definition
+  apply rfl, 
 end
 
-example : ∀ (m : ℕ), my_add' m 0 = m :=
+/-
+Why does case analysis fail in a proof that it's
+also a right identity? Because we don't already
+have a rule for that, as we did for the left case.
+-/
+example : ∀ (m : ℕ), my_add m 0 = m :=
 begin
   assume m,
-  -- apply rfl,       -- no rule for adding 0 on right!
-  --simp [my_add'],   -- no rule for adding 0 on right!
+  apply rfl,          -- no rule for adding 0 on right!
   -- STUCK!
-  -- ... or are we?!
 end
 
 /-
-The conjecture is true. There is a proof by induction.
+... or are we?!
+
+Froof by induction on m. It will suffice
+to specify a result when m is zero, and a
+result for any number, n'+1, when given n'
+and the result for n'. 
 -/
 
-example : ∀ (m : ℕ), my_add' m 0 = m :=
-begin
-    -- We define the big machine to take any m
-    assume m,
-
-    -- and to return a value computed by induction 
-    apply nat.rec_on m,
-
-    -- the machine answers for the base case, m = 0
-    exact rfl,
-
-    -- the second machine is a function that takes
-    -- any n' and an answer for n' and that returns
-    -- an answer for n'+1 
-    assume n',        -- n'
-    assume ih,        -- answer/result for n'
-    -- simplify goal using rules defined in my_add'
-    simp [my_add'],
-    assumption,
-
-    /-
-    Having defined both machines required by nat
-    induction and applied the induction axiom to
-    these machines as arguments we produce a 
-    machine that returns a result for *any* n:
-    the base return value for the base case or
-    by applying the induction function n times
-    starting with 0.
-    -/
-end
-
+#reduce my_add
 
 /-
-A little bit of Lean. Lean provides an "induction" tactic. 
-When applied to a proof or value, the tactic provides proper
-name for the cases, applies the appropriate induction axiom 
-for the given type of value being "analyzed" (thank you, 
-Jerimy Avigad for that word), and adds n' and the answer 
-for n' as assumptions in the inductive case, leaving you to
-define how you get from there to a proof/value for n=n'+1.
+Let's start by checking out my_add in
+more detail
+-/
+#check my_add
+#reduce my_add
+/-
+λ (n m : ℕ), 
+  nat.rec 
+    m       -- value for base case n = 0
+            -- computation for n'+1 from n'
+    (λ (n' answer_for_n' : ℕ), answer_for_n'.succ) 
+    n       -- 
+-/
+#check @nat.rec
+/-
+nat.rec :
+Π 
+  {motive : ℕ → Sort u_1}, 
+  motive 0 →            -- answer for base case 
+  (Π (n : ℕ),           -- next answer generator
+     motive n → 
+     motive n.succ) →   
+  Π (n : ℕ), motive n   -- answer for any n
 -/
 
-example : ∀ (n : ℕ), my_add' n 0 = n :=
+
+
+example : ∀ (n : ℕ), my_add n 0 = n :=
 begin
     assume n,
     induction n with n' ih,
 
+/-
+Π 
+  {motive : ℕ → Sort u_1}, 
+  motive 0 → 
+  (Π (n : ℕ), motive n → motive n.succ) → 
+  Π (n : ℕ), 
+  motive n
+-/
+
     -- base case, m = 0
     exact rfl,
 
-    -- now we can simplify using the second rule
-    simp [my_add'],
-    -- my_add' n'.succ 0 = n'.succ
-    -- succ (my_add' n' 0) = succ n'
-    -- constructors are injective!
-    -- my_add' n' 0 = n'
-
+    -- simplify using rules that define my_add
+    -- my_add n'.succ 0 = n'.succ
+    -- succ (my_add n' 0) = n'.succ
+    simp [my_add],
+    /-
+   Sullivan working to reduce unnecessary
+   complexity in proof state as expressed.
+    -/
+    -- nat.rec 
+      -- 0 
+      -- (λ (n' : ℕ), nat.succ) 
+      -- n'
+    /-
+    -/
+    -- application of induction principle with
+      -- answer for 0 is 0
+      -- answer for n'+1 will be successor  is
+      -- the successor function 
+ 
     -- rewrite goal using induction hypothesis
     exact ih,
 end
+
+#check @nat.rec
