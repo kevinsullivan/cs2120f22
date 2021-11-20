@@ -459,6 +459,10 @@ that we can consider to represent natural
 numbers. (There's a one-to-one corresondence).
 -/
 
+def two : nat := 
+  nat.succ (
+  nat.succ 
+  nat.zero)
 
 /-
 Now let's talk about proovin universal generalizations
@@ -653,14 +657,26 @@ begin
 assume n,
 -- construct function by induction/recursion
 -- have to give partial answers for two cases
-apply nat.rec_on n,
+induction n,
 -- answer for base case, n = 0
 exact 0,
 -- show if we have answer for n' we can derive answer one for n'+1
-assume n',              -- suppose n' is arbitrary
-assume result_for_n',   -- assume result for n' (ind. hypothesis)
-exact result_for_n' + (n' + 1),   -- answer for n' + 1
+--assume n',              -- suppose n' is arbitrary
+--assume result_for_n',   -- assume result for n' (ind. hypothesis)
+exact n_ih + (n_n+1),  -- answer for n' + 1
 end
+
+#eval sum_to 100
+
+#check @nat.rec_on
+/-
+Π 
+  {motive : ℕ → Sort u_1} 
+  (n : ℕ), 
+  motive 0 → 
+  (Π (n : ℕ), motive n → motive n.succ) → 
+  motive n
+-/
 
 
 #reduce sum_to 0
@@ -676,7 +692,56 @@ EXERCISE: Define the factorial function by recursion
 
 def factorial : nat → nat :=
 begin
+  assume n,
+  induction n with n' n'_ih,
+  -- with names for arguments to second machine
+  -- first machine, answers for zero
+  exact nat.zero.succ,
+  -- second: given n', answer n', answers for n'+1
+  exact n'_ih * (n'.succ)
 end
+
+#eval factorial 10
+
+
+/-
+Now that you understand how the inducion 
+principle for a type enables you to define
+total functions on values of that type, we
+introduce a more convenient notation. Here
+is the same function defined basically in
+the same way, with two rules, one for each
+form of input considered: zero or succ n'.
+Each rule starts with |, presents a pattern
+for "matching" input values (including the
+binding of names to parts of these values),
+has a := and then constructs an answer for
+any such value (often involving values that
+are given names during pattern matching). 
+-/
+def fac : ℕ → ℕ 
+/-
+If the argument to this function matches
+"nat.zero", emit the answer, 1, the value 
+of 0!
+-/
+| (nat.zero) := 1
+/-
+If the argument in (n'+1) and we have the
+answer for n', i.e., the value of fac n',
+i.e., the product of all of the numbers 
+from 1 to n', then the answer for n'+1 is  
+fac n' * (n"+1), the product of all of the
+numbers from 1 to n'+1.  
+-/
+| (nat.succ n') := fac n' * (nat.succ n') 
+
+-- It works! The result is a total function
+#eval fac 10
+#eval fac 20
+#eval fac 30
+#eval fac 40
+#eval fac 50
 
 /-
 Lean provides a nice notation for writing proofs
@@ -721,10 +786,12 @@ sum of all numbers from zero up to n'=4, and
 (2) (n'+1)=5. The "answer for 4" is 10, plus 
 5 as the argument value is 15.
 
-LESSON: A recursive function is defined in terms of
-(1) assumed solutions to smaller sub-problems, and (2)
-a combining of these solutions with an argument value
-to produce answer for that argument value. 
+LESSON: The induction principle for type reduces 
+the problem of a defining a total function on 
+values of that type to two smaller problems: one
+is to produce an answer for the argument value, 0.
+The second is to define a machine (function) that
+when given any number n' and an answer for n'
+uses that information to construct an answer for
+(n'+1). 
 -/
-
-#reduce sum_up_to 5
