@@ -322,14 +322,14 @@ def bor : bool → bool → bool :=
 begin
   assume b1 b2,
   apply bool.rec_on b1,
-  -- case where first argument is false (ff)
+  -- first argument is false (ff)
   exact b2,
-  -- case where first argument is true (tt)
+  -- first argument is true (tt)
   exact bool.tt,
 end
 
--- using induction tactic
-def bor : bool → bool → bool :=
+-- now using induction tactic
+def bor' : bool → bool → bool :=
 begin
   assume b1 b2,
   induction b1,
@@ -337,10 +337,10 @@ begin
   exact bool.tt,
 end
 
-#reduce bor bool.tt bool.tt
-#reduce bor bool.tt bool.ff
-#reduce bor bool.ff bool.tt
-#reduce bor bool.ff bool.ff
+#reduce bor' bool.tt bool.tt
+#reduce bor' bool.tt bool.ff
+#reduce bor' bool.ff bool.tt
+#reduce bor' bool.ff bool.ff
 
 
 /-
@@ -363,7 +363,7 @@ begin
 end
 
 -- Using induction tactic
-theorem ff_is_id_for_or : 
+theorem ff_is_id_for_or' : 
     ∀ (b : bool), bor b bool.ff = b :=
 begin
   assume b,
