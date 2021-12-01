@@ -1,3 +1,5 @@
+import algebra.algebra.basic tactic.ring
+
 /-
 We've now proved manually that the number of the
 numbers from 0 to n is n(n+1)/2. In this file we
@@ -89,7 +91,7 @@ conjecture by induction, without worrying about
 formally proving the inductive case (for now).
 -/
 
-example : conjecture := 
+theorem sum_to_opt : conjecture := 
 begin
   unfold conjecture,
   unfold P,
@@ -114,8 +116,54 @@ begin
 
   -- machine #2, proof of (∀ n', P n' → P (n'+1))
   -- Note that Lean already "assumed" n' and ih_n'
-  sorry,  -- we'll skip the algebra for now
+
+  /- 
+  Simply goal using second rule in the definition
+  of sum_to. Let's look at those two rules. See
+  the definition of sum_to, copied below. The 
+  first rule says that sum_to applied to nat.zero
+  reduces to (returns) nat.zero. The second rule
+  says that sum_to applied to any natural number, 
+  n'.succ, greater than zero, evaluates to a sum
+  of two terms we can assume: (1) the value of 
+  (sum_to n'), and (2) n'+1 (derived from n' which
+  we can also assume is given).
+  
+    def sum_to : ℕ → ℕ 
+    | (nat.zero)    := nat.zero 
+    | (n' + 1)  := (sum_to n') + (n' + 1)
+
+  The following use of the simp (for simplify)
+  tactic in Lean attempts to simplify the goal
+  by rewriting it using equalities stipulated
+  by the equalities used in the definition of
+  sum_to. It uses the second rule to rewrite
+  sum_to n'.succ as (sum_to n' + (n' + 1))
+  -/
+  simp [sum_to],   
+
+  -- rewrite using right distributivity
+  -- a * (b + c) = a * b + a * c
+  rw mul_add, 
+
+  -- rewrite using induction hypothesis
+  -- 2 * sum_to n' = n' * (n' + 1)
+  rw ih_n',   
+
+  -- rewrite succ as + 1 to enable ring reasoning
+  -- n.succ = n + 1
+  rw nat.succ_eq_add_one,
+
+  -- finish off with basic algebra in a ring 
+  -- set with + and * operators with usual laws
+  ring,           
 end
+
+
+/-
+conjecture := ∀ n, P n 
+-/
+
 
 -- WHY DOES ALL OF THIS MATTER?
 
@@ -134,7 +182,7 @@ much better algorithm for computing this
 function.
 -/
 
-def sum_to_optimized_version (n : ℕ) := n * (n+1) / 2
+def sum_to_optimized (n : ℕ) := n * (n + 1) / 2
 
 /-
 One important application of theorem proving in
@@ -144,7 +192,6 @@ of computing desired results. One place where
 optimizations are often made is in the compilers
 that turn our source code into bytecode or into
 assembly code. Compiler writers have to *prove*
-that such optimizations don't change what a given
-program computes, only how efficiently it can
-compute it. 
+that optimizations don't change what a program
+computes, only how efficiently it computes it. 
 -/

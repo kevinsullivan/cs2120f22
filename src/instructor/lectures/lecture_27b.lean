@@ -456,7 +456,32 @@ False? Present a counterexample.
 -/
 def bij_trans (s : β → γ → Prop)  (r : α → β → Prop) :
   bijective r → bijective s → bijective (composition s r) := 
-  _
+begin
+assume br bs,
+split,
+-- surjective
+unfold surjective,
+split,
+  -- compoisition total
+  unfold total_function,
+  split,
+   -- composition is a function
+   unfold function single_valued,
+   assume x y z srxy srxz,
+   unfold bijective at br bs,
+   cases bs,
+   cases br,
+   unfold composition at srxy srxz,
+   unfold surjective at  bs_left,
+   unfold surjective at  br_left,
+   unfold injective at br_right bs_right,
+   cases bs_left,
+   cases br_left,
+   cases bs_right,
+   cases br_right,
+   -- composition is defined for all α 
+-- injective
+end
 
 /-
 In general, an operation (such as inverse, here) that, 
