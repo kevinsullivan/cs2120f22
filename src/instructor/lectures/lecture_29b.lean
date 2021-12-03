@@ -46,7 +46,7 @@ Why does case analysis fail in a proof that it's
 also a right identity? Because we don't already
 have a rule for that, as we did for the left case.
 -/
-example : ∀ (m : ℕ), add 0 m = m :=
+example : ∀ (m : ℕ), nat.add 0 m = m :=
 begin
   assume m,
   apply rfl,          -- no rule for adding 0 on right!
