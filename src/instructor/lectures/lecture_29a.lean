@@ -109,108 +109,168 @@ gets us closer to a complete proof.
 
 theorem sum_to_opt : conjecture := 
 begin
+
+  -- unfold the definition of conjecture
   unfold conjecture,
 
   -- assume we're given an arbitrary but specific n
   assume n,
   
-  -- expand the definition of P
+  -- unfold the definition of the property, P
   unfold P,
 
-  
-  -- proof by induction on n, where
-      -- n' is index of ih_n'
-      -- ih_n' is proof for n'
+  -- the remainder of the proof is by induction on n
+
+  -- proof by induction on n
   induction n with n' ih_n',
+      -- n' is any natural number
+      -- ih_n' is proof of (P n')
 
-  /-
-  By induction, it will suffice to prove
-  each of the subordinate lemmas: the base
-  lemma, (P 0); and the step (inductive) 
-  lemma, (∀ n', P n' → P (n'+1)),. When
-  proved, the latter will enable us to
-  construct a proof for n'+1 given a
-  proof for n'. And if given a proof for
-  0, then we'll be able to construct a
-  proof for any n by applying the base
-  lemma once and the step lemma n times.
-  -/
-
-  -- base machine: proof of (P 0)
+  -- base case: proof of (P 0)
+  -- be sure you see why rfl is correct here
   apply rfl,
 
-  -- step machine: proof of (∀ n', P n' → P (n'+1))
+  -- step: proof of (∀ n', P n' → P (n'+1))
   -- Note that Lean already "assumed" n' and ih_n'
-  -- leaving us to show that from these assumed
-  -- objects we can construct a proof of P (n'+1).
+  -- leaving us to produce a proof of P (n'+1).
 
   /- 
-  First, we have to use the definition of sum_to 
+  First, we will use the definition of sum_to 
   to simplify the statement of the goal. To help
-  you remember, here's the definition.
+  you remember, here's the definition of sum_to.
+  The key observation now is that it gives you
+  two equality axioms that you can now use. The
+  first says sum_to nat.zero can be rewritten 
+  to nat.zero. The second says that sum_to (n'+1)
+  can be rewritten as sum_to n' + (n' + 1). These
+  are not just rules for computing but they are
+  also axioms we are given "by the definition of
+  sum_to."
   
     def sum_to : ℕ → ℕ 
     | (nat.zero)    := nat.zero 
     | (n' + 1)  := (sum_to n') + (n' + 1)
+  -/
 
-  The following use of the simp (for simplify)
-  tactic in Lean attempts to simplify the goal
-  by rewriting it using equalities stipulated
-  by the equalities used in the definition of
-  sum_to. It uses the second rule to rewrite
-  sum_to n'.succ as (sum_to n' + (n' + 1))
+  /-
+  In English, our first step in proving the
+  remaining goal is to simplify sum_to (n'+1)
+  to (sum_to n') + (n' + 1) using the rules
+  provided by the definition of sum_to. It's
+  the second one that Lean will choose to use
+  in the current proof state (as you would as
+  well if you were doing all of this by hand).
   -/
   simp [sum_to],   
+  /-
+  Move your cursor back and forth between the
+  proof state before you simplify and the state
+  after, and understand the sense in which Lean
+  is using one of the "computing rules" for the
+  sum_to function as a *rewrite* rule that we 
+  can and now have used in our proof.
+  -/
 
+  /-
+  Here we reach a point of highest challenge. 
+  The trick is to find a way to rewrite the
+  goal, changing its form but not its meaning,
+  so that in its new form we can finally use
+  the induction hypothesis (which provides an
+  answer for n') to rewrite the current goal
+  into a form in which all the rest is basic
+  algebra. 
+
+  As we see now, rewriting by distributing 
+  multiplication over addition "surfaces"
+  a subterm of the form (P n'), for which 
+  we've assumed we have a proof. 
+  -/
+  
   -- rewrite using right distributivity
   -- a * (b + c) = a * b + a * c
   -- mul_add is a theorem from Lean's libraries
   rw mul_add, 
 
+  /-
+  The key is to use rewriting to replace (P n')
+  where it appears in the goal with the *answer*
+  (result, proof) for n', which is exactly what is
+  given by the induction hypothesis.
+  -/
+
   -- rewrite using induction hypothesis
   -- 2 * sum_to n' = n' * (n' + 1)
   rw ih_n',   
 
-  -- rewrite succ as + 1 to enable ring reasoning
+  /-
+  The rest of the proof is by basic algebra,
+  -/
+
+  /-
+  First, as kind of a detail, we need to replace
+  n'.succ with the equivalent, (n' + 1), where 
+  the former appears in the goal. This involves
+  rewriting the goal using a theorem proved in
+  Lean's standard library. We just give you the
+  name of this theorem/proof for free. Our main
+  underlying aim here is to get the goal to be
+  stated entirely in terms of + and * operations
+  so that we can get proofs of equalities just
+  by invoking a "ring equality solver." That is
+  what the ring tactic is: if there's a proof it
+  tries to find it for you. Again, our use of 
+  the ring tactic here gives you a glimpse of
+  the real power of automated proof assistants.
+  -/
+  
+  -- rewrite succ as + 1 (to enable us of ring)
   -- n.succ = n + 1
   rw nat.succ_eq_add_one,
 
-  -- finish off with basic algebra in a ring 
-  -- set with + and * operators with usual laws
+  -- the rest is simple algebra in a ring (a 
+  -- set, here nat, with + and * operations
+  -- that follow "usual" rules of arithmetic
   ring,    
-
-  -- QED       
 end
 
 
--- WHY DOES ALL OF THIS MATTER?
+
+
+-- WHY DOES SUCH A PROOF MATTER?
 
 /-
-So why does all this matter to the practical
-programmer? Well, now you know that for any
+Why might such a proof matter in practical
+programming? Well, now you know that for any
 natural number, n, you can compute the sum
 of all the numbers from 0 to n without having
-to "loop" n times to get an answer. Instead
+to "loop" n times to get an answer! Instead
 you can just compute n*(n+1)/2. You thus have
 a proof that justifies using the efficient 
-formula n*(n+1)/2 instead of an algorithm 
-that takes time proportional to n to compute
-the answer. You've proved that there is a
-much better algorithm for computing this
-function.
+formula n*(n+1)/2 instead of an interative
+algorithm that takes as many steps as n is
+big to compute an answer. You've proved that
+there is a better algorithm for computing the
+function as we defined it using recursion.
 -/
 
 def sum_to_optimized (n : ℕ) := n * (n + 1) / 2
 
 /-
 One important application of theorem proving in
-computer science is precisely to justify this
-kind of optimization of otherwise costly methods
-of computing desired results. One place where
-optimizations are often made is in the compilers
-that turn our source code into bytecode or into
-assembly code. Compiler writers have to *prove*
-that optimizations don't change what a program
-computes, only how efficiently it computes it. 
+computer science is just so to justify this kind 
+of optimization. One place where optimizations are 
+especially important is in compilers, which turn 
+source code into bytecode or assembly code. A
+compiler writers should always have a proof that
+an optimzation that transforms either source code
+to optimized source code, or assumbly code to 
+optimized assembly code, doesn't thereby change
+what the code computes. 
+
+Tremendous gains in computer performance are due
+not only to hardware getting faster but also to
+improvements in software, including ones based on
+compiler optimiztions.   
 -/
 
