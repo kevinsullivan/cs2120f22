@@ -1,13 +1,48 @@
--- import definitions of real and rational numbers from mathlib 
-import data.real.basic
-
-namespace cs2120
+/-
+# Course introduction
+## Types of numbers
+## Axioms and theorems
+## Equality relations
+## Some Lean details
+-/
 
 /-
-The first part of this lesson is in the file, lecture_1.md.
-Please start there then return here when you're done with
-that document.
+Today proofs of mathematically and practically important
+propositions can run to hundreds of thousands of lines of
+logical "code," or more. Consequently, just as we have to
+organize software artifacts into hierarchies of files and
+definitions, so as to manage its complexity and evolution, 
+so it's necessary to organize complex logical definitions
+so that one can develop, undersand, verify, and use them
+cost-effectively.
+
+Similarly, just as in Python one can import definitions
+from libraries that others have written, one can do the
+same in Lean. Here we import definitions from a library
+that defines a mathematical representation of the familiar
+real numbers. You will not need to look inside the file=
+in this course.
+
+In Lean, imports must appear first in a given file (but)
+for comments, which is what you're reading right now. A
+comment can be enclosed by slash-dash and dash-slash, as
+here, written on one line starting with dash-dash (--).
 -/
+import data.real.basic
+
+/-
+When we import definitions from "libraries" like this, 
+whether in Python, Java, or Lean, we risk having our 
+definitions of what given identifiers mean conflict with
+definitions in the library. In many languages, as well 
+as in Lean, namespaces provide a solution. And name, say
+n, defined in a namespace, say s, will have s.n as its
+full name. By enclosing all of our own definitions in a
+namespace, which we'll call complogic, we avoid any such
+conflicts.
+-/
+
+namespace complogic
 
 /-
 NUMBER SYSTEMS
@@ -17,15 +52,65 @@ NUMBER SYSTEMS
 Mathematicians think about operations on many kinds of objects.
 In early mathematics, the objects are numbers. In later maths,
 they can be polynomials, matrices, functions, symmetries, or any
-manner of other "mathematical thingies". As we're going to see
-here, they can even be propositions and proofs.
+manner of other "mathematical things". As we're going to see in
+this class, they can even be logical propositions and proofs.
+
+But before we get to that, let's review the concept that you
+should have learned in high school: there are different types
+of numbers: real, rational, and so forth. Here we review a few 
+of the most familiar numerical types and notations for referring
+to the sets of values that these types comprise.
 
 ℕ: Natural numbers. The non-negative whole numbers. {0, 1, 2, ...}
-ℤ: Integers: The negative and non-negative whole numbers. 
-ℚ: Rationals: Ratios of an integer and a non-zero natural number.
+ℤ: Integers: The negative, zero, and positive whole numbers. 
+ℚ: Rationals: A natural number numerator and non-zero integer denominator.
 ℝ: Reals: Equivalence classes of convergent sequence of rationals.
-Irrational numbers: Real numbers not "isomorphic" to any rationals.
+-/
 
+
+/-
+The following examples illustrates the use of these types in
+Lean. We give definitions to the identifiers, n, z,, q, and r.
+Each gets a value, "1", but these values are of different types: 
+natural number, integer, rational, and real, respectively. 
+-/
+def n : ℕ := 1    -- 1 taken as a natural number
+def z : ℤ := 1    -- 1 taken as an integer
+def q : ℚ := 1/1  -- 1 as a rational number 
+def r : ℝ := 1.0  -- 1 taken as a real number 
+
+/-
+We can also ask Lean to tell us the type of the value bound to
+each of these identifiers using the #check command.
+-/
+#check n 
+#check z
+#check q 
+#check r 
+
+/-
+We can also reduce any given identifier to the value to 
+which it is bound, using the #reduce command in Lean. 
+-/
+
+#reduce n
+#reduce z
+#reduce q
+
+/-
+At 
+least we can try. Real numbers in both mathematics and 
+therefore in Lean are represented by ("equivalence classes"
+of) infinite sequences of rational numbers that "converge"
+to some point. They cannot be used in computations. They
+cannot be printed out. If you uncomment the fourth line in
+what follows, Lean will get itself into a state in which 
+it's trying (indicated by an orange line in the VS Code
+IDE) but not making any progress.
+-/
+--#reduce r
+
+/-
 But let's start with something really simple. The number, 1. Ok,
 it's actually not that simple, because 1 can be interpreted as 
 denoting a natural number, integer, real number, rational number,
@@ -95,11 +180,10 @@ the form of a universal generaliztion:
 
 In English, this says, "if you give me 
 *any* Type, T, and any object, t, of that
-type, I will return you (and therefore 
-there must be) a proof of the proposition, 
-t = t; and the existence of this proof,
-in turn, justifies the *judgment* that
-the proposition, 1 = 1, is *true*.  
+type, I will return you a proof of the 
+proposition, t = t. The existence of such
+a proof, in turn, justifies the judgment 
+that the proposition, 1 = 1, is *true*.  
 
 Let's take another look at the axiom that
 let's us *deduce* the *theorem* that 1 = 1.
@@ -308,4 +392,5 @@ that "it's raining *and* the streets are wet."
 
 answer: 
 -/
-end cs2120
+
+end complogic

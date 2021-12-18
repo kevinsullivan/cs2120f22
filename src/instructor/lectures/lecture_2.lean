@@ -1,4 +1,13 @@
 /-
+Axioms and theorems. An axiom is a logical 
+proposition that one can stipulates to be 
+true in a given environment. 
+without proof. Inference rules are programs
+that enable the derivation of proofs of other
+propositions, which we then call theorems.
+-/
+
+/-
 In this file, we give formal statements (our version)
 of the two axioms of equality. We also present Lean's
 versions of these rules, and show how you can use them
@@ -14,9 +23,9 @@ type, then you may have a proof of t = t "for free."
 -/
 
 axiom eq_refl  : 
-  ∀ (T : Type)  -- if T is any type (of thing)
-    (t : T),    -- and t is thing of that type, T
-  t = t         -- the result type: proof of t = t
+  ∀ (T : Type)  -- for any type of thing, T 
+    (t : T),    -- and for any value, t, of that type
+  t = t         -- there is a proof of type t = t
 
 /-
 INFERENCE RULE #2/2: SUBSTITUTION OF EQUALS FOR EQUALS
