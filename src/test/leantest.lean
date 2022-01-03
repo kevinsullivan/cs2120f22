@@ -1,11 +1,10 @@
 /-
-Am I green? 
-Look below!
-Is import blue? 
+Read me. Am I green? 
+Look below. Is import blue? 
 No red squiggles? 
 Good to go!
 -/
 import algebra.add_torsor
 /-
-Otherwise something's wrong with your lean/mathlib install.
+Otherwise you may judge that there has been a malfunction.
 -/
