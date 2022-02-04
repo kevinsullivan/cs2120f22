@@ -7,12 +7,12 @@ are loaded by default when Lean starts.
 -/
 
 /-
-We've now seen how sets correspond in
-very close ways) to one-place predicates.
+We've now seen how sets correspond 
+closely with one-place predicates.
 This correspondence allows us to "reduce"
 the language of set theory to the language
 of predicate logic (here, in Lean). That,
-in turn, let's use predicate logic and our
+in turn, let's us use predicate logic and 
 proof building and checking machinery to  
 write propositions *in set theory* and to
 develop and automatically check proofs.
