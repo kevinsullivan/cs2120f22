@@ -1,7 +1,7 @@
 # Copyright © 2001 by the Rectors and Visitors of the University of Virginia. 
 
 # Extend Ubunto 20.04
-FROM docker.io/kevinsullivan/leanvm 
+FROM docker.io/kevinsullivan/leanvm:latest
 
 # Your extensions to your environment can go here.
 # Then you must rebuild the container. You probably
