@@ -16,7 +16,7 @@ git pull upstream main
 
 ## /src/mywork
 
-The /src/mywork directory is where you should do your work. You will sometimes want to edit files that Prof. Sullivan provides. To do this copy the files from /src/sullivan to /src/mywork *before* you edit them. You may then edit your copies. 
+The /src/mywork directory is where you should do your work. You will sometimes want to edit files that Prof. Sullivan provides. To do this copy the files from /src/sullivan to /src/mywork *before* you edit them. You may then edit your copies.
 
 To push changes you've made locally to your GitHub repository, issue the following commands in a terminal window.
 

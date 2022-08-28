@@ -19,6 +19,7 @@
 		"ms-vsliveshare.vsliveshare",
 		"ms-vsliveshare.vsliveshare-audio",
 		"ms-vsliveshare.vsliveshare-pack",
+		"lostintangent.vsls-whiteboard",
 		"ms-vscode-remote.remote-containers",
 		"yzhang.markdown-all-in-one",
 		"goessner.mdmath",
@@ -29,7 +30,8 @@
 		"coenraads.bracket-pair-colorizer",
 		"stephanvs.dot",
 		"jroesch.lean",
-		"ms-vscode-remote.remote-ssh"
+		"ms-vscode-remote.remote-ssh",
+		"ms-python.python"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
