@@ -1,4 +1,4 @@
-# CS2120-003 Fall 2021
+# CS2120 Fall 2022 (Sullivan)
 
 Welcome to UVa CS2120 Fall 2022 taught by Kevin Sullivan. We're going to use some software this term, which we've packaged up for you into what we hope and expect will be an easy install. You must provide both VSCode and Docker Desktop on your Windows or MacOS computer. We then provide our Discrete Mathematics Development Environment based on VSCode. 
 
