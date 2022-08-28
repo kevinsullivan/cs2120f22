@@ -34,7 +34,8 @@
 		"ms-python.python",
 		"jithurjacob.nbpreviewer",
 		"KevinRose.vsc-python-indent",
-		"njpwerner.autodocstring"
+		"njpwerner.autodocstring",
+		"oderwat.indent-rainbow"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
