@@ -52,7 +52,7 @@ There is mixed news for Windows 10 *Home* users: in our experience, Docker Desko
     - git config --global user.email "your@email.here"
 - You may now work in and exit from VSCode as you wish. VSCode will let you re-open this project when you're ready to work on it again.
 
-You now have, up and running, a nice discrete math development environment ever. You're done here now!
+You now have, up and running, a nice discrete math development environment. You're done here now!
 
 ## If you find a problem or an opportunity
 
