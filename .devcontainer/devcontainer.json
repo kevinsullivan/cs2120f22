@@ -31,7 +31,8 @@
 		"stephanvs.dot",
 		"jroesch.lean",
 		"ms-vscode-remote.remote-ssh",
-		"ms-python.python"
+		"ms-python.python",
+		"jithurjacob.nbpreviewer"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
