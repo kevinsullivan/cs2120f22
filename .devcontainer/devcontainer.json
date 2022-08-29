@@ -35,7 +35,8 @@
 		"jithurjacob.nbpreviewer",
 		"KevinRose.vsc-python-indent",
 		"njpwerner.autodocstring",
-		"oderwat.indent-rainbow"
+		"oderwat.indent-rainbow",
+		"GitHub.vscode-pull-request-github"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
