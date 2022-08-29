@@ -4,16 +4,18 @@
 	"name": "leanvm",
 	"build": {
 		"dockerfile": "Dockerfile",
-		"args": { "VARIANT": "focal" }
+		"args": {
+			"VARIANT": "focal"
+		}
 	},
-
 	// arguments needed to enable ptrace debugging, e.g., for C++, in the container
-	"runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
-
+	"runArgs": [
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined"
+	],
 	// Set *default* container specific settings.json values on container create.
 	"settings": {},
-
-
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-vsliveshare.vsliveshare",
@@ -25,7 +27,6 @@
 		"goessner.mdmath",
 		"davidanson.vscode-markdownlint",
 		"mathematic.vscode-pdf",
-		"ms-azuretools.vscode-docker",
 		"eamodio.gitlens",
 		"coenraads.bracket-pair-colorizer",
 		"stephanvs.dot",
@@ -35,17 +36,14 @@
 		"jithurjacob.nbpreviewer",
 		"KevinRose.vsc-python-indent",
 		"njpwerner.autodocstring",
-		"oderwat.indent-rainbow"
+		"oderwat.indent-rainbow",
+		"GitHub.vscode-pull-request-github"
 	],
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "leanpkg configure && git remote add upstream https://github.com/kevinsullivan/cs2120f22.git",
-
+	"postCreateCommand": "leanpkg configure && git remote add upstream https://github.com/kevinsullivan/cs2120f22.git"
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	// "remoteUser": "vscode"
 	// TODO: Add vscode user creation to DOCKERFILE then uncomment
 }
-
