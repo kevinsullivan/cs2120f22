@@ -37,12 +37,13 @@
 		"KevinRose.vsc-python-indent",
 		"njpwerner.autodocstring",
 		"oderwat.indent-rainbow",
-		"GitHub.vscode-pull-request-github"
+		"GitHub.vscode-pull-request-github",
+		"dafny-lang.ide-vscode"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "leanpkg configure && git remote add upstream https://github.com/kevinsullivan/cs2120f22.git"
+	"postCreateCommand": "leanpkg configure"
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	// "remoteUser": "vscode"
 	// TODO: Add vscode user creation to DOCKERFILE then uncomment
