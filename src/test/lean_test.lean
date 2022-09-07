@@ -2,7 +2,12 @@
 Read me. Am I green? 
 Now look below. 
 No red squiggles? 
-Good to go!
+Almost good to go!
+Persistent orange 
+to the left means
+oleans lacking. In
+this case, please do
+notify the instructor.
 -/
 
 import algebra.add_torsor
