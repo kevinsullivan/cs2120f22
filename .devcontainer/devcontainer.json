@@ -19,8 +19,6 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-vsliveshare.vsliveshare",
-		"ms-vsliveshare.vsliveshare-audio",
-		"ms-vsliveshare.vsliveshare-pack",
 		"lostintangent.vsls-whiteboard",
 		"ms-vscode-remote.remote-containers",
 		"yzhang.markdown-all-in-one",
@@ -31,6 +29,7 @@
 		"coenraads.bracket-pair-colorizer",
 		"stephanvs.dot",
 		"jroesch.lean",
+		"dafny-lang.ide-vscode",
 		"ms-vscode-remote.remote-ssh",
 		"ms-python.python",
 		"jithurjacob.nbpreviewer",
@@ -38,7 +37,8 @@
 		"njpwerner.autodocstring",
 		"oderwat.indent-rainbow",
 		"GitHub.vscode-pull-request-github",
-		"dafny-lang.ide-vscode"
+		"ms-vsliveshare.vsliveshare-audio",
+		"ms-vsliveshare.vsliveshare-pack"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [],
