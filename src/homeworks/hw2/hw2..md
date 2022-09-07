@@ -1,4 +1,6 @@
-# Homework #2 Propositional Logic Modulo Theories
+# Homework #2 Propositional Logic
+
+UNDER CONSTRUCTION. IGNORE FOR NOW.
 
 This homework is meant to prepare you for the first part of the mid-term exam, on *propositional logic.*
 
