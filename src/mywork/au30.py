@@ -4,14 +4,14 @@ from z3 import *
 # 15x + y + 0.25*z == 100
 # x >= 1, y >= 1, z>= 1
 
-x = Int('x')
-y = Int('y')
-z = Int('z')
+x = Real('x')
+y = Real('y')
+z = Real('z')
 
 s = Solver()
-s.add(x + y + z == 100)
-s.add(1500*x + 100*y + 25*z == 10000)
-s.add(And(x >= 1, y >= 1, z>= 1))
+s.add(3*x + 2*y - z == 1)
+s.add(2*x + 2*y + 4*z == -2)
+s.add(-2*x + y - 2*z == 0)
 print(s.check())
 print(s.model())
 
