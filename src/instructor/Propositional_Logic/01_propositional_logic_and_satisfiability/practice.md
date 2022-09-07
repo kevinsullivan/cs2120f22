@@ -4,12 +4,12 @@
 
 The *Solver.check* command of Z3 returns one of two answers:
 
-- *sat* if there's at least one interpretation that makes the given proposition, P, true
+- *sat* if there's at least one **interpretation** that makes the given proposition, P, true
 - unsat, if there is no solution to the given proposition
 
 What's missing is an explicit check for the *validity* of P. How can you easily use Z3 to determine if P is *valid?*
 
-Demonstrate your insight by using Z3 to prove that for any propositional (Boolean) variable, X, the proposition "X or not X" is *valid.* Do this by editing the *example_validity_z3.py* file and following the instructions there.
+Demonstrate your insight by using Z3 to prove that for any propositional (Boolean) variable, X, the proposition "X **or** not X" is *valid.* Do this by editing the *example_validity_z3.py* file and following the instructions there.
 
 ## 2. Add declarative specification example_sqrt.py
 
@@ -37,3 +37,4 @@ A crime has been committed. The police have 5 suspects at least one of whom is g
 - if Heath is guilty, then Mullaney is guilty.
 - Chase and Heath are not both guilty.
 - Unless Heath is guilty, Decker is innocent.
+  

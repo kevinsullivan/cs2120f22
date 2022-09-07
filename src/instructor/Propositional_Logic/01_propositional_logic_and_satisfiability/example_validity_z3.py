@@ -1,9 +1,11 @@
 from z3 import *
 
-def isValid(P) :
+
+def isValid(P):
     s = Solver()
-    s.add(True) # replace True with required declarative spec
-    return (s.check()==unsat)
+    s.add(Not(P))  # replace True with required declarative spec
+    return (s.check() == unsat)
+
 
 # Declare X to be a Z3 Bool variable
 X = Bool('X')
