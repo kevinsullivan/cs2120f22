@@ -23,7 +23,7 @@ When you take linear algebra you'll learn *procedures* for solving systems of li
 
 - 3*x + 2*y - z = 1
 - 2*x + 2*y + 4*z = -2
-- -x + 0.5y - z == 0
+- -x + 0.5*y - z = 0
 
 ## Solve a fun logic puzzle
 
