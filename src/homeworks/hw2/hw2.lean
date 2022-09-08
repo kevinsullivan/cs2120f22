@@ -53,9 +53,13 @@ in English and explain why it doesn't make sense.
 6. X ⊢ X ∨ Y                 -- or introduction left
 7. Y ⊢ X ∨ Y                 -- or introduction right
 8. X → Y, ¬X ⊢ ¬ Y           -- denying the antecedent
-9. X ∨ Y, X → Z, Y → Z ⊢ Z   -- or elimination
-10. X → Y, Y ⊢ X              -- affirming the conclusion
-11. X → Y, X ⊢ Y              -- arrow elimination
+9. X → Y, Y → X ⊢ X ↔ Y      -- iff introduction
+10. X ↔ Y ⊢ X → Y            -- iff elimination left
+11. X ↔ Y ⊢ Y → X            -- iff elimination right
+12. X ∨ Y, X → Z, Y → Z ⊢ Z  -- or elimination
+13. X → Y, Y ⊢ X             -- affirming the conclusion
+14. X → Y, X ⊢ Y             -- arrow elimination
+15. X → Y, Y → Z ⊢ X → Z     -- transitivity of → 
 -/
 
 /-
