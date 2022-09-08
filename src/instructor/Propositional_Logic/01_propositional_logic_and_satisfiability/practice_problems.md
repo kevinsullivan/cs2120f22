@@ -30,6 +30,14 @@ A crime has been committed. The police have 5 suspects at least one of whom is g
 - Chase and Heath are not both guilty.
 - Unless Heath is guilty, Decker is innocent.
   
+## Solve a system of linear equations using Z3
+
+When you take linear algebra you'll learn *procedures* for solving systems of linear equations. Write a Python program to determine (a) whether this system of equations has any solutions, and (b) print out a solution is there is at least one, otherwise to print "There are no solutions."
+
+- 3*x + 2*y - z = 1
+- 2*x + 2*y + 4*z = -2
+- -x + 0.5*y - z = 0
+
 ## Solve a shape arithmetic puzzle
 
 Here are three shape equations:
@@ -40,15 +48,3 @@ Here are three shape equations:
 
 What numerical values for Triangle, Square, and Circle make all
 of these equality propositions true at once?
-
-## Solve a system of linear equations using Z3
-
-When you take linear algebra you'll learn *procedures* for solving systems of linear equations. Write a Python program to determine (a) whether this system of equations has any solutions, and (b) print out a solution is there is at least one, otherwise to print "There are no solutions."
-
-- 3*x + 2*y - z = 1
-- 2*x + 2*y + 4*z = -2
-- -x + 0.5*y - z = 0
-
-## Use Z3 to determine which of the following propositions are valid
-
-- 
