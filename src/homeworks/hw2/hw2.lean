@@ -45,17 +45,17 @@ in English and explain why it doesn't make sense.
 -/
 
 /-
-- X ∨ Y, X ⊢ ¬Y             -- affirming the disjunct
-- X, Y ⊢ X ∧ Y              -- and introduction
-- X ∧ Y ⊢ X                 -- and elimination left
-- X ∧ Y ⊢ Y                 -- and elimination right
-- ¬¬X ⊢ X                   -- negation elimination                    
-- X ⊢ X ∨ Y                 -- or introduction left
-- Y ⊢ X ∨ Y                 -- or introduction right
-- X → Y, ¬X ⊢ ¬ Y           -- denying the antecedent
-- X ∨ Y, X → Z, Y → Z ⊢ Z   -- or elimination
-- X → Y, Y ⊢ X              -- affirming the conclusion
-- X → Y, X ⊢ Y              -- arrow elimination
+1. X ∨ Y, X ⊢ ¬Y             -- affirming the disjunct
+2. X, Y ⊢ X ∧ Y              -- and introduction
+3. X ∧ Y ⊢ X                 -- and elimination left
+4. X ∧ Y ⊢ Y                 -- and elimination right
+5. ¬¬X ⊢ X                   -- negation elimination                    
+6. X ⊢ X ∨ Y                 -- or introduction left
+7. Y ⊢ X ∨ Y                 -- or introduction right
+8. X → Y, ¬X ⊢ ¬ Y           -- denying the antecedent
+9. X ∨ Y, X → Z, Y → Z ⊢ Z   -- or elimination
+10. X → Y, Y ⊢ X              -- affirming the conclusion
+11. X → Y, X ⊢ Y              -- arrow elimination
 -/
 
 /-
@@ -72,10 +72,14 @@ can just call it.
 /-
 What to turn in.
 
-Turn in ONE Python file. 
+Turn in ONE Python file that, when run, prints out one
+line of output for each of the 11 problems, either saying
+that the inference rule is valid, or that it's not and giving
+a model that serves as a counterexample. HINT: Once you've 
+added constraints to a Solver, s, and used s to try to
+satisfy the constraints, you can then use the s.reset() 
+method to clear the solver for the next constraints to be
+checked/solved.
 
-HINT: Once you've added constraints to a Solver, s, and used
-s to try to satisfy the constraints, you can then use the 
-s.reset() method to clear the solver for the next set of 
-constraints to be checked/solved.
+Hint:
 -/
