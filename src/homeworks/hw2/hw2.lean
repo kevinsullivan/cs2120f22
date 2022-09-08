@@ -84,6 +84,4 @@ added constraints to a Solver, s, and used s to try to
 satisfy the constraints, you can then use the s.reset() 
 method to clear the solver for the next constraints to be
 checked/solved.
-
-Hint:
 -/
