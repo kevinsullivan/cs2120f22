@@ -77,11 +77,12 @@ the rule in Python.
 /-
 Hint: Recall that s.check() returns sat or unsat, and that
 there's an easy "trick" to use Z3 to determine if a given
-proposition is *valid*. So DO write into your solution file a
-procedure that takes a proposition, C, and returns true if 
-it's valid and false otherwise. You need to check  each
+proposition is *valid*. So DO write into your solution file 
+a procedure that takes a proposition, C, and returns true if 
+it's valid and false otherwise. You will need to check each
 proposition above for validity, so you will find it helpful
-to have this helper function in your code.
+to have this helper function, so that you only have to write
+the code once. 
 -/
 
 /-
