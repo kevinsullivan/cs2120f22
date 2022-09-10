@@ -1,5 +1,5 @@
 /-
-Below we've listed 19 proposed "inference rules" for reasoning 
+Below we've listed 20 proposed "inference rules" for reasoning 
 with propositional logic. Remember that such a rule has a context, 
 which is a list of propositions that you already know, or assume 
 (hypothetically), to be true; then there is a turnstile symbol (⊢),
@@ -29,7 +29,7 @@ proposed rule, do the following:
 
 - In the Python file you will turn in, translate each rule as given
 here into a proposition in Z3 and assign that proposition to a 
-Python variable called Cn, where n is 1-19 corresponding to the
+Python variable called Cn, where n is 1-20 corresponding to the
 enumeration below. For example, C3 = (Implies(And(X, Y), X). Note: 
 translate each context into a conjunction of its elements, and then
 translate ⊢ into propositional logic as →. For example, you can 
@@ -58,30 +58,31 @@ the rule in Python.
 4. X ∧ Y ⊢ Y                 -- and elimination right
 5. ¬¬X ⊢ X                   -- negation elimination 
 6. ¬(X ∧ ¬X)                 -- no contradiction
-6. X ⊢ X ∨ Y                 -- or introduction left
-7. Y ⊢ X ∨ Y                 -- or introduction right
-8. X → Y, ¬X ⊢ ¬ Y           -- denying the antecedent
-9. X → Y, Y → X ⊢ X ↔ Y      -- iff introduction
-10. X ↔ Y ⊢ X → Y            -- iff elimination left
-11. X ↔ Y ⊢ Y → X            -- iff elimination right
-12. X ∨ Y, X → Z, Y → Z ⊢ Z  -- or elimination
-13. X → Y, Y ⊢ X             -- affirming the conclusion
-14. X → Y, X ⊢ Y             -- arrow elimination
-15. X → Y, Y → Z ⊢ X → Z     -- transitivity of → 
-16. X → Y ⊢ Y → X            -- converse
-17. X → Y ⊢ ¬Y → ¬X          -- contrapositive
-18. ¬(X ∨ Y) ↔ ¬X ∧ ¬Y       -- DeMorgan #1 (¬ distributes over ∨)
-19. ¬(X ∧ Y) ↔ ¬X ∨ ¬Y       -- Demorgan #2 (¬ distributes over ∧)
+7. X ⊢ X ∨ Y                 -- or introduction left
+8. Y ⊢ X ∨ Y                 -- or introduction right
+9. X → Y, ¬X ⊢ ¬ Y           -- denying the antecedent
+10. X → Y, Y → X ⊢ X ↔ Y      -- iff introduction
+11. X ↔ Y ⊢ X → Y            -- iff elimination left
+12. X ↔ Y ⊢ Y → X            -- iff elimination right
+13. X ∨ Y, X → Z, Y → Z ⊢ Z  -- or elimination
+14. X → Y, Y ⊢ X             -- affirming the conclusion
+15. X → Y, X ⊢ Y             -- arrow elimination
+16. X → Y, Y → Z ⊢ X → Z     -- transitivity of → 
+17. X → Y ⊢ Y → X            -- converse
+18. X → Y ⊢ ¬Y → ¬X          -- contrapositive
+19. ¬(X ∨ Y) ↔ ¬X ∧ ¬Y       -- DeMorgan #1 (¬ distributes over ∨)
+20. ¬(X ∧ Y) ↔ ¬X ∨ ¬Y       -- Demorgan #2 (¬ distributes over ∧)
 -/
 
 /-
 Hint: Recall that s.check() returns sat or unsat, and that
 there's an easy "trick" to use Z3 to determine if a given
-proposition is *valid*. So DO write into your solution file a
-procedure that takes a proposition, C, and returns true if 
-it's valid and false otherwise. You need to check  each
+proposition is *valid*. So DO write into your solution file 
+a procedure that takes a proposition, C, and returns true if 
+it's valid and false otherwise. You will need to check each
 proposition above for validity, so you will find it helpful
-to have this helper function in your code.
+to have this helper function, so that you only have to write
+the code once. 
 -/
 
 /-
