@@ -28,7 +28,13 @@ variables isEven isOdd isPrime : nat → Prop -- one nat argument predicates
 /-
 With these terms defined, we can now write all our propositions
 in a completely precise and fully type-checked syntax. You cannot
-fool the Lean type checker.
+fool the Lean type checker. In the expressions below, #check is a
+command to Lean asking it to typecheck and output the type of each
+expression. These expressions are all propositions, so their types
+are all "Prop," which is the type of all logical propositions that
+you might write in Lean. If you hover over the #check command or
+open the Lean InfoView window, you can see what Lean reports as the
+types of these expressions.
 -/
 
 -- Every person is mortal
