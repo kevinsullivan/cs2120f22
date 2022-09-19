@@ -1,11 +1,12 @@
 /-
-Read me. Am I green? 
+This comment should be green? 
 Now look below. 
 No red squiggles? 
 Almost good to go!
 Persistent orange 
 to the left means
-oleans lacking. In
+oleans lacking. But
+give Lean a few In
 this case, please do
 notify the instructor.
 -/
