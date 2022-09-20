@@ -52,7 +52,7 @@ the rule in Python.
 -/
 
 /-
-1. X ∨ Y, X ⊢ ¬Y             -- affirming the disjunct
+1. X ∨ Y, X ⊢ ¬Y             -- affirming the disjunct *
 2. X, Y ⊢ X ∧ Y              -- and introduction
 3. X ∧ Y ⊢ X                 -- and elimination left
 4. X ∧ Y ⊢ Y                 -- and elimination right
@@ -60,15 +60,15 @@ the rule in Python.
 6. ¬(X ∧ ¬X)                 -- no contradiction
 7. X ⊢ X ∨ Y                 -- or introduction left
 8. Y ⊢ X ∨ Y                 -- or introduction right
-9. X → Y, ¬X ⊢ ¬ Y           -- denying the antecedent
+9. X → Y, ¬X ⊢ ¬ Y           -- denying the antecedent *
 10. X → Y, Y → X ⊢ X ↔ Y      -- iff introduction
 11. X ↔ Y ⊢ X → Y            -- iff elimination left
 12. X ↔ Y ⊢ Y → X            -- iff elimination right
 13. X ∨ Y, X → Z, Y → Z ⊢ Z  -- or elimination
-14. X → Y, Y ⊢ X             -- affirming the conclusion
+14. X → Y, Y ⊢ X             -- affirming the conclusion *
 15. X → Y, X ⊢ Y             -- arrow elimination
 16. X → Y, Y → Z ⊢ X → Z     -- transitivity of → 
-17. X → Y ⊢ Y → X            -- converse
+17. X → Y ⊢ Y → X            -- converse *
 18. X → Y ⊢ ¬Y → ¬X          -- contrapositive
 19. ¬(X ∨ Y) ↔ ¬X ∧ ¬Y       -- DeMorgan #1 (¬ distributes over ∨)
 20. ¬(X ∧ Y) ↔ ¬X ∨ ¬Y       -- Demorgan #2 (¬ distributes over ∧)
