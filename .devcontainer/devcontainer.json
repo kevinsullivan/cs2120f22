@@ -43,7 +43,7 @@
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "leanproject get-mathlib-cache"
+	"postCreateCommand": "elan update && leanproject update && leanproject get-mathlib-cache"
 	// TODO: Add vscode user creation to DOCKERFILE then uncomment
 	// "remoteUser": "vscode"
 }

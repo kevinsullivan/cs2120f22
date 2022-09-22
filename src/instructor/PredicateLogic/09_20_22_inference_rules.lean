@@ -128,15 +128,120 @@ values that follow the :='s that type types of the variables
 here just have to be Prop.
 -/
 
--- → and ∀ 
-def arrow_all_intro   := ∀ (x : X), Y   ↔ X → Y
-def arrow_elim        :=  (X → Y) → X       → Y
-def all_elim          := ((∀ x : X), Y) → X → Y
-
 -- ↔ 
 def iff_intro         := (X → Y) → (Y → X) → X ↔ Y
+
+/-
+You can read this rule both forward (left to right) and 
+backwards. Reading forwards, it says that if you have a
+proof (or know the truth) of X → Y, and you have a proof
+(or know the truth) of Y → X, then you can derive of a proof
+(deduce the truth) of X ↔ Y.
+
+The more important direction in practice is to read it
+from right to left. What it says in this reading is that
+if you want to prove X ↔ Y, then it will suffice to have
+two "smaller" proofs: one of X → Y and one of Y → X. 
+
+From now on, whenever you're asked to prove equivalence
+of two propositions, X and Y, you'll thus start by saying,
+"It will suffice to prove the implication in each direction."
+Then you end up with two smaller goals to prove, one in 
+each direction. So, "We first consider X → Y." Then give
+a proof of it. Then, "Next we consider Y → X." Then give
+a proof of it. And finally, "Having proven the implication
+in each direction (by application of the rule of ↔ intro)
+we've completed our proof. QED."
+-/
+
 def iff_elim_left     := X ↔ Y → (X → Y)
 def iff_elim_right    := X ↔ Y → (Y → X)
+
+/-
+The elimination rules are also easy. Given X ↔ Y, you can
+immediately deduce X → Y and Y → X.
+-/
+
+-- → and ∀ 
+def arrow_all_equiv   := (∀ (x : X), Y) ↔ (X → Y)
+
+/-
+To prove either (∀ (x : X), Y) or (X → Y), you first assume  
+that you're given an arbitrary but specific proof of X, and
+in that context, you show that you can derive a proof (thus 
+deducing the truth) of Y. It's exactly the same reasoning in
+each case. This is the *introduction* rule for ∀ and →. 
+-/
+
+/-
+In fact, in constructive logic, X → Y is simply a notation
+*defined* as ∀ (x : X), Y. What each of these propositions 
+states in constructive logic is that "From *any* proof, x, 
+of X, we can derive a proof of Y." In fact, in Lean, these
+propositions are not only equivalent but equal. 
+-/
+
+#check X → Y          -- Lean confirms this is a proposition
+#check ∀ (x : X), Y   -- Lean understands this to say X → Y!
+
+/- OPTIONAL
+As an aside, here's a proof that these propositions are 
+actually equal. This proof uses an inference rule, rfl, for 
+equality that we've not yet studied. Don't worry about the 
+"rfl" for now, but trust that we're giving a correct proof
+of the equality of these two propositions in Lean
+-/
+theorem all_imp_equal : (∀ (x : X), Y) = (X → Y) := rfl 
+
+/-
+The reason it's super-helpful to know these propositions 
+are equivalent is that it tells you that you can *use* a 
+proof of a ∀ proposition or of a → proposition in exactly
+the same way. So let's turn to the *elimination* rules for
+→ and ∀. 
+-/
+
+def arrow_elim        := (X → Y)        → X   → Y
+def all_elim          := (∀ (x : X), Y) → X   → Y
+
+/-
+The idea underlying these rules date to ancient times. 
+They both say "if from the truth or a proof of X you 
+can derive a proof or the truth of Y, and if you also 
+have a proof, or know the truth, of X, then you can (in
+constructive logic) derive a proof of Y (or deduce the
+truth of Y." 
+
+Here's an example. What we want to say in logic is
+that if every ball is blue and b is some specific 
+ball then b is blue. The elimination rule for ∀ and
+→ applies a generalization to a specific instance to
+deduce that the generalized statement specialized to
+a particular instance is true.
+
+Note: In this example, Y is a proposition obtained by 
+plugging "x" into a one-argument predicate. So suppose 
+(∀ (x : X), Y) is read as "for any Ball x, x is blue."  
+Here X is "Ball;" x is an arbitrary but specific Ball; 
+and Y is read as "x is blue." 
+  
+Now suppose that, in this context, you're given a 
+*particular* ball, (b : X). What the overall rules
+says is that you now conclude that "b is blue."
+
+The elimination rule works by *applying* a proof of
+a universal generalization (showing that something
+is true of *every* object of a particular kind) to 
+a *specific* object of that kind, to deduce that the 
+generalized statement is also true of that specific
+object.
+
+If every ball is blue, and if b is a ball, then b
+must be blue. Another way to say it that makes a
+bit more sense for the (X → Y) notation is that 
+"if being any ball, x, implies that x is blue, and 
+if b is some particular ball, then b is blue.
+-/
 
 /-
 The inference rules for and, or, implies, forall, and
@@ -145,84 +250,79 @@ and exists are a little trickier: not terrible but they
 do require slightly deeper understanding. 
 -/
 
-
 -- ¬ 
 def not_ (X : Prop) := X → false  -- this is how "not" ¬ is defined in CL
 def excluded_middle   := X ∨ ¬X   -- not an axiom in constructive logic
 def neg_elim          := ¬¬X → X  -- depends on adoption of em as an axiom
 
 /-
-Now we get to exists. And for this explanation, we need to first nail
-down the concept of a predicate in predicate logic. As we've exaplained
-before, a predicate is a proposition with one or more parameters. Think
-of parameters as simply blanks in the reading of the proposition that 
-you can fill in with any value of the type of value that is permitted
-in that slot. When you fill in all the blanks (by giving actual values
-for the formal parameters). you finally get a proposition: a specific
-statement about specific objects with no remaining blanks to be filled
-in. Whereas a predicate gives rise to a family of propositions, once 
-all the parameters are bound to actual values, you've no longer got a
-predicate. 
-
-As a test of your understanding of what was just said, does it make
-sense to you that if you have a predicate with zero parameters, that's 
-a proposition? How about this: if you've got a predicate with, say, 
-found arguments/parameters, and you fix the value of one of these
-parameters to a specific actual value of the right type, the result
-is a still predicate, but now with one less, now three remaining
-parameters? That is true. 
-
-The way we represent a predicate with one argument of some type, T,
-is as an object, a predicate, P, of type T → Prop. KEY IDEA: Look 
-back at → elimination. It says that if you have a "proof object" 
-of T → Prop, and you have an object, t, of type T, then you can
-derive something of type Prop: a proposition! In other words, you
-can *use* a predicate, P : T → Prop if you also happen have or if
-you can acquire an object (t : T). 
-
-MAKE SURE YOU SEE THIS POINT. IF YOU DON'T FIND PEOPLE WITH WHOM
-YOU CAN TALK IT THROUGH. GO ON PIAZZA IS GOOD ADVICE.
-
-Ok, so from now on, when you see anything that looks like T → Prop,
-you think, "Ok, that's just a predicate, a proposition with a blank,
-where the blank can be filled in by any object of type T, whatever
-that type might be." This formulation works for all types. Example:
-Suppose T is Person. Then (isNice : T → Prop) is a predicate that
-takes a person, let's call them p, as an argument, and "reduces to"
-the proposition, (isNice p). In English we'd just say, "p is nice."
-
-Finally, a crucial point: we can represent *properties* of things
-as predicates. A property of an object is a characteristic that it
-as an individual possesses. As an example, think of the universe 
-of all balls used in sports: all those individual balls. Now think
-of a property that some of those balls have: in particular consider
-the property of being blue. Some balls have this property, some
-doon't. Or in the realm of intengers, some have the peropty of
-being even, or prime, or beautiful, and some don't. 
-
-Let's take a property over the integers, specifically the property
-of being even. We will represent this property as a predicate, call
-it isEven : ℤ → Prop. (ℤ is the symbol most mathenaticians use to
-represent the integers.) isEven is thus some property of natural
-numbers in the following sense: given any integer, n, (isEven n) is
-a *proposition* that we interpret as asserting that n is even. To
-be concrete, (isEven 3) we interpret as the proposition that three
-is even. Under our ordinary definitions of these terms,, it's false,
-but still a perfectly good proposition. On the other hand, isEven 4,
-we be a proposition one for which we can construct a proof. The set
-of all numbers *for which its proposition is true* is the set of 
-objects that we say "has the property" that the predicate "tests
-for." A property in a sense is a specific subject of objects of a
-given type, namely all those that *satisfy* the constraint that
-the predicate defines: of being even, prime, beautiful, or whaever.
+And for this explanation, we need to nail down the concept of a 
+predicate in predicate logic. As we've exaplained before, a predicate 
+is a proposition with one or more parameters. Think of parameters as 
+blanks in the reading of a proposition that you can fill in with any 
+value of the type of value permitted in that slot. When you fill in 
+all the blanks (by giving actual values for the formal parameters),
+you get a proposition: a specific statement about specific objects 
+with no remaining blanks to be filled in. A predicate gives rise to 
+a family of propositions. Once all the parameters in a predicate are
+bound to actual values, you've no longer got a predicate, but just a
+proposition. 
 -/
 
+/-
+As an example, consider a predicate, (isBlue _), where you can fill
+in the blank/argument with any Ball-type object. If b is a specific
+Ball-type object, then (isBlue b) is a proposition, representing the
+English-language claim that b is blue. Here's how we represent this
+predicate in Lean.
+-/
+
+variable Ball : Type            -- Ball is a type of object
+variable isBlue : Ball → Prop
+/-
+First we Ball to be the name of a type of object (like int or 
+bool). Then we define isBlue to be a construct (think function!)
+that when given any object of type Ball as an argument yields a
+proposition. To see how this works, suppose we have some specific
+balls, b1 and b2.
+-/
+variables (b1 b2 : Ball)
+/-
+Now let's use isBlue to make some propositions!
+-/
+#check isBlue                               -- a predicate
+#check isBlue b1                            -- a proposition about b1
+#check isBlue b2                            -- a proposition about b2
+#check (∀ (x : Ball), isBlue x)             -- generalization
+variable all_balls_blue : (∀ (x : Ball), isBlue x)   -- proof of it
+#check all_balls_blue b1                    -- proof b1 is blue
+#check all_balls_blue b1                    -- proof b2 is blue
+
+/-
+Walk-away message: Applying a proof/truth of a universal
+generalization to a specific object yields a proof of the
+generalization *specialized* to that particular object.
+-/
+
+/-
+Quiz questions:
+
+First-order logic. I know that every natural number is
+beautiful (∀ n, NaturalNumber(n) → Beautiful(n) : true), 
+and I want to prove (7 is beautiful : true). Prove it.
+Name the inference rule and identify the arguments you
+give it to prove it.
+
+Constructive logic. Suppose I have a proof, pf, that every 
+natural number is beautiful (∀ (n : ℕ), beautiful n), and I 
+need a proof that 7 is beautiful. How can I get the proof 
+I need? Answer in both English and with a Lean expression.
+-/
 
 
 -- ∃
 def exists_intro := ∀ {P : X → Prop} (w : X), P w → (∃ (x : X), P x) 
 def exists_elim := ∀ {P : X → Prop}, (∃ (x : X), P x) → (∀ (x : X), P x → Y) → Y 
-
 
 /-
 That's it for the fundamental rules of higher-order predicate

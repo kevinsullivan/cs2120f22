@@ -12,3 +12,5 @@ FROM docker.io/kevinsullivan/leanvm:latest
 # If you don't know what that means, no worries, you
 # can just ignore it.
 #
+
+RUN elan update
