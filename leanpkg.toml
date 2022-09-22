@@ -1,5 +1,5 @@
 [package]
-name = "dm2120"
+name = "dm2120f22"
 version = "0.1"
 lean_version = "leanprover-community/lean:3.48.0"
 path = "src"
