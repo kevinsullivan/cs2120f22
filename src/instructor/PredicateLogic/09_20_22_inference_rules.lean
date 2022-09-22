@@ -128,6 +128,23 @@ values that follow the :='s that type types of the variables
 here just have to be Prop.
 -/
 
+/-
+Quiz questions. 
+
+Suppose you know that (X → Z) and (Y → Z) are true and you 
+want to prove Z. To be able to prove Z it will *suffice* to 
+prove ______; for then you will need only to apply the ______
+rule to deduce that Z is true.
+
+Suppose you know that (X → Z), (Y → Z), and Z are all true.
+Is it necessarily that case that (X ∨ Y) is also true? Defend
+you answer.
+
+Suppose it's raining OR the sprinkler is running, and that in
+either case the grass is wet. Is the grass wet? How would you
+prove it?
+-/
+
 -- ↔ 
 def iff_intro         := (X → Y) → (Y → X) → X ↔ Y
 
@@ -250,25 +267,6 @@ and exists are a little trickier: not terrible but they
 do require slightly deeper understanding. 
 -/
 
--- ¬ 
-def not_ (X : Prop) := X → false  -- this is how "not" ¬ is defined in CL
-def excluded_middle   := X ∨ ¬X   -- not an axiom in constructive logic
-def neg_elim          := ¬¬X → X  -- depends on adoption of em as an axiom
-
-/-
-And for this explanation, we need to nail down the concept of a 
-predicate in predicate logic. As we've exaplained before, a predicate 
-is a proposition with one or more parameters. Think of parameters as 
-blanks in the reading of a proposition that you can fill in with any 
-value of the type of value permitted in that slot. When you fill in 
-all the blanks (by giving actual values for the formal parameters),
-you get a proposition: a specific statement about specific objects 
-with no remaining blanks to be filled in. A predicate gives rise to 
-a family of propositions. Once all the parameters in a predicate are
-bound to actual values, you've no longer got a predicate, but just a
-proposition. 
--/
-
 /-
 As an example, consider a predicate, (isBlue _), where you can fill
 in the blank/argument with any Ball-type object. If b is a specific
@@ -296,7 +294,7 @@ Now let's use isBlue to make some propositions!
 #check (∀ (x : Ball), isBlue x)             -- generalization
 variable all_balls_blue : (∀ (x : Ball), isBlue x)   -- proof of it
 #check all_balls_blue b1                    -- proof b1 is blue
-#check all_balls_blue b1                    -- proof b2 is blue
+#check all_balls_blue b2                    -- proof b2 is blue
 
 /-
 Walk-away message: Applying a proof/truth of a universal
@@ -317,6 +315,34 @@ Constructive logic. Suppose I have a proof, pf, that every
 natural number is beautiful (∀ (n : ℕ), beautiful n), and I 
 need a proof that 7 is beautiful. How can I get the proof 
 I need? Answer in both English and with a Lean expression.
+
+Formalize this story: All people are mortal, and Plato 
+is a person, therefore Plato is Mortal.
+-/
+
+variable Person : Type
+variable Plato : Person
+variable isMortal : Person → Prop
+variable everyoneIsMortal : ∀ (p : Person), isMortal p
+#check (everyoneIsMortal Plato)
+
+-- ¬ 
+def not_ (X : Prop) := X → false  -- this is how "not" ¬ is defined in CL
+def excluded_middle   := X ∨ ¬X   -- not an axiom in constructive logic
+def neg_elim          := ¬¬X → X  -- depends on adoption of em as an axiom
+
+/-
+And for this explanation, we need to nail down the concept of a 
+predicate in predicate logic. As we've exaplained before, a predicate 
+is a proposition with one or more parameters. Think of parameters as 
+blanks in the reading of a proposition that you can fill in with any 
+value of the type of value permitted in that slot. When you fill in 
+all the blanks (by giving actual values for the formal parameters),
+you get a proposition: a specific statement about specific objects 
+with no remaining blanks to be filled in. A predicate gives rise to 
+a family of propositions. Once all the parameters in a predicate are
+bound to actual values, you've no longer got a predicate, but just a
+proposition. 
 -/
 
 
