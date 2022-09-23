@@ -13,4 +13,3 @@ FROM docker.io/kevinsullivan/leanvm:latest
 # can just ignore it.
 #
 
-RUN elan update
