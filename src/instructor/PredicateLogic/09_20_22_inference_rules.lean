@@ -326,6 +326,10 @@ variable isMortal : Person → Prop
 variable everyoneIsMortal : ∀ (p : Person), isMortal p
 #check (everyoneIsMortal Plato)
 
+
+/- Coming soon -/
+
+
 -- ¬ 
 def not_ (X : Prop) := X → false  -- this is how "not" ¬ is defined in CL
 def excluded_middle   := X ∨ ¬X   -- not an axiom in constructive logic
