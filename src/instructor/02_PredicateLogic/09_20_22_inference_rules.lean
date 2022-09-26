@@ -80,6 +80,8 @@ also true), then in that context, we can construct a proof of
 X ∧ Y, thus concluding that it, too, must be true.  
 -/
 
+/- *** AND *** -/
+
 -- ∧ 
 def and_introduction  : Prop  := ∀ (X Y : Prop), X → Y → (X ∧ Y)
 def and_elim_left     : Prop  := ∀ (X Y : Prop), X ∧ Y → X  
@@ -114,6 +116,9 @@ or_intro_left definition that comes next, for example, means
 def or_intro_left : Prop := ∀ (X Y : Prop), X → X ∨ Y. 
 -/
 
+
+/- *** OR *** -/
+
 -- ∨ 
 def or_intro_left : Prop    := X → X ∨ Y
 def or_intro_right : Prop   := Y → X ∨ Y
@@ -144,6 +149,9 @@ Suppose it's raining OR the sprinkler is running, and that in
 either case the grass is wet. Is the grass wet? How would you
 prove it?
 -/
+
+
+/- *** IFF *** -/
 
 -- ↔ 
 def iff_intro         := (X → Y) → (Y → X) → X ↔ Y
@@ -179,6 +187,8 @@ The elimination rules are also easy. Given X ↔ Y, you can
 immediately deduce X → Y and Y → X.
 -/
 
+/- *** FORALL and ARROW *** -/
+
 -- → and ∀ 
 def arrow_all_equiv   := (∀ (x : X), Y) ↔ (X → Y)
 
@@ -200,6 +210,8 @@ propositions are not only equivalent but equal.
 
 #check X → Y          -- Lean confirms this is a proposition
 #check ∀ (x : X), Y   -- Lean understands this to say X → Y!
+
+
 
 /- OPTIONAL
 As an aside, here's a proof that these propositions are 
@@ -376,17 +388,282 @@ variable everyoneIsMortal : ∀ (p : Person), isMortal p
 #check (everyoneIsMortal Plato)
 
 
-/- Coming soon -/
+/- *** TRUE AND FALSE *** -/
 
 /-
-The inference rules for and, or, implies, forall, and
-biimplication are "not to bad." The rules for negation
-and exists are a little trickier: not terrible but they
-do require slightly deeper understanding. 
+In propositional logic, the literal expressions, true
+and false, are part of the syntax of the logic, with
+obvious interpretations. The "true" expression always
+evaluates to Boolean true, and the "false" expression
+to Boolean false. We could thus write expressions such
+as (X ∨ false) and (X ∧ true).
+
+In predicate logic we have the same concepts exactly. 
+In first order predicate logic, true is a proposition
+that is invariably judged to be true, and false is a
+proposition that is invariable false. 
+
+In the higher-order predicate logic defined in Lean,
+true and false are also propositions, as we can see
+with the following checks and an example.
 -/
 
+#check true
+#check false
+#check ∀ (P : Prop), P ∨ true
+
+/-
+As with all of the basic connectives and quantifiers,
+the *meanings* of these terms are established by their
+inference rules. We address the rules for each one now.
+-/
+
+/-
+We want "true" to be a proposition that is always true.
+In constructive logic, that means there's always a proof
+of it. Indeed, in Lean, that proof is called true.intro. 
+The way to prove that "true" is true is by giving this
+proof as evidence.
+-/
+
+theorem true_is_true : true := true.intro
+
+/-
+In other words, there's always a trivial proof lying
+around to prove that the proposition, "true," is true.
+Let's decode that theorem:
+- "theorem" says we're about to prove a proposition
+- the proposition in this case is "true"
+- and the proof is true.intro
+The Lean prover accepts this proof as correct. It is.
+Simply put, true.intro is the introduction rule for the
+proposition, "true," in Lean.
+-/
+
+/-
+What about the elimination rule for true? Well, having
+a proof of true gives you essentially zero information,
+so there's nothing useful you can really do with a proof
+of true. Thus there is no elimination rule for true. 
+-/
+
+/-
+Next, we want the inference rules for the proposition,
+"false" to capture two ideas. First, the proposition
+"false" must always be logically false. In first-order
+logic, that's all there is to it. In the constructive
+logic of Lean, the proposition "false," is logically
+false *because it is defined to be a proposition that
+has no proofs.* Because it has no proofs, there is no
+introduction rule for "false." If there were, then we
+would be able to use it to construct a proof of false,
+which can't exist." There is thus *no possible way* to
+complete the following definition.
+-/
+
+theorem a_proof_of_false : false := _   -- no way!
+
+/-
+Now we get to the most interesting and important rule:
+false elimination, or the elimination rule for "false."
+
+As you recall, in propositional logic, false → X is
+always true, no matter whether X is true or false.
+So, false → false is true, and false → true is true.
+
+Now suppose P is any proposition in first-order logic.
+The elimination rule for "false" is false ⊢ P. In
+other words, if you assume or have somehow proven 
+false (which is possible from a false premise), then 
+you can deduce that anything at all is true: including
+P, no matter what proposition it is, even if it's a
+false proposition. As they say, "from false anything
+follows," or, in Latin, "ex falso quodlibet."
+
+This principle makes good sense, because if false is
+true (the premise), then even if a proposition, P, is 
+false, false is true, so P is true (too)!
+-/
+
+/-
+A little practice. Which of the following propositions
+in predicate logic is true?
+-/
+
+def p1 : Prop := false → false
+def p2 : Prop := false → true
+def p3 : Prop := true → true
+def p4 : Prop := true → false
+def p5 : Prop := false → 2 = 3
+def p6 : Prop := false → 0 = 0
+def p7 : Prop := ∀ (P : Prop), true → P
+def p8 : Prop := ∀ (P : Prop), false → P 
+
+/-
+For each proposition, state whether it's true or false
+then give a proof of it (in English). Here are some formal
+proofs to help.
+-/
+
+example : p1 := 
+begin
+unfold p1,
+assume f,
+exact f,
+end
+
+example : p2 := 
+begin
+unfold p2,
+assume f,
+apply false.elim f,   -- apply false elim rule!
+end
+
+example : p3 := 
+begin
+unfold p3,
+assume t,
+exact t,    -- exact true.intro also works
+end
+
+example : p4 := 
+begin
+unfold p4,
+assume t,
+end
+
+example : p5 := 
+begin
+unfold p5,
+assume f,
+cases f,
+/-
+What? The cases tactic applies the elimination rule to
+an assumed or derived proof of false. For each of the 
+ways that the proof, f, could have been constructed,
+you have a case to consider; but there are no ways a
+proof of false can be constructed so you have no cases
+to consider, so the proof is done! This is another way
+to understand how/why false elimination works in the
+constructive logic of Lean and other similar tools. 
+-/
+end
+
+example : p6 := 
+begin
+unfold p6,
+assume f,
+cases f,
+end
+
+example : p7 := 
+begin
+unfold p7,
+intro P,
+assume t,
+-- stuck
+end
+
+example : p8 := 
+begin
+unfold p8,
+assume P f,
+cases f,
+end
+
+/- *** NOT *** -/
+
+
 -- ¬ 
-def not_ (X : Prop) := X → false  -- this is how "not" ¬ is defined in CL
+/-
+With an understanding of "false" and its elimination rule, we
+can now talk about the inference rules for negation. 
+-/
+
+/-
+Recall that if P is any proposition, then (not P), generally 
+written as ¬P, is also a proposition. when is ¬P true? It's
+true in first-order logic if P is false. It's also true in
+constructive logic when P is false, which is to say, *when 
+there is no proof of P*. 
+
+Now here's the slightly tricky way that we show that there can
+be no proof of P. We show (P → false). What this proposition
+says is that "If there is a proof of P, then from it we can
+derive a proof of false." But a proof of false doesn't exist,
+so if we prove (P → false) is true then there must be no proof
+of P. In other words, to prove there is no proof of P, we prove
+P → false! And that leads to our definition of ¬P. What it means
+is *exactly* P → false. 
+-/
+def not_ (X : Prop) := X → false  -- the definition of "not" (¬)
+
+/-
+Examples
+-/
+
+example : 0 = 1 → false :=
+begin
+assume h,   -- suppose 0 = 1
+cases h,    -- that can't happen, no cases, we've proved ¬(0=1)
+end 
+
+example : ¬(0 = 1) :=
+begin 
+/-
+Remember!!!  ¬(0 = 1) means exactly 0 = 1 → false. You have 
+to remember this, because it tells you how to prove it. First
+assume the premise, 0 = 1, then show this is a contradiction,
+a situation that can't really exist. That completes the proof.
+A contradiction is a proof of false, from which the truth of 
+any proposition, even false, follows
+-/
+  assume h,
+  cases h,
+end
+
+/-
+What we have thus now seen is a crucial "proof strategy"
+called proof by negation. To show that P is false, prove
+that P → false. You do this by assuming that P is true (!)
+and showing that this assumption produces a contradiction:
+a situation that cannot happen. A contradidiction is like
+a proof of false: from it, anything follows, so you're done.
+-/
+
+/-
+To conclude our discussion of ¬ introduction, you prove
+¬ P by assuming P is true, has a proof, and showing that
+that assumption leads to a contradiction; so there can
+be no proof of P, and therefore ¬P is proved. 
+-/
+
+/-
+Exercise: state and prove the rule (actually a theorem) 
+of "no contradiction" in the predicate logic of Lean. As
+you will recall, it says that for any proposition, X, it
+is never the case that both X and ¬X are true. Hint: You
+will use the fact that a proof of P → false in constructive
+logic is like a function: it can be applied to any supposed
+proof of P to obtain a proof of false, from which anything
+can then be proved.
+
+Exercise: Having written a formal proof, translate it into
+English.
+-/
+
+theorem no_contra : ¬ (X ∧ ¬ X) :=
+begin
+assume h,             -- assume (X ∧ ¬ X) has a proof
+cases h with x notx,  -- applies and.elim left and right
+exact notx x,         -- derive a proof of false; done!
+end
+
+/-
+Exercise: Rewrite the proof for an English-reading audience.
+-/
+
+
 def excluded_middle   := X ∨ ¬X   -- not an axiom in constructive logic
 def neg_elim          := ¬¬X → X  -- depends on adoption of em as an axiom
 
