@@ -373,7 +373,7 @@ variable Person : Type
 variable Plato : Person
 variable isMortal : Person → Prop
 variable everyoneIsMortal : ∀ (p : Person), isMortal p
-#check (everyoneIsMortal Plato)
+#check (everyoneIsMortal Plato)   -- ∀ elimination!
 
 
 /- Coming soon -/
