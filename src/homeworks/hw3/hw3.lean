@@ -10,7 +10,7 @@ multiple concepts. You might have to put different ideas from our
 work together to fully answer the questions. Give yourself time to
 think about this material. 
 
-INSTRUTCTIONS: Read and follow the instructions for each question,
+INSTRUCTIONS: Read and follow the instructions for each question,
 below. Edit all of your answers into this file. That's what you'll
 turn in.
 
@@ -19,13 +19,13 @@ about the material we've covered but you are NOT to give or receive
 specific answers, or hints strong enough to essentially give away any 
 answers, on this homework. Please, do yourselves and your colleagues
 a favor and don't tell or take answers. This homework is a key check
-on, via preparation for, an upcoming midterm exam.  
+on, and preparation for, an upcoming midterm exam.  
 
 NEED HELP: Please don't post answers or partial answers on Piazza or 
 any other forum that would substantially give away any part of the 
 answer to any of these questions. That said, freely post any questions
 you might have, and feel free to offer general answers to questions 
-from others, on Piazza. TAs answer at least several times a day. 
+from others, on Piazza. Our TAs answer at least several times a day. 
 Attend office hours: Wednesday and Sunday night 7-10. Talk to Sullivan. 
 If you feel deeply lost, email Prof. Sullivan ASAP to for help on how
 best to proceed. 
