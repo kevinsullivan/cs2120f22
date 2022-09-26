@@ -261,13 +261,6 @@ if b is some particular ball, then b is blue.
 -/
 
 /-
-The inference rules for and, or, implies, forall, and
-biimplication are "not to bad." The rules for negation
-and exists are a little trickier: not terrible but they
-do require slightly deeper understanding. 
--/
-
-/-
 As an example, consider a predicate, (isBlue _), where you can fill
 in the blank/argument with any Ball-type object. If b is a specific
 Ball-type object, then (isBlue b) is a proposition, representing the
@@ -297,9 +290,65 @@ variable all_balls_blue : (∀ (x : Ball), isBlue x)   -- proof of it
 #check all_balls_blue b2                    -- proof b2 is blue
 
 /-
+Here's an English-language version.
+
+Suppose b1 and b2 are objects of some type, Ball, and that isBlue 
+is one-place predicate taking any Ball, b, as an argument, and that
+reduces to a proposition, denoted (isBlue b), that we understand as
+asserting that the particular ball, b, is blue. Next (295), we take
+all_balls_blue as a proof that all balls are blue. Finally (296 and
+297), we see that we can can use this proof/truth by *applying* it
+to any particular ball, b, to obtain a proof/truth that b is blue. 
+
+For any type S, given any X: (∀ s : S), T and any s : S, the ∀ 
+and → elimination rule(s) say that you can derive a value/proof of 
+type T; moreover this operation is basically done by *applying* ,
+viewed as a function from parameter value to proposition, to the 
+actual parameter, s (in Lean denoted as (X s)), to obtain a value
+(proof) of (type) T. Modus ponens is like function application. In
+constructive logic, a proof of the ∀ proposition *is* a function.
+Here you begin to see how profound is that proofs in constructive 
+logic tell you not only that a proposition is true but why. Here a
+proof of X → Y or of ∀ (x : X), Y, is a program that when given any
+value/proof of X as an argument returns a value/proof of Y. If you 
+can produce a function that turns any proof of X into a proof of Y,
+then you've shown that whenever X is true, so is Y; and that's just
+what X → Y is meant to say (similarly for ∀ (x : X), Y). 
+-/
+
+/-
 Walk-away message: Applying a proof/truth of a universal
 generalization to a specific object yields a proof of the
-generalization *specialized* to that particular object.
+generalization *specialized* to that particular object. That
+is in the higher-order predicate logic of Lean. 
+-/
+
+/-
+Finally, let's compare our elimination rule, in the higher-order
+predicate logic of Lean, with its first-order logic counterpart.
+
+There are two big differences, first, in first-order logic, you 
+have to present the rule outside of the logic: you can't write 
+rules like this, ∀ (X Y : Prop), X → Y → (X ∧ Y), in first-order
+logic because in first order logic you can't quantify over types,
+propositions, predicates, functions. Here we do just this with the
+"∀ (X Y : Prop)." By contrast, in the higher-order logic of Lean,
+we can represent the rules of first-order logic with no problem: 
+e.g., "∀ (X Y : Prop), X → Y → (X ∧ Y)."
+
+Second, as we've discussed, using Lean's higher-order logic, you
+can think of a proof of "∀ (X Y : Prop), X → Y → (X ∧ Y)" as a 
+function. Each variable bound by a ∀ and each implication premise
+is an argument, with the type of the return value at the end of 
+the line. So, here, a proof of this proposition can be taken as 
+a function that takes two propositions, X and Y as arguments, then
+a proof (value) of (type) X, then a proof (value) of type Y, and
+that finally returns a proof (value) X ∧ Y. Whereas the proof of
+∀ (X Y : Prop), X → Y → (X ∧ Y) is a function the returned proof
+of (X ∧ Y) is a pair-like data structure. Proofs in constructive
+logic are *computational*, and you can even compute with them, as
+you do when you *apply* a proof of a certain kind to an argument
+to obtain a resulting proof/value.
 -/
 
 /-
@@ -329,6 +378,12 @@ variable everyoneIsMortal : ∀ (p : Person), isMortal p
 
 /- Coming soon -/
 
+/-
+The inference rules for and, or, implies, forall, and
+biimplication are "not to bad." The rules for negation
+and exists are a little trickier: not terrible but they
+do require slightly deeper understanding. 
+-/
 
 -- ¬ 
 def not_ (X : Prop) := X → false  -- this is how "not" ¬ is defined in CL
