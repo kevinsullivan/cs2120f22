@@ -656,7 +656,7 @@ theorem no_contra : ¬ (X ∧ ¬ X) :=
 begin
 assume h,             -- assume (X ∧ ¬ X) has a proof
 cases h with x notx,  -- applies and.elim left and right
-exact notx x,         -- derive a proof of false; done!
+exact (notx x),       -- proof of false by → elimination!
 end
 
 /-
