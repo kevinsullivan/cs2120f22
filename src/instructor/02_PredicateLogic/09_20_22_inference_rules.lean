@@ -461,7 +461,7 @@ which can't exist." There is thus *no possible way* to
 complete the following definition.
 -/
 
-theorem a_proof_of_false : false := _   -- no way!
+theorem a_proof_of_false : false := _   -- no can do!
 
 /-
 Now we get to the most interesting and important rule:
@@ -499,24 +499,36 @@ def p6 : Prop := false → 0 = 0
 def p7 : Prop := ∀ (P : Prop), true → P
 def p8 : Prop := ∀ (P : Prop), false → P 
 
+theorem p8_is_true : p8 := 
+begin
+unfold p8,
+assume P,
+assume f,
+apply false.elim f,
+end 
+
 /-
 For each proposition, state whether it's true or false
 then give a proof of it (in English). Here are some formal
 proofs to help.
 -/
 
-example : p1 := 
+-- def p1 : Prop := false → false
+theorem x : p1 := 
 begin
-unfold p1,
-assume f,
-exact f,
+  unfold p1,
+  assume f : false,
+  exact f,
 end
 
+-- false → true
 example : p2 := 
 begin
-unfold p2,
-assume f,
-apply false.elim f,   -- apply false elim rule!
+  unfold p2,
+  assume f,           -- move premise into context
+  --exact true.intro,   -- don't have to use assumption
+  -- apply false.elim f,
+  contradiction,
 end
 
 example : p3 := 
@@ -537,6 +549,15 @@ begin
 unfold p5,
 assume f,
 cases f,
+end
+
+example : p6 := 
+begin
+unfold p6,
+assume f,
+cases f,
+-- exact rfl,
+end
 /-
 What? The cases tactic applies the elimination rule to
 an assumed or derived proof of false. For each of the 
@@ -547,14 +568,6 @@ to consider, so the proof is done! This is another way
 to understand how/why false elimination works in the
 constructive logic of Lean and other similar tools. 
 -/
-end
-
-example : p6 := 
-begin
-unfold p6,
-assume f,
-cases f,
-end
 
 example : p7 := 
 begin
@@ -610,75 +623,84 @@ end
 
 example : ¬(0 = 1) :=
 begin 
+assume h,
+cases h,
 /-
-Remember!!!  ¬(0 = 1) means exactly 0 = 1 → false. You have 
-to remember this, because it tells you how to prove it. First
-assume the premise, 0 = 1, then show this is a contradiction,
-a situation that can't really exist. That completes the proof.
-A contradiction is a proof of false, from which the truth of 
-any proposition, even false, follows
+Remember!!!  0 ≠ 1 means ¬(0 = 1) means 0 = 1 → false. You 
+must remember that when you want to prove ¬P, that means you
+need to prove P → false: that a proof of P is a contradiction.  
+to remember this, because it tells you how to prove it. To
+show it, assume the premise, 0 = 1, then show that in this
+context, there is a contradiction ---given our intuitive
+grasp of equality and the natural numbers. 
+
+If you can derive a contradiction, that is tantamount to a 
+proof of false, and from a proof of false, f, the truth of
+any other proposition follows. Put another way, in terms of
+Lean's formal logic, the term, (false.elim f), where f is a
+proof of false, serves is a formal proof of any proposition.
 -/
-  assume h,
-  cases h,
 end
 
-/-
-What we have thus now seen is a crucial "proof strategy"
-called proof by negation. To show that P is false, prove
-that P → false. You do this by assuming that P is true (!)
-and showing that this assumption produces a contradiction:
-a situation that cannot happen. A contradidiction is like
-a proof of false: from it, anything follows, so you're done.
+/- PROOF BY NEGATION 
+
+What we have now seen is a crucial "proof strategy" often 
+called proof by negation. To show ¬P, that the statement, 
+P is false, is true, prove P → false. First assume that 
+P is true (you have a proof of it) and show that in this
+context, you can derive a proof of false. You will often
+do this by producing a contradiction, which is proofs of
+both X and ¬X for some proposition, from which, as we will
+see shortly, you can derive a proof of false by applying
+the rule of arrow elimination (function application!).  
 -/
 
 /-
-To conclude our discussion of ¬ introduction, you prove
-¬ P by assuming P is true, has a proof, and showing that
-that assumption leads to a contradiction; so there can
-be no proof of P, and therefore ¬P is proved. 
+HW #3 Exercise: state and prove the rule (the "theorem") 
+of "no contradiction:" first in English and then in the
+predicate logic of Lean. Or if you prefer, work it out 
+in Lean and the write it in English. The formal statement
+of the proposition is in the partially completed theorem 
+below. 
 -/
 
-/-
-Exercise: state and prove the rule (actually a theorem) 
-of "no contradiction" in the predicate logic of Lean. As
-you will recall, it says that for any proposition, X, it
-is never the case that both X and ¬X are true. Hint: You
-will use the fact that a proof of P → false in constructive
-logic is like a function: it can be applied to any supposed
-proof of P to obtain a proof of false, from which anything
-can then be proved.
-
-Exercise: Having written a formal proof, translate it into
-English.
--/
-
-theorem no_contra : ¬ (X ∧ ¬ X) :=
+theorem no_contra : ¬(X ∧ ¬X) :=
 begin
-assume h,             -- assume (X ∧ ¬ X) has a proof
-cases h with x notx,  -- applies and.elim left and right
-exact (notx x),       -- proof of false by → elimination!
 end
 
 /-
-Exercise: Rewrite the proof for an English-reading audience.
+Hint: The proof uses arrow introduction (you have to prove an
+implication), "and" elimination (you need separate proofs of X
+and ¬X; try using cases in Lean), and arrow elimination (you
+need to *use* these proofs, one of which, remember, is a proof
+of an implication; so what can you do with that?). 
 -/
 
 
-def excluded_middle   := X ∨ ¬X   -- not an axiom in constructive logic
-def neg_elim          := ¬¬X → X  -- depends on adoption of em as an axiom
+/- COMING SOON -/
+
+
+def excluded_middle   := X ∨ ¬X   -- not an axiom in CL
+def neg_elim          := ¬¬X → X  -- depends on axiom of e.m.
+
+
+
+
+/- Under Construction -/
 
 /-
-And for this explanation, we need to nail down the concept of a 
-predicate in predicate logic. As we've exaplained before, a predicate 
-is a proposition with one or more parameters. Think of parameters as 
-blanks in the reading of a proposition that you can fill in with any 
-value of the type of value permitted in that slot. When you fill in 
-all the blanks (by giving actual values for the formal parameters),
-you get a proposition: a specific statement about specific objects 
-with no remaining blanks to be filled in. A predicate gives rise to 
-a family of propositions. Once all the parameters in a predicate are
-bound to actual values, you've no longer got a predicate, but just a
-proposition. 
+And for this explanation, we need to be precise about what it means
+to be a predicate in predicate logic. As we've exaplained before, 
+a predicate is a proposition with one or more parameters. Think of
+parameters as blanks in the reading of a proposition that you can
+fill in with any value of the right type for that slot. When you 
+fill in all the blanks, which you do by by applying the predicate
+to actual parameter values, you get back a proposition: a specific
+statement about specific objects with no remaining parameters to
+be filled in. A predicate thus gives rise to a whole *family* of 
+propositions, one for each possible combination of argument values. 
+Once all the parameters in a predicate are fixed to actual values,
+you've no longer got a predicate but just a proposition. 
 -/
 
 
