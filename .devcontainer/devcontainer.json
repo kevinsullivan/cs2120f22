@@ -38,7 +38,9 @@
 		"oderwat.indent-rainbow",
 		"GitHub.vscode-pull-request-github",
 		"ms-vsliveshare.vsliveshare-audio",
-		"ms-vsliveshare.vsliveshare-pack"
+		"ms-vsliveshare.vsliveshare-pack",
+		"ms-vscode.cpptools",
+		"ms-vscode.cpptools-extension-pack"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [],
