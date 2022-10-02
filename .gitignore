@@ -160,3 +160,5 @@ cython_debug/
 
 # Dafny compiled files
 bin/*.cs
+
+src/mywork
