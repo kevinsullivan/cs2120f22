@@ -15,3 +15,7 @@ Open the .dfy file. The first time you do this, the Dafny VSCode extension shoul
 ## C++
 
 To build and run the test file do Terminal > Run Build Task.
+
+## TLA_
+
+Look here: [http://lamport.azurewebsites.net/tla/learning.html]
