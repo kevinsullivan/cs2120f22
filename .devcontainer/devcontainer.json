@@ -39,7 +39,8 @@
 		"ms-vsliveshare.vsliveshare-audio",
 		"ms-vsliveshare.vsliveshare-pack",
 		"ms-vscode.cpptools",
-		"ms-vscode.cpptools-extension-pack"
+		"ms-vscode.cpptools-extension-pack",
+		"alygin.vscode-tlaplus"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [],
