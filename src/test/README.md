@@ -11,3 +11,7 @@ Similarly, open the python test file; look for the arrow icon in the upper right
 ## Dafny
 
 Open the .dfy file. The first time you do this, the Dafny VSCode extension should download and install Dafny. Right click in the file and select Compile and Run. It should print Hello World!
+
+## C++
+
+To build and run the test file do Terminal > Run Build Task.
