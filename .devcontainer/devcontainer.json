@@ -26,7 +26,6 @@
 		"davidanson.vscode-markdownlint",
 		"mathematic.vscode-pdf",
 		"eamodio.gitlens",
-		"coenraads.bracket-pair-colorizer",
 		"stephanvs.dot",
 		"jroesch.lean",
 		"dafny-lang.ide-vscode",
@@ -41,7 +40,7 @@
 		"ms-vsliveshare.vsliveshare-pack",
 		"ms-vscode.cpptools",
 		"ms-vscode.cpptools-extension-pack",
-		"ms-dotnettools.csharp"
+		"alygin.vscode-tlaplus"
 	],
 	"forwardPorts": []
 	// Use 'postCreateCommand' to run commands after the container is created.
