@@ -26,7 +26,6 @@
 		"davidanson.vscode-markdownlint",
 		"mathematic.vscode-pdf",
 		"eamodio.gitlens",
-		"coenraads.bracket-pair-colorizer",
 		"stephanvs.dot",
 		"jroesch.lean",
 		"dafny-lang.ide-vscode",
@@ -38,12 +37,17 @@
 		"oderwat.indent-rainbow",
 		"GitHub.vscode-pull-request-github",
 		"ms-vsliveshare.vsliveshare-audio",
-		"ms-vsliveshare.vsliveshare-pack"
+		"ms-vsliveshare.vsliveshare-pack",
+		"ms-vscode.cpptools",
+		"ms-vscode.cpptools-extension-pack",
+		"alygin.vscode-tlaplus"
 	],
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [],
+	"forwardPorts": []
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "elan update && leanproject update && leanproject get-mathlib-cache"
+	// "postCreateCommand": "elan update && leanproject update && leanproject get-mathlib-cache"
+	// "postCreateCommand": "elan update && leanproject update && leanproject get-mathlib-cache"
+	// "postCreateCommand": "leanproject pull"
+	//
 	// TODO: Add vscode user creation to DOCKERFILE then uncomment
 	// "remoteUser": "vscode"
 }
