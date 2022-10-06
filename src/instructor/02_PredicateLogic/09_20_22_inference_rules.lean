@@ -1,5 +1,12 @@
 /-
+ATTENTION: This file got long and is now obsolete. 
+Please see it broken into individual sections in the
+Inference_Rules directory. We'll leave the original 
+content in place below for reference in case you need
+to look back.
+-/
 
+/-
 As a reminder, here are the inference rules (and a few
 "logical fallacies" that you tested for validity in the
 setting of propositional logic, where the variables are
@@ -27,7 +34,6 @@ Boolean operations, such as &&, ||, and ! (C, C++, etc.)
 19. ¬(X ∨ Y) ↔ ¬X ∧ ¬Y       -- DeMorgan #1 (¬ distributes over ∨)
 20. ¬(X ∧ Y) ↔ ¬X ∨ ¬Y       -- Demorgan #2 (¬ distributes over ∧)
 -/
-
 
 /-
 Here we present the familiar inference rules above but 

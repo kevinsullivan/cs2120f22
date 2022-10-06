@@ -11,7 +11,7 @@ see going forward.
 -/
 -- fallacies
 def converse          := (X → Y) → (Y → X)
-def deny_antecedent   := (X → Y) → ¬X →  ¬Y
+def deny_antecedent   := (X → Y) → ¬X → ¬Y
 def affirm_conclusion := (X → Y) → (Y → X)
 def affirm_disjunct   := X ∨ Y → (X → ¬Y)
 
