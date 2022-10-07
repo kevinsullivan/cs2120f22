@@ -144,3 +144,20 @@ let foo := or.intro_left Y x,
 _
 end
 
+/-
+A comment on or.intro_left and or.intro_right.
+In Lean each of these takes two arguments: a
+proof of the disjunct -- the proposition on 
+one side of the ∨ -- that is to be proven true, 
+*and* the proposition itself that is not being
+proven true. In applications of these rules the
+proposition argument (not being proven) comes
+first, while the proof argument comes second.
+The reason is that Lean needs to know what 
+overall proposition is being proved. From the
+proof argument it can infer the proposition 
+being proved, but it needs the other proposition
+as well to know the full (X ∨ Y) disjunction to
+be proved. 
+-/
+

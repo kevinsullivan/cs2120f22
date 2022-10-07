@@ -82,18 +82,23 @@ of the proposition is in the partially completed theorem
 below. 
 -/
 
-theorem no_contradiction : ¬(X ∧ ¬X) :=
-begin
-end
-
 /-
-Hint: The proof uses arrow introduction (you have to prove an
-implication), "and" elimination (you need separate proofs of X
-and ¬X; try using cases in Lean), and arrow elimination (you
-need to *use* these proofs, one of which, remember, is a proof
-of an implication; so what can you do with that?). 
+English. Prove ¬(X ∧ ¬X), where X is any proposition.
+This theorem states that it cannot be the case that 
+both X and ¬X are true.
+
+Proof by negation: Assume that (X ∧ ¬X) is true. By
+use of and elimination deduce X and ¬X separately. 
+But this is a contradiction, so the assumption must
+have been false. Therefore ¬(X ∧ ¬X) is proved. QED.
 -/
 
+theorem no_contradiction : ¬(X ∧ ¬X) :=
+begin
+assume h,           -- where h proves (X ∧ ¬X)
+cases h with x nx,  -- applies and elimination 
+exact (nx x),       -- (nx x) is a proof of false
+end
 
 def excluded_middle   := X ∨ ¬X   -- not an axiom in CL
 def neg_elim          := ¬¬X → X  -- depends on axiom of e.m.

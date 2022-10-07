@@ -56,7 +56,7 @@ exact or.inr p,
 -- exact or.inl q,
 end
 
-theorem baz : 
+example : 
   ∀ (P Q R S: Prop),
     R → P ∨ Q ∨ R ∨ S :=
 begin
@@ -68,10 +68,10 @@ begin
   assumption,
 end
 
-theorem bif : ∀ (P Q R S: Prop),
+example : ∀ (P Q R S: Prop),
     Q → R → P ∨ Q ∨ R ∨ S := _
 
-theorem foo : 
+example : 
   ∀ (P Q R: Prop), 
     (P ∨ Q) ∧ R →
     (P ∧ R) ∨ (Q ∧ R) :=
@@ -90,7 +90,7 @@ end
 -/
 
 
-theorem bar : 
+example : 
   ∀ (P Q R S: Prop), 
     (P ∨ Q) ∧ (R ∨ S) →
     (P ∧ R) ∨ (P ∧ S) ∨ (Q ∧ R) ∨ (Q ∧ S) :=
