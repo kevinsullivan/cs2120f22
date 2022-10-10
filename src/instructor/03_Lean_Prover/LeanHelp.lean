@@ -8,6 +8,10 @@ variable
 example
 theorem
 lemma
+
+There is a section for each topic. Look for *** topic ***
+
+Here we go, starting with #check.
 -/
 
 /-*** #check ***/
