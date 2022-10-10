@@ -14,13 +14,13 @@ There is a section for each topic. Look for *** topic ***
 Here we go, starting with #check.
 -/
 
-/-*** #check ***/
+/-*** #check ***-/
 
 /-
 In Lean, the #check command is part of Lean but not part of
 predicate logic. It takes any expression does two things:
 
-(1) It checks it for any syntax errors in your expression
+(1) It checks it for syntax errors
 (2) If it's syntactically correct, it tells you its type
 
 Let's look at some examples. Hover over the blue squiggle.
