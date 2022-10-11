@@ -5,7 +5,7 @@ drive (File > Save As > local > ...). Submit it to the Quiz1
 assignment on Collab.
 -/
 
--- Grading: 6 points per part.
+-- Grading: 6 points per part. 15 for completely correct EC.
 
 
 /-
