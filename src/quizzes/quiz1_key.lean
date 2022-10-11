@@ -5,6 +5,9 @@ drive (File > Save As > local > ...). Submit it to the Quiz1
 assignment on Collab.
 -/
 
+-- Grading: 6 points per part.
+
+
 /-
 #1: For each of the following questions give a yes/no answer 
 and then a very brief explanation why that answer is correct.
