@@ -1,14 +1,21 @@
 -- Agenda for today
 
 /-
-- Record lecture
 
-- New: False elimination and proof by contradiction
-  (last new concepts before exam, otherwise review/practice)
+- record lecture
+- git pull upstream main
+- homework due reminder 
+- exam date reminder
 
-- Review and exam preparation
-  - Lean syntax help
-  - review → and ∀ elimination
-  - provide some help with HW4
-  - review HW3 quickly (incl TA mistake)
+- Last time
+  - review arrow elimination
+  - New: False elimination is proof by contradiction
+
+-- Today
+  - Using Lean
+    -- non-logical stuff
+    -- survey of inference rules in Lean
+    -- survey of "tactics" in Lean
+  - review HW3 (incl TA mistake)
+  - help with HW4
 -/
