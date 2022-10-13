@@ -131,3 +131,35 @@ the syntax and type of an expression you provide, from the use of
 of a value being bound to a variable is the same as the type that
 the variable expects.
 -/
+
+/-
+Whereas "def" binds a variable to a value in the "global
+environment", the let keyword supports binding of values
+to local variables, followed by evaluation of an expression
+that uses that local variable.
+-/
+
+def x := 1
+#eval x
+
+#eval let a := 1 in a   --evaluates to 1
+
+#check a                -- not defined in global environment
+
+
+-- You can "nest" let expressions
+#reduce let a := 3 in 
+          let b := 4 in
+            let c := 5 in
+              a*a + b*b = c*c 
+
+
+-- Within tactic scripts you leave off the "in" part
+theorem pythag_25 : 3*3 + 4*4 = 5*5 :=
+begin
+  let a := 3,   
+  let b := 4,
+  let c := 5,
+  show a * a + b * b = c * c,
+  exact rfl,
+end
