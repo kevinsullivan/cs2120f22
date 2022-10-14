@@ -7,6 +7,7 @@ use #reduce.
 
 #eval 1 + 1
 #eval string.length "Hi there!"
+#check string.length 
 #reduce 1 + 1
 #reduce string.length "Hi there!"
 

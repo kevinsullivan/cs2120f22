@@ -9,7 +9,7 @@
 
 - Last time
   - review arrow elimination
-  - New: False elimination is proof by contradiction
+  - New: Negation elimination is proof by contradiction
 
 -- Today
   - Using Lean

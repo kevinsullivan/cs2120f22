@@ -71,3 +71,8 @@ begin
   apply (and.intro _ q),      -- _ _ left out
   exact p,                -- now we fill holes 
 end
+
+example : P ↔ Q :=
+begin
+  apply iff.intro _ _,
+end 

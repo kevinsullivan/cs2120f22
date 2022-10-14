@@ -9,6 +9,8 @@ variable seven : ℕ
 variable some_data_type : Type
 variable a_silly_proposition : ∀ (P : Prop), true
 
+-- def a_silly_proposition := begin assume P, exact true.intro end
+
 /-
 You can use #check to check the types of such variables
 -/
@@ -33,5 +35,17 @@ a proof of Likes Mary Margo. We can see that Lean's type checker thinks so, too.
 def proof_mary_likes_margo : Likes Mary Margo := likes_mary_margo -- good proof, it typechecks
 def bad_proof : Likes Mary Margo := true.intro -- bad proof, type checker catches it!
 
+
+
+-- Another in-class example
+
+variable even : ℕ → Prop 
+
+#check even 5
+#check even 6
+
+def even (n : ℕ) := n%2 = 0
+
+#check even 5
 
 
