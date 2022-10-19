@@ -68,7 +68,7 @@ can use the simpler or.inl p and or.inr q
 constructors. 
 -/
 
-example : P ∨ Q → R :=
+example : P ∨ Q → (P → R) → (Q → R) → R :=
 begin
 assume h,
 cases h with p q,
@@ -95,11 +95,15 @@ proof of P ∨ ¬P, *on which we can
 then do case analysis*.
 -/
 
+#check @classical.em P
+
 example : ¬¬P → P :=
 begin
 assume nnp,
 cases (classical.em P) with p np, -- here!
 -- make sure you can finish this proof!
+exact p,
+contradiction,
 end
 
 /-
