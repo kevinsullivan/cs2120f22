@@ -12,8 +12,11 @@ too. Replace the placeholder (_) with your
 answer.
 -/
 
-def and_associative : Prop := 
-  _
+def and_associative : Prop := ∀ (P Q R), P ∧ Q ∧ R ↔ (P ∧ Q) ∧ R
+
+-- and is right associative
+
+
 
 
 /- #1B [10 points]
@@ -35,6 +38,21 @@ Hint: unfold and_associative to start.
 
 theorem and_assoc_true : and_associative :=
 begin
+unfold and_associative,     -- expand definition of and_associative
+assume P Q R,               -- ∀ intro
+apply iff.intro _ _,        -- iff intro 
+
+-- forward
+assume pqr,                 -- assume premise 
+cases pqr with p qr,        -- "unbox" proofs of P and of Q ∧ R
+cases qr with q r,          -- "unbox" proofs of Q and R
+let pq := (and.intro p q),  -- "rebox" proofs of P and of Q to prove P ∧ Q
+apply (and.intro pq r),     -- "box" that up with a proof of r
+-- that complete the proof in the forward direction
+
+-- reverse 
+
+
 end
 
 
@@ -74,6 +92,61 @@ Write a formal statement of the proposition.
 def arrow_transitive : Prop :=
   _
 
+
+/-
+If there smoke there's fire
+If there's fire there's light
+If there's light, everything's good
+And there's smoke. So everything's good.
+Right?
+-/
+
+-- The basic propositions
+variables (Smoke Fire Light Good : Prop)
+-- The implications
+variables (sf : Smoke → Fire) (fl : Fire → Light) (lg : Light → Good)
+-- The premise
+variable (s : Smoke)
+
+example : ∀ (S F L G : Prop), (S → F) → (F → L) → (L → G) → S → G:=
+begin
+assume S F L G,   -- assume the basic propositions
+assume sf fl lg,  -- assume the implication hypotheses
+assume s,         -- assume there's smoke, now show everything good
+
+/- this works
+apply lg,
+apply fl,
+apply sf,
+exact s
+-/
+
+-- so does this
+exact lg (fl (sf s)),
+-- make sure you understand it both ways
+-- understand arrow elimination
+-- arrow elimination is like function application!
+end
+
+
+/-
+Eercise with negation
+-/
+
+example :0 ≠ 1 :=
+begin
+assume p,
+cases p,
+end 
+
+
+example : ∀ P, ¬(P ∧ ¬P) :=
+begin
+assume P,
+assume pandnp,
+cases pandnp with p np,
+apply false.elim (np p),
+end
 
 /- #3B [10 points]
 
