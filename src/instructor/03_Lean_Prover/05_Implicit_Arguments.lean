@@ -1,18 +1,61 @@
--- UNDER CONSTRUCTION, IGNORE THIS FILE FOR NOW
-
-
 /-
-For example, if a function, f, takes a type, T, as its 
-first argument, and a value, t, of that type, as its
-second argument, then by default you would apply this
-function to actual argument values with expressions 
-such (f nat 4), or (f string "Hi!"). 
+If a function, f, takes a type, T, as its first 
+argument, and a value, t, of that very type, T, as 
+its second argument, then when you fully apply the
+function (to all its arguments), you will have to 
+give two arguments: a value for T, in other words
+a type; and a value, t, of that type.  
 
 But why should you have to write out "nat" when Lean
 knows from 4 that nat is all it can be? Good news: if
 you specify the argument as implicit, then it will be
 inferred, and if Lean can't infer it it will tell you.
 -/
+
+
+-- identity function on natural numbers
+def id_nat : ℕ → ℕ 
+| n := n
+
+example : id_nat 5 = 5 := rfl
+
+def id_string : string → string 
+| s := s
+
+def id_bool : bool → bool 
+| b := b
+
+-- def id_T (T : Type) (a : T)
+def id_T' (T : Type) : T → T
+| t := t
+
+def id_T'' : ∀ (T : Type), T → T
+| T t := t
+
+#eval id_T' nat 3
+#eval id_T' bool tt
+#eval id_T' string "I love logic"
+
+#eval id_T'' nat 3
+#eval id_T'' bool tt
+#eval id_T'' string "I love logic"
+
+def id_T {T : Type} : T → T
+| t := t
+
+#eval id_T 3
+#eval id_T tt
+#eval id_T "This is so cool"
+
+
+#eval @id_T nat 3
+
+#check id_T
+#check @id_T
+
+
+
+
 
 def identity1 : ∀ (T : Type) (t : T), T := 
 begin
@@ -51,8 +94,8 @@ the arguments explicit, you can use @.
 -/
 
 
-def example1A {T : Type} (t : T) := t
-def example1B {T : Type} := T → T := t
+def example1A { T : Type } (t : T) := t
+def example1B { T : Type } (t : T) : T := t
 
 /-
 When we specify arguments of a function or predicate, we can

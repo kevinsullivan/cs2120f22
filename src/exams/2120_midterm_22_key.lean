@@ -27,7 +27,7 @@ in English that there is no such proof.
 
 example : (false → true) ∧ (true → true) :=
 begin
--- it will suffice to prove the conjuncts separate
+-- it will suffice to prove the conjuncts separately
 apply and.intro,
 -- the first part is true because anything follows from false 
 assume h, contradiction,
@@ -54,10 +54,11 @@ to show that what remains to be proved is valid.
 
 Answer: To prove the proposition it will suffice by
 and intro to prove each conjunct separately. For the
-first, assume false. By false elimination the first
-implication is proved. For the second, assume true 
-then show true∶ it's an assumption. QED. (We will
-take variations of course.)
+first, assume false. False elimination proves the
+first implication. For the second, first assume true 
+then show true∶ but it's already an assumption. QED. 
+
+(We'll take variations on our answers, of course.)
 -/
 
 
@@ -90,16 +91,17 @@ inference rules makes sense: not a rigorous proof,
 just an explanation of why Q has to be true under
 the conditions given by the assumptions/premises.
 
-Answer: We assume that P is true, and so is ¬P ∨ Q. 
-¬P ∨ Q cannot be true because ¬P is true. The only
-remaining possibility is that it's true because Q
-is true. So Q is true. QED
+Answer: We assume that both P and ¬P ∨ Q are true.
+¬P ∨ Q cannot be true because ¬P is true, and the
+only other possibility is that it's true because Q
+is true. So Q must be true. QED
 
 Alternative: Assume (¬P ∨ Q) and P. To show is Q.
-It will suffice to show Q's true whether ¬P is or
-Q is. If ¬P is true, that's a contradiction, so
-there's no need to consider that case any further. 
-If Q is true, then Q is true. Done. QED.
+We show Q's by ∨ elimination: showing Q must be true 
+whether ¬P is true or Q is. Case 1: For ¬P to be true 
+is a contradiction, so this case can't actually happen
+(contradiction). Case 2: If Q is true, then Q is true
+(by arrow introduction then by assumption). Done. QED.
 -/
 
 
@@ -115,6 +117,8 @@ proposition is valid.
 P   Q   (¬P ∨ Q)    (¬P ∨ Q) ∧ P    ((¬P ∨ Q) ∧ P) → Q
 ------------------------------------------------------
 f   f   t           f               t
+>>> You fill in the rest of the table
+>>> Answer:
 f   t   t           f               t
 t   f   f           f               t
 t   t   t           t               t
@@ -134,25 +138,23 @@ a proof of a conjunction applies and.elim, both
 left and right; and when applied to a proof of 
 a disjunction gives you two cases to consider.
 You need to show the remining goal is true in
-either case to finally conclude that it's true. 
+either case to conclude that it has to be true. 
 -/
 
 example : ∀ (P Q : Prop), (¬P ∨ Q) ∧ P → Q :=
 begin
-
 -- introductions
 assume P Q h,
-
--- eliminate the conjunction
+-- eliminate conjunction
 cases h with nporq p,
 
--- case analysis on the disjunction
-cases nporq with np q,
+-- analyze the disjunction
+cases nporq,
 
--- case it's true because ¬P is
+-- case 1: ¬P is true
 contradiction,
 
--- case it's true because Q is
+-- case 2: it's true because Q is
 assumption,
 
 -- QED
