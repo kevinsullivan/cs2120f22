@@ -1,16 +1,6 @@
 import data.set
 
 /-
-If α and β are arbitrary types, then α × β is a type, namely 
-the type of pairs of values, (a : α, b : β). For example, 
-ℕ × ℕ is the type of ordered pairs of natural numbers. 
-
-So now comes the trick. We represent a "binary relation,"
-which is to say, a set, R, of such "2-tuples", as a 
-predicate on arguments of types α and β.  
--/
-
-/-
 Review: You've already met the relation that takes any 
 natural number, n, and yields a proposition asserting 
 it's even, (isEven n).
@@ -201,7 +191,7 @@ end
 
 
 -- Example: Try and fail to prove that "Huzzoo!" ∈ strings5 
-example : "Huzzoo!" ∈ strings5 := by 
+example : "Huzzoo!" ∈ strings5 := 
 begin
 exact rfl,
 end
@@ -312,7 +302,7 @@ is ok to think of them as specifying data objects.)
 
 -- false and the empty set
 -- typically denoted by ∅ 
-def my_empty_set (T : Type) := { t : T | false}
+def my_empty_set (T : Type) := { t : T | false }
 
 #check (∅ : set nat)    -- 
 #reduce (∅ : set nat)   -- the membership predicate
@@ -358,7 +348,7 @@ end
 def my_set_union
   { α : Type } 
   (S T : set α) 
-  (a : α):
+  (a : α) :
 a ∈ S ∨ a ∈ T ↔ a ∈ S ∪ T :=   -- learn how to read
 begin
 split,    
@@ -373,7 +363,7 @@ end
 def my_set_complement
   { α : Type } 
   (S : set α) 
-  (a : α):
+  (a : α) :
   a ∉ S ↔ a ∈ Sᶜ 
   :=
 begin
@@ -389,15 +379,13 @@ end
 -- (S ⊆ T) ↔ (a ∈ S → a ∈ T)
 def my_subset_of
   {α : Type} 
-  {S T : set α} 
-  :
+  {S T : set α} :
   (∀ a, a ∈ S → a ∈ T) ↔ (S ⊆ T)  -- parentheses on left are essential here
   :=
 begin
 split,
-assume st,     -- don't use same name a for different value
-assume s,
-exact (st s),  -- this is the trick; understand it
+assume st, 
+exact st,    -- don't use same name a for different value
 assume h,
 assume a,     -- remember S ⊆ T means ∀ a, ..., so assume a
 assume as,
@@ -425,3 +413,21 @@ end
 /-
 Set equality: Next time.
 -/
+
+/-
+Or maybe relations. Probably relations. Then 
+equality. Then set equality in particular.
+-/
+
+section foobar
+
+#check 
+
+variables 
+  (α β : Type)
+  (m: α → β → Prop) 
+  (a : α)
+  (b : β) 
+
+
+end foobar
