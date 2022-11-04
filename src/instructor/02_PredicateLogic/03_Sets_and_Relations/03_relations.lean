@@ -43,13 +43,26 @@ values (in this case) satisfy them.
 -/
 
 -- functions compute
-#eval bnot tt
+#eval bnot tt   -- (tt, ff)
+#eval bnot ff   -- (ff, tt)
 -- takes a single bool, returns a bool
 
-example : negation tt ff := by unfold negation
+example : negation tt ff := 
+begin
+unfold negation,
+end 
+
+example : negation ff tt := by unfold negation -- Lean syntax
+
 -- takes two bools, returns a proposition
 -- that proposition then has to be proved 
 -- can use "by" when script is a single tactic
+
+example : ¬ negation tt tt :=
+begin
+assume h,
+cases h,
+end 
 
 /-
 Exercise: Formally state and prove the proposition
@@ -59,6 +72,54 @@ bnot function applied to a Boolean value, b1, equals
 b2, if and only if the pair, (b1,b2), is "in" the
 negation relation.   
 -/
+
+
+example : ∀ (b1 b2), negation b1 b2 ↔ bnot b1 = b2 :=
+begin
+assume b1 b2,
+split,
+
+-- forwards
+intro h,
+
+cases b1,
+cases b2,
+
+-- ff ff
+cases h,
+
+-- tt ff
+exact rfl,
+
+cases b2,
+
+-- tt ff
+exact rfl,
+
+-- tt tt
+cases h,
+
+-- backwards
+
+assume h,
+
+-- again by case analysis on b1 b2
+
+cases b1,
+cases b2,
+
+cases h,
+unfold negation,
+
+cases b2,
+unfold negation,
+
+cases h,
+
+
+end
+
+
 
 example: ∀ (b1 b2), negation b1 b2 ↔ bnot b1 = b2 :=
 begin
@@ -79,9 +140,9 @@ bit.zero and bit.one, and the consider a relation
 tt or ff and a bit is either zero or one. 
 -/
 
-inductive bit : Type 
-| zero : bit
-| one : bit
+inductive bit 
+| zero 
+| one 
 
 /-
 Here for fun is a function that takes a bit
@@ -118,6 +179,7 @@ ordered pairs, but the first computes and the second is
 -/
 
 def square (n : ℕ) := n * n
+#eval square 25
 
 /-
 Now we specific the relevant set of pairs.
@@ -130,10 +192,38 @@ not ones that don't.
 -/
 
 example : squares 0 0 := rfl
-example : squares 0 0 := rfl
 example : squares 1 1 := rfl
 example : squares 2 3 := rfl    -- no can, dude
 example : squares 2 4 := rfl
 example : squares 25 625 := rfl
 
+/-
+Exercise: define a predicate, call it 
+string2len,on strings and nats, such 
+that (s, n) ∈ string2len iff length 
+of s is n.
+-/
 
+def string2len : string → nat → Prop := 
+  λ s n,          -- arguments
+  s.length = n    -- result (here a proposition)
+
+/-
+Exercise: prove the proposition that the pair of
+arguments, "Lean!" and 5, taken together, satisfy
+the string2len predicate, and are thus considered
+to be a pair that in (a member of) the string2len
+relation.  
+-/
+example : string2len "Lean!" 5 :=   
+begin
+unfold string2len,
+exact rfl,
+end
+/-
+These ideas are prominent in database theory and
+practice. For example, the SELECT statement in a
+SQL database, e.g., mySQL, MariaDB, or PostgreSQL,
+selects the subset of records from a database with
+field values that satisfy such a selection predicate.
+-/
