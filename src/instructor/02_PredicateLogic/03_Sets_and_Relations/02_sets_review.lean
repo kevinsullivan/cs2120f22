@@ -63,5 +63,3 @@ above. That is, define isOdd, the predicate, and then odds,
 the set, separately. Then state and prove the propositions, 
 2 ∉ odds, and 3 ∈ odds. (Use example.)
 -/
-
-
