@@ -193,7 +193,7 @@ end
 
 
 
-theorem eq_transitive {α : Sort u} : transitive (@eq α) :=
+theorem eq_transitive : transitive (@eq α) :=
 begin
 -- By the definition of transitive we are to show ...
 unfold transitive,
@@ -239,10 +239,11 @@ unfold equivalence,
 show reflexive eq ∧ symmetric eq ∧ transitive eq,
 
 -- By and introduction it will suffice to prove each conjunct
-apply (and.intro _ (and.intro _ _)),
+apply and.intro _ (and.intro _ _),
+-- whoa, that's cool
 
 /-
-And each of them is true *by the theorems we've already proved*
+Each is true *by the theorems we've already proved*
 -/
 exact eq_refl,
 exact eq_symmetric,
