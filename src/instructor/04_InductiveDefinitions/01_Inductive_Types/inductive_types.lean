@@ -1,4 +1,4 @@
-namespace my_types
+namespace cs2120
 
 /-
 Until this point in this class, we have
@@ -43,5 +43,8 @@ def my_bool_not : my_bool → my_bool
 
 #reduce my_bool_not ttt 
 
-end my_types
+end cs2120 
+
+
+
 
