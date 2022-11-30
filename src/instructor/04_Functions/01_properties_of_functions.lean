@@ -166,7 +166,12 @@ show person1 = person2,
 From here the proof is by case analysis on 
 person1 and person2, each of which can have
 one of three values (p1, p2, p3), giving us
-nine cases to consider. 
+nine cases to consider. All the cases where
+person1 ≠ person2 yield contradictions and 
+so can be ignored as impossibilities, while
+there are proofs in the three cases where
+person1 = person2. That'll do it. Here it
+goes
 -/
 -- case analysis person1 (p1, p2, p3)
 cases person1,
