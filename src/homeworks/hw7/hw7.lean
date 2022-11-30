@@ -18,7 +18,7 @@ end
 /- Extra credit. 
 
 The converse of this proposition is clasically true. If
-not every object has propery, P, then there must be some
+not every object lacks propery, P, then there must be some
 object that has it. If you try to prove the converse in
 our constructive logic, what happens? Show you work, and
 then briefly but clearly explain exactly what goes wrong.
