@@ -33,9 +33,24 @@ and the co-domain both being ℕ.
 ( domain = ℕ, r = {(0,0),(1,1),(2,2)}, co-domain=ℕ )
 
 A. Is this relation reflexive? Explain your answer.
+
+No. Not *every* object of the domain is related to itself.
+
 B. Is this relation symmetric? Explain your answer.
+
+Yes, the reverse of every pair in the relation is also
+in the relation. 
+
 C. Is this relation transitive? Explain your answer.
+
+Yes. In all cases (there are none!) in which an a is
+related to a b, and a b is related to a c that a is 
+related to that c. Again there are *no* such cases, so,
+again, the it's true for all of them!
+
 D. Is this relation an equivalence relation? Explain.
+
+No. It's not reflexive.
 
 -/
 
@@ -46,6 +61,10 @@ if, for all values in its domain, a and b, if r a b
 and if r b a then a = b. Give an example of a familiar
 arithmetic relation that's anti-symmetric, and briefly
 explain why it's so.
+
+Answer: less than or equals is an anti-symmetric 
+relation. If a <= b and b <= a then it must be that
+case that a = b.
 -/
 
 
@@ -72,7 +91,9 @@ def is_asymmetric
 Name a familar arithmetic relation that's asymmetric
 and briefly explain why you think it's asymmetric.
 
-Answer here:
+Answer here: The less than relation (on natural numbers)
+is asymmetric because for any a, b, if a < b then ¬ b < a.
+
 -/
 
 /- C: 
@@ -87,8 +108,8 @@ assume that r is asymmetric). Now assume r a a.
 Answer here (rest of proof): From the fact that r is
 asymmetric and given the assumption that r a a, we can 
 conclude ¬ r a a. That's is a contradiction. The r a a
-cannot have been true. Since a was arbitrary, the proof
-is for all a.
+cannot have been true. Since a was arbitrary, no a can
+be related to itself.
 -/
 
 /- D.
@@ -110,9 +131,9 @@ begin
 assume h,
 -- let's call it w with a proof of r w w 
 cases h with w pf,
--- specialize h to w 
+-- apply generalization h to w and w to deduce h w w 
 let contra := h w w,
--- apply resulting implication to proof of rww
+-- apply resulting implication to proof of r w w
 let contra2 := contra pf,
 -- that gives a proof of ¬ r w w
 -- and that is a ...
@@ -128,11 +149,25 @@ is not assymetric.
 
 example (α : Type) (a : α): ¬ is_asymmetric (@eq α) :=
 begin
+-- assume equality is asymmetric
 assume h,
+
+-- expand definition
 unfold is_asymmetric at h,
+
+-- apply h to derive a proof of 
+-- of a = b → a ≠ b
 let x := h a a,
+
+-- apply it to a proof of a = a
 let y := x (eq.refl a),
+
+-- now we have a contradiction
 contradiction,
+
+-- so equality must not be asymmetric
+-- if α is an inhabited (non-empty) type
+-- which the argument, a, assures is so
 end
 
 /- #6
@@ -144,6 +179,7 @@ relation on the natural numbers (given an m).
 -/
 
 def equiv_mod_m (m : ℕ) : ℕ → ℕ → Prop := 
+  -- given m, equiv_mod_m is a binary predicate
   λ p q : ℕ, p % m = q % m
 
 /-
@@ -155,23 +191,28 @@ equivalence, reflexive, symmetric, and transitive.
 
 example : ∀ m : ℕ, equivalence (equiv_mod_m m) :=
 begin
+-- assume arbitrary "modulus"
 intro m,
+
+-- expand definition
 unfold equivalence,
+
+-- split goal into three conjuncts
 apply (and.intro _ (and.intro _ _)),
 
--- reflexive
+-- prove reflexivity
 unfold reflexive,
 assume x,
 unfold equiv_mod_m,
 
--- symmetric
+-- prove symmetry 
 unfold symmetric,
 assume x y h,
 unfold equiv_mod_m at h,
 unfold equiv_mod_m,
 rw h,
 
--- transitive
+-- prove transitivity 
 unfold transitive,
 assume a b c,
 assume h k,
@@ -180,6 +221,7 @@ unfold equiv_mod_m at k,
 unfold equiv_mod_m,
 rw h,
 rw k,
+-- That suffices to prove the theorem!
 end
 
 /- #7
@@ -193,12 +235,12 @@ a very brief justification of each answer. Assume
 the domain is all living persons, and the co-domain
 is all natural numbers.
 
--- it's a function: 
--- it's total: 
--- it's injective (where "): 
--- it's surjective (where the co-domain is all ℕ):
--- it's strictly partial:  
--- it's bijective: 
+-- it's a function: Yes, person has (should have) more than one ssn/tin
+-- it's total: No, not every person has an ssn/tin
+-- it's injective: yes, no two people can have the same ssn/tin 
+-- it's surjective (where the co-domain is all ℕ): no, not every ℕ is an ssn
+-- it's strictly partial: yes, there are people without ssns
+-- it's bijective: no, it's not surjective
 -/
 
 
@@ -208,9 +250,9 @@ numbers. Which of the following properties does
 it have? Explain each answer enough to show you
 know why your answer is correct.
 
--- reflexive
--- symmetric
--- transitive
+-- reflexive: no, because not every number is related to itself in r
+-- symmetric: yes, because it's a generalization over an empty set
+-- transitive: yes, because its a generalization over an empty set
 -/
 
 
@@ -266,9 +308,10 @@ Suppose S is a set, with a ⊆ S and b ⊆ S subsets. Then
 
 1. every such a is a subset of itself, so reflexive
 2. if a ⊆ b and b ⊆ a then a = b, so anti-symmetric
-3. if a ⊆ b and b ⊆ c, then a ⊆ c, to transitive
-
-QED.
+3. if a ⊆ b and b ⊆ c, then a ⊆ c, so transitive
+    given x ∈ a, a ⊆ b means x ∈ b, and similarly 
+    because x ∈ b then x ∈ c, so x ∈ a → x ∈ c,
+    which is the definition of a ⊆ c. QED.
 -/
 
 /- #11 
@@ -308,22 +351,24 @@ ext,
 -- Prove implications in both directions
 split,
 
--- forward
+-- forwards
 
 -- assume premise
 assume h,
--- eliminate ∧/∩ in h
 
+-- eliminate ∧/∩ in h
 -- h says x ∈ a ∨ x ∈ b → false
--- how x ∈ aᶜ and x ∈ bᶜ 
+-- show x ∈ aᶜ and x ∈ bᶜ 
 
 apply and.intro,
 assume k,
-let foo: (x ∈ a ∪ b) := begin left, assumption end,
+let foo: (x ∈ a ∪ b) := 
+  begin left, assumption end,
 contradiction, 
 
 assume k,
-let foo: (x ∈ a ∪ b) := begin right, assumption end,
+let foo: (x ∈ a ∪ b) := 
+  begin right, assumption end,
 contradiction,
 
 -- backwards
@@ -336,4 +381,8 @@ cases h,
 contradiction,
 end
 
-
+/-
+Post-HW exercise: Write a fluent English language proof
+of the preceding proposition. Hint: Model it on the formal
+proof.
+-/
