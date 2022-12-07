@@ -52,6 +52,10 @@ assume n h,
 -- It remains for us to ...
 show ∃ (n' : ℕ), n = n' + 1,
 
+
+-- solve for n' : n + 1 = n' + 1
+
+
 /-
 The remaining proof is by case analysis
 on n. The cases (by the definition of nat,
@@ -59,26 +63,26 @@ which we are about to see) are n = 0 and
 n is the successor of a one-smaller number, 
 n'. 
 -/
-cases n,
+cases n with x,
 
 /- In the first case, we replace n with 0,
-reducing h to 0 = 0, which is a contradiction.
+reducing h to 0 ≠ 0, which is a contradiction.
 -/
 contradiction,
 
 -- In the second case, we need to ...
-show ∃ (n' : ℕ), n.succ = n' + 1,
+show ∃ (n' : ℕ), x.succ = n' + 1,
 
 /-
 Work hard to understand this goal. It requires
 that we show that there exists a number n' such
-that n'+1 = n.succ (one more than n). In other
-words, we need n' such that n' + 1 = n + 1. It 
-should now be clear: n satisfies this equation,
-so we can use it as the witness to prove the
-existential proposition that remains to be proved. 
+that n'+1 = n = succ x. In other words, we need 
+n' such that n' + 1 = n = x + 1. It should now be 
+clear: x satisfies this equation, so we can use 
+it as the witness to prove the existential 
+proposition that remains to be proved. 
 -/
-apply exists.intro n _, 
+apply exists.intro x _, 
 
 /- 
 All that now remains to prove is the equality
@@ -87,13 +91,20 @@ All that now remains to prove is the equality
 apply rfl,
 end
 
+/-
+-/
+
 /- #1A.
 State and prove the proposition that there's some
 natural number whose square is 144.
 -/
 
 -- Pick n=12 then show 144 = 12*12, by arithmetic
-example : ∃ n, n*n = 144 := exists.intro 12 rfl
+example : ∃ n, n*n = 144 := 
+begin 
+apply exists.intro 12,
+exact rfl,
+end 
 
 /- #1B.
 State and prove the proposition that there is 
@@ -106,6 +117,15 @@ strings together into one.
 -- Proof strategy is same as previous problem
 example : ∃ s, s ++ "!" = "I love logic!" :=
   exists.intro "I love logic" rfl
+
+-- Extra examples
+
+example : ∃ s : string, s.length = 5 := 
+exists.intro "Lean!" rfl
+
+example : ∃ n, n*n + 5 = 30 := exists.intro 5 rfl
+  
+example : ∃ n : int, n*n = 1 := exists.intro 1 rfl
 
 /-
 There's an important lesson here: When you have
@@ -122,6 +142,8 @@ problem, such as a set of equations, to find a
 witness that will "work."
 -/
 
+example : ∃ n, n*n - 1 = 0 := exists.intro 1 rfl 
+
 /- #1C.
 
 Formally state and prove the proposition that
@@ -131,7 +153,8 @@ takes just one witness as a time, so you will
 have to apply it more than once.
 -/
 
-example : ∃ (x y z : nat), x*x + y*y = z*z :=
+-- example : ∃ (x y z : nat), x*x + y*y = z*z :=
+example : ∃ x : ℕ, ∃ y, ∃ z, x*x + y*y = z*z :=
 begin
 /-
 The key, simple, insight that unlocks a proof
@@ -156,7 +179,10 @@ three natural number arguments, x, y, and z,
 yielding the proposition that x*x + y*y = z*z.
 -/
 
-def pythag_triple (x y z : ℕ) := x*x + y*y = z*z
+def pythag_triple (x y z : ℕ) : Prop := x*x + y*y = z*z
+
+#check pythag_triple 1 2 3
+#reduce pythag_triple 3 4 5
 
 /- #1E
 State the proposition that there exist x, y, z, 
@@ -173,9 +199,32 @@ The rest is d simple application of #1C.
 apply exists.intro 3,
 apply exists.intro 4,
 apply exists.intro 5,
-unfold pythag_triple, -- not necessary
+-- unfold pythag_triple, -- not necessary
+-- show 25 = 25,
 exact rfl,
 end
+
+example : ∃ (x y z), z ≠ 5 ∧ pythag_triple x y z :=
+begin
+apply exists.intro 5,
+apply exists.intro 12,
+apply exists.intro 13,
+unfold pythag_triple,
+apply and.intro _ _,
+-- prove 13 ≠ 5 by negation
+{ 
+  show ¬ 13 = 5,
+  show 13 = 5 → false,
+  assume h,
+  cases h, 
+},
+-- prove the remaining equality proposition
+{
+  exact rfl,
+}
+end
+
+-- REVIEW 12/7 stopped here
 
 /- #2A
 
