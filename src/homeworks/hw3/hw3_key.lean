@@ -10,7 +10,7 @@ multiple concepts. You might have to put different ideas from our
 work together to fully answer the questions. Give yourself time to
 think about this material. 
 
-INSTRUTCTIONS: Read and follow the instructions for each question,
+INSTRUCTIONS: Read and follow the instructions for each question,
 below. Edit all of your answers into this file. That's what you'll
 turn in.
 

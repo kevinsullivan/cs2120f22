@@ -730,4 +730,114 @@ exact
     left_zero_add_n',
 end
 
+
+/-
+EXTRA CREDIT MATERIAL REVIEWED IN DETAIL ONLINE 12/7
+-/
+
+namespace hidden
+
+inductive list (α : Type) : Type
+| nil : list
+| cons (h : α) (t : list) :list
+
+
+def appnd {α : Type} : list α → list α → list α 
+| list.nil m := m
+| (list.cons h t)     m       := list.cons h (appnd t m)
+--          1::[2,3]  [4,5,6]   1::[2,3,4,5,6]
+
+def l := list.cons 1 (list.cons 2 (list.cons 3 list.nil)) -- [1,2,3]
+def m := list.cons 4 (list.cons 5 (list.cons 6 list.nil)) -- [1,2,3]
+
+#reduce appnd l m
+
+example : ∀ {α : Type} (m : list α), appnd list.nil m = m :=
+begin
+assume α m,
+induction m with elt non,
+-- base case
+exact rfl,
+exact rfl,
+
+--simp [appnd],
+end  
+
+example : ∀ {α : Type} (s : list α), appnd s list.nil = s :=
+begin
+assume α s,
+induction s with elt non_empty,
+-- base case
+exact rfl,
+
+-- inductive case
+unfold appnd,
+rw s_ih,
+
+end  
+
+
+
+/-
+def empty_list := list_nat.nil              -- []
+def one_list := list_nat.cons 1 empty_list  -- [1]
+def two_list := list_nat.cons 2 one_list    -- [2, 1]
+-/
+
+end hidden
+
+#check list
+/-
+inductive list (T : Type u)
+| nil : list
+| cons (hd : T) (tl : list) : list
+-/
+
+#reduce @nat.rec_on 
+/-
+λ {motive : ℕ → Sort u_1} 
+  (n : ℕ) 
+  (e_1 : motive 0) 
+  (e_2 : Π (n : ℕ), motive n → motive n.succ),
+  nat.rec e_1 e_2 n
+-/
+
+#reduce @list.rec_on
+/-
+Π {T : Type u_2} 
+{motive : list T → Sort u_1} 
+(n : list T), 
+motive list.nil → 
+(Π (hd : T) (tl : list T), motive tl → motive (hd :: tl)) → 
+motive n
+-/
+
+inductive program : Type
+| empty
+| assignment 
+| seq (p1 p2 : program)
+| if_ (fb tb : program)
+| while (body : program)
+
+#reduce @program.rec_on
+
+open program
+
+def foo := 
+  seq 
+    (assignment)
+    (while 
+      (
+        seq assignment assignment
+      )  
+    )
+
+  /-
+  X := v;
+  while () {
+    Y := 2;
+    Z := X + 1
+  }
+  -/
+
 end cs2120f22
