@@ -33,6 +33,41 @@ axiom is general.
 *universal generalizations* (∀ propositions) 
 that assert that something is true for *all* 
 values of a given type.
+
+#4. If a type has only enumerated values 
+(like bool has only tt and ff) the induction
+axiom is equivalent to case analysis. You
+need to prove that each individual value of
+a type has a given property.
+
+#5. If a type is "recursive", in which case
+some constructors build "bigger" values of a
+type from smaller values of the same type
+(e.g., as nat.succ takes a nat, n', and yields
+the nat (succ n'), incorporating the smaller
+value/object into the larger one), the you
+will have more complex induction axioms. In
+general these will be of the following form:
+
+(1) Show that each base/non-recursive value
+has the given property
+(2) For each recursive constructor, show that
+if you apply it to smaller values that already
+have the given property, then the larger ones
+you construct will have that property, too.
+
+In proofs by induction on a natural number,
+you'll have two cases: an easy one for the
+base case, zero, and a more complex one for
+the inductive case, where you'll have to show
+that for any n', if n' as the property then
+so does (succ n'). 
+
+The same ideas hold for the list type (as we 
+discuss in the extra credit section, below).
+Finally, at the very end of this file, we
+sketch out how these ideas apply to design
+and reasoning about programming languages.
 -/
 
 /- ************************************
@@ -42,6 +77,12 @@ INDUCTION OVER ALL VALUES OF TYPE bool
 /-
 As an example, let's look again at the definition
 of the bool type, and then at its induction axiom.
+The lesson will be that induction on bool amounts
+to simple case analysis, with two cased. If we 
+show that both ff and tt have a given property,
+then we've shown that *all* values of the bool
+type have it, as there are no other values than
+these two.
 -/
 
 
@@ -81,11 +122,12 @@ Let's decode that:
 -/
 
 /-
-Key idea #4: For simple types like bool, whose
-values are "enumerated," proof by induction is
-just proof by case analysis. That's what the 
-rule for bool says: prove it for ff, then for 
-tt,, and now you've got a proof *for all* bools. 
+Key idea #4 again: For simple types like bool, 
+whose values are enumerated, proof by induction
+is just proof by case analysis. That's what the 
+rule for bool says: to prove that all bools have
+a property (motive) it suffices to that ff has
+it and that tt has it.  
 
 As a reminder, here's a proof that for any
 bool, n, the negation of the negation of n is n.
@@ -128,6 +170,21 @@ exact rfl,  -- easy
 end  
 
 /-
+Now applying the induction axiom directly
+isn't the preferred way to do it in Lean.
+Rather, use the induction tactic. It sets
+up the cases you need to prove.
+-/
+
+example : ∀ (n : bool), bnot (bnot n) = n :=
+begin
+assume n,
+induction n,
+exact rfl,  -- proof of case n = ff
+exact rfl,  -- proof of case n = tt
+end
+
+/-
 Another way to think about the induction
 principle for bool is that it provides a
 means for implementing functions that take
@@ -151,6 +208,24 @@ def bool_to_bit (b : bool) : nat :=
 -- Test cases. It works!
 example : bool_to_bit ff = 0 := rfl
 example : bool_to_bit tt = 1 := rfl
+
+/-
+We can do the same thing with the induction
+tactic.
+-/
+
+def bool_to_bit' (b : bool) : nat := 
+begin
+induction b,
+exact 0,
+exact 1,
+end 
+
+-- Test cases. It works!
+example : bool_to_bit' ff = 0 := rfl
+example : bool_to_bit' tt = 1 := rfl
+
+
 /-
 Take-away #1: For an enumerated type, such
 as bool, we can build a proof that all values
