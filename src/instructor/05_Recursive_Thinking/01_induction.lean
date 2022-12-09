@@ -33,6 +33,41 @@ axiom is general.
 *universal generalizations* (∀ propositions) 
 that assert that something is true for *all* 
 values of a given type.
+
+#4. If a type has only enumerated values 
+(like bool has only tt and ff) the induction
+axiom is equivalent to case analysis. You
+need to prove that each individual value of
+a type has a given property.
+
+#5. If a type is "recursive", in which case
+some constructors build "bigger" values of a
+type from smaller values of the same type
+(e.g., as nat.succ takes a nat, n', and yields
+the nat (succ n'), incorporating the smaller
+value/object into the larger one), the you
+will have more complex induction axioms. In
+general these will be of the following form:
+
+(1) Show that each base/non-recursive value
+has the given property
+(2) For each recursive constructor, show that
+if you apply it to smaller values that already
+have the given property, then the larger ones
+you construct will have that property, too.
+
+In proofs by induction on a natural number,
+you'll have two cases: an easy one for the
+base case, zero, and a more complex one for
+the inductive case, where you'll have to show
+that for any n', if n' as the property then
+so does (succ n'). 
+
+The same ideas hold for the list type (as we 
+discuss in the extra credit section, below).
+Finally, at the very end of this file, we
+sketch out how these ideas apply to design
+and reasoning about programming languages.
 -/
 
 /- ************************************
@@ -42,6 +77,12 @@ INDUCTION OVER ALL VALUES OF TYPE bool
 /-
 As an example, let's look again at the definition
 of the bool type, and then at its induction axiom.
+The lesson will be that induction on bool amounts
+to simple case analysis, with two cased. If we 
+show that both ff and tt have a given property,
+then we've shown that *all* values of the bool
+type have it, as there are no other values than
+these two.
 -/
 
 
@@ -81,11 +122,12 @@ Let's decode that:
 -/
 
 /-
-Key idea #4: For simple types like bool, whose
-values are "enumerated," proof by induction is
-just proof by case analysis. That's what the 
-rule for bool says: prove it for ff, then for 
-tt,, and now you've got a proof *for all* bools. 
+Key idea #4 again: For simple types like bool, 
+whose values are enumerated, proof by induction
+is just proof by case analysis. That's what the 
+rule for bool says: to prove that all bools have
+a property (motive) it suffices to that ff has
+it and that tt has it.  
 
 As a reminder, here's a proof that for any
 bool, n, the negation of the negation of n is n.
@@ -128,6 +170,21 @@ exact rfl,  -- easy
 end  
 
 /-
+Now applying the induction axiom directly
+isn't the preferred way to do it in Lean.
+Rather, use the induction tactic. It sets
+up the cases you need to prove.
+-/
+
+example : ∀ (n : bool), bnot (bnot n) = n :=
+begin
+assume n,
+induction n,
+exact rfl,  -- proof of case n = ff
+exact rfl,  -- proof of case n = tt
+end
+
+/-
 Another way to think about the induction
 principle for bool is that it provides a
 means for implementing functions that take
@@ -151,6 +208,24 @@ def bool_to_bit (b : bool) : nat :=
 -- Test cases. It works!
 example : bool_to_bit ff = 0 := rfl
 example : bool_to_bit tt = 1 := rfl
+
+/-
+We can do the same thing with the induction
+tactic.
+-/
+
+def bool_to_bit' (b : bool) : nat := 
+begin
+induction b,
+exact 0,
+exact 1,
+end 
+
+-- Test cases. It works!
+example : bool_to_bit' ff = 0 := rfl
+example : bool_to_bit' tt = 1 := rfl
+
+
 /-
 Take-away #1: For an enumerated type, such
 as bool, we can build a proof that all values
@@ -737,72 +812,259 @@ EXTRA CREDIT MATERIAL REVIEWED IN DETAIL ONLINE 12/7
 
 namespace hidden
 
+/-
+We define list as a *polymorphic* data type (just
+like in Java), with two constructors. Given α, a
+list of α objects is *either* empty (nil) or it is
+constructed (cons) from a new element, h, of type 
+α, and a 1-smaller list of α elements, t. The "h"
+argument is said to be the element at the "head" 
+of the new list, while the smaller list t, is said
+to be the "tail" of the new list.
+-/
+
 inductive list (α : Type) : Type
 | nil : list
 | cons (h : α) (t : list) :list
 
 
+/-
+Here we define two lists of natural numbers.
+-/
+def l : list ℕ :=   -- the list [1,2,3]
+  list.cons         -- takes two arguments as follow
+    1               -- head element
+    (list.cons      -- tail list
+      2             -- head element
+      (list.cons    -- tail list
+        3           -- head element
+        list.nil    -- tail list (base case)
+      )
+    ) 
+
+def m : list ℕ :=     -- the list [4,5,6]
+  list.cons 
+    4 
+    (list.cons 
+      5 
+      (list.cons 
+        6 
+        list.nil
+      )
+    ) -- [1,2,3]
+
+/-
+Note that the list type (beyond being polymorphic)
+is very similar to the nat type. The nil constructor
+is analogous to nat.zero, while the cons constructor
+is analogous to nat.succ. 
+
+The difference: nat.zero takes a single smaller nat, 
+n', as an argument and forms the term (succ n') to
+represent a one-larger-than-n' natural number. By
+contrast, list.cons takes two arguments. The smaller 
+list argument, t, is analogous to n'. The h argument 
+is new. The constructor forms the term, (cons h t),
+representing the list with the new element, h, at
+its head, and the given argument, t, as the rest of
+the new list. Be sure you can see exactly how the
+preceding example lists are formed, l and m, bigger
+lists being formed from a head *element* and a tail 
+*list*. 
+-/
+
+/-
+Not only are the list and nat types analogous, but 
+also the basic functions we define on them. Here,
+for example, is a function for appending one list,
+l, to another list m. If for example l = [1,2,3] 
+and m = [4,5,6], then (appnd l m) = [1,2,3,4,5,6].
+
+The function works by recursion on l. Compare with
+nat.add. If the first argument, l, is the empty 
+list (nil), we just return the second list. This
+is analogous to our rule for adding n and 0. On
+the other hand, if l is non-empty (like non-zero),
+then it must be of the form (cons h t), where h
+is the first element of l and t is the remaining
+sublist. In this case, the return value of appnd
+is the list with h at its head and (recursively!)
+(appnd t m) as its tail. 
+
+For example with l = [1,2,3] and m = (4,5,6) for
+(appnd l m) we get (cons 1 (appnd [2,3],[4,5,6])).
+-/
+
 def appnd {α : Type} : list α → list α → list α 
 | list.nil m := m
-| (list.cons h t)     m       := list.cons h (appnd t m)
---          1::[2,3]  [4,5,6]   1::[2,3,4,5,6]
+| (list.cons h  t)      m      := list.cons h (appnd t m)
+--           1::[2,3]  [4,5,6]    1::[2,3,4,5,6] 
 
-def l := list.cons 1 (list.cons 2 (list.cons 3 list.nil)) -- [1,2,3]
-def m := list.cons 4 (list.cons 5 (list.cons 6 list.nil)) -- [1,2,3]
+/-
+Appending nil and m gives m (see first rule of appnd)
+-/
+example : appnd list.nil m = m := rfl -- yay
 
-#reduce appnd l m
+#check nat.add
+/-
+Indeed, we can easily prove that this rule holds
+for all m, just we we showed that n + 0 = n is
+true for all n. In both cases, these rules are
+true because they're *axioms* of add and append,
+respectively, defined by the first cases in each
+of the function definitions. The "simp [appnd]"
+tactic simplifies the goal using the definition
+of appnd.
+-/
+theorem nil_is_left_zero_for_lists {α : Type}: ∀ m : list α, appnd list.nil m = m := by simp [appnd] 
 
+
+/-
+Here's a test case for (appnd [1,2,3] [4,5,6]), using
+Python-like notation for lists in this comment.
+-/
+example : 
+  appnd l m = 
+  (list.cons 
+    1 
+    (list.cons 
+    2 
+    (list.cons 
+      3 
+      (list.cons 
+        4 
+        (list.cons 
+          5 
+          (list.cons 
+            6 
+            list.nil
+          )
+        )
+      )
+    )
+    )
+  ) := rfl    -- yay, success
+
+
+/-
+I was asked whether we could prove the ∀ proposition
+"by induction." Yes, we can, but we don't really need
+induction in this case. But here it is anyway.
+-/
 example : ∀ {α : Type} (m : list α), appnd list.nil m = m :=
 begin
 assume α m,
-induction m with elt non,
+induction m with h t,
 -- base case
 exact rfl,
+-- inductive case
 exact rfl,
-
 --simp [appnd],
 end  
 
+/-
+Now for the main point of this whole example. You will 
+recall from studying the previous material that while
+it was easy to prove ∀ n, n + 0 = n, it was harder to
+prove ∀ n, 0 + n = n. In fact, we really needed to use
+induction to prove it. There's no rule in the definition
+of add that takes care of this case.
+
+Similarly, while it was easy to prove that "nil is a 
+left zero" for append, it's harder to prove it's a
+right zero, because our definition of appnd doesn't
+have a rule for that case. Once again we need to use
+induction.
+-/
+
 example : ∀ {α : Type} (s : list α), appnd s list.nil = s :=
 begin
+-- assume we're given a list, s, of elements of type α 
 assume α s,
-induction s with elt non_empty,
--- base case
-exact rfl,
+show appnd s list.nil = s,
 
--- inductive case
-unfold appnd,
-rw s_ih,
-
-end  
-
+induction s with h t,
 
 
 /-
-def empty_list := list_nat.nil              -- []
-def one_list := list_nat.cons 1 empty_list  -- [1]
-def two_list := list_nat.cons 2 one_list    -- [2, 1]
+The base case is taken care of by the first axiom of appnd
+(this is a case where s, the first argument, is nil).
 -/
+exact rfl,
+
+/-
+The inductive case depends completely on the induction
+hypothesis. Look at the induction hypothesis. We need
+to manipulate the goal into a form where we can use the
+induction hypothesis to rewrite it into a form that we
+can finally "finish off." 
+
+So let's look at at the goal:
+
+appnd (list.cons h t) list.nil = list.cons h t. Now you
+have to look at the definition of appnd, and see if/how
+you can simplify parts of it. Look at the left-hand side:
+(appnd (list.cons h t) list.nil). The second appnd rule
+lets us can rewrite this as (list.cons h (appnd t nil)).
+So now our goal is (cons h (appnd t nil)) = cons h t;
+and look at that! The sub-term (appnd t nil) mathches
+the left side of the induction hypothesis, so we can
+use it to further rewrite the goal as (cons h t)),
+leaving us with cons h t = cons h t as the remaining
+goal, easily proved by the fact that equality is a
+reflexive relation. Lean actually takes care of a 
+few of the intermediate reasoning steps automatically,
+so all have to do in this case is ask Lean to simplify
+the goal using the definition of appnd, then rewrite
+using m_ih, and Lean takes care of applying rfl itself.
+-/
+simp [appnd],
+rw s_ih,
+end  
 
 end hidden
 
-#check list
 /-
-inductive list (T : Type u)
-| nil : list
-| cons (hd : T) (tl : list) : list
+Discussion. Now let's compare and contrast the 
+induction axioms for nat and list respectively.
+Note that we're now working directly with Lean
+definitions of these types (being outside of the
+hidden namespace). 
 -/
 
-#reduce @nat.rec_on 
+#check @nat.rec_on 
 /-
-λ {motive : ℕ → Sort u_1} 
-  (n : ℕ) 
-  (e_1 : motive 0) 
-  (e_2 : Π (n : ℕ), motive n → motive n.succ),
-  nat.rec e_1 e_2 n
+Π {motive : ℕ → Sort u_1} 
+  (n : ℕ), 
+  motive 0 → 
+  (Π (n : ℕ), motive n → motive n.succ) 
+  → motive n
+
+In English, given any property (motive) of
+natural numbers and an arbitrary natural
+number n, to show that n has the property,
+motive, it will suffice to show 
+
+(1) 0 has it (you have a proof of motive 0)
+(2) if whenever an arbitrary n' has it, then
+n'+1 has it, too.
+
+The intuition again is that if these two
+facts are true, then you can construct a
+proof of motive n for any n by constructing
+a proof for zero, then applying the second
+inductive rule to construct a proof for each
+succeeding number all the way up to n. As 
+n was arbitrary, the induction proof works
+for *any* (and thus for all) n.
 -/
 
-#reduce @list.rec_on
+/- 
+Now let's look at the list induction axiom.
+Compare and contrast closely with that for
+nat. 
+-/
+#check @list.rec_on
 /-
 Π {T : Type u_2} 
 {motive : list T → Sort u_1} 
@@ -810,20 +1072,54 @@ inductive list (T : Type u)
 motive list.nil → 
 (Π (hd : T) (tl : list T), motive tl → motive (hd :: tl)) → 
 motive n
+
+This rule says the following. If you have any
+type, T (the list element type, as list is now
+a polymorphic type), and any property of lists
+of Ts, and if n is an arbitrary list, to show
+that n has the property (motive) is will suffice
+to show that:
+
+(1) nil has the property 
+(2) for any list tl and any element hd, if tl
+has the property, then (cons h tl) has it too.
+The :: syntax is just infix notation for cons. 
+-/
+
+/-
+As a final sketch, we define a type whose
+values are outlines of imperative programs.
+This definition says that a program is
+
+(1) empty OR
+(2) an assignment statement (we omit the 
+variable and expression parameters), OR
+(3) a sequential composition of smaller 
+programs: (p1 ; p2) in C, where semicolon
+means "sequential composition, i.e., run
+p1 then in the resulting context run p2."
+(4) OR a condition "if (b) then run tb 
+else run fb", OR
+(5) while (b) run the smaller body program
+
+We leave the boolean conditions out to
+keep things simple.
 -/
 
 inductive program : Type
 | empty
 | assignment 
 | seq (p1 p2 : program)
-| if_ (fb tb : program)
+| if_ (tb fb : program)
 | while (body : program)
-
-#reduce @program.rec_on
 
 open program
 
-def foo := 
+/-
+Here's a little program in the programming
+language we just defined!
+-/
+def my_program := 
   seq 
     (assignment)
     (while 
@@ -832,12 +1128,39 @@ def foo :=
       )  
     )
 
-  /-
+  /- This is a more realistic version
+
   X := v;
   while () {
     Y := 2;
     Z := X + 1
   }
   -/
+
+/-
+What's the point? The point is that 
+our program type has an induction rule.
+If we ever wanted to show that every
+program in a given language has a 
+certain property, we could use proof
+by induction! Note however, that we
+no longer have to prove just a base
+case and *one* inductive case; we have
+to prove a base case (for empty) and
+an inductive case for each remaining
+constructor! In each case we assume
+that the smaller programs we're given
+have the given property, and will need
+to show that applying the constructor
+used to build a larger program yields
+a program that still has the property.
+-/
+
+#check @program.rec_on
+
+/-
+EXERCISE: Express this induction rule
+in English. 
+-/
 
 end cs2120f22
